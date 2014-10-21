@@ -75,9 +75,7 @@ while running:
 
     for i in range(1, wid):
         pygame.draw.line (screen, grid_color, (31*i,0), (31*i,600), 1)
-
-    for j in range(1, hght):
-        pygame.draw.line (screen, grid_color, (0, 31*j), (900, 31*j), 1)
+        pygame.draw.line (screen, grid_color, (0, 31*i), (900, 31*i), 1)
     
     pygame.display.update()
 
