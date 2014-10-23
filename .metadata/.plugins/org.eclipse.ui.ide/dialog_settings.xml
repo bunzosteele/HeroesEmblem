@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="AnyEditTools:2.4.10.201409251617"/>
+		<item value="com.google.eclipse.mechanic:0.4.0"/>
+		<item value="org.eclipse.egit:3.4.1.201406201815-r"/>
+		<item value="org.eclipse.emf.common:2.10.0.v20140514-1158"/>
+		<item value="org.eclipse.emf.ecore:2.10.0.v20140514-1158"/>
+		<item value="org.eclipse.help:2.0.102.v20140606-1215"/>
+		<item value="org.eclipse.jgit:3.4.1.201406201815-r"/>
+		<item value="org.eclipse.platform:4.4.0.v20140606-1558"/>
+		<item value="org.eclipse.rcp:4.4.0.v20140606-1445"/>
+		<item value="org.python.pydev.feature:3.8.0.201409251617"/>
+	</list>
+	<section name="org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea">
+		<item value="C:\Code\HeroesEmblem" key="OUTSIDE_LOCATION"/>
+	</section>
+	<section name="BasicNewProjectResourceWizard">
+	</section>
+</section>
