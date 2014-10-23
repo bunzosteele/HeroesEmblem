@@ -13,9 +13,9 @@ grid_color = 0, 0, 0
 running = True
 
 screen = pygame.display.set_mode(screen_size)
-unit1 = Unit("Luigi.jpg", 0 , 0)
-unit2 = Unit("Puff.png", 310, 310)
-unit3 = Unit("Knight.jpg", 62, 62)
+unit1 = Unit("images/Luigi.jpg", 0 , 0)
+unit2 = Unit("images/Puff.png", 310, 310)
+unit3 = Unit("images/Knight.jpg", 62, 62)
 clock = pygame.time.Clock()
 
 while running:
