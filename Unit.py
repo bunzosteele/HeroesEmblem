@@ -4,10 +4,12 @@ from pygame.locals import *
 class Unit(pygame.sprite.Sprite):
     dist = 31
     
-    def __init__(self, art, x , y):
+    def __init__(self, art, x , y, movement):
         pygame.sprite.Sprite.__init__(self)
         self.dist = Unit.dist
         
+        self.movement = movement
+        self.temp_movement = movement
         self.x = x
         self.y = y
 
@@ -33,3 +35,9 @@ class Unit(pygame.sprite.Sprite):
 
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))
+    
+    def movement_clac(self):
+        self.temp_movement -= 1
+
+    def reset_movement(self):
+        self.temp_movement = self.movement
