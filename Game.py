@@ -18,6 +18,8 @@ def handle_movement(units, which_unit):
         which_unit = change_unit(unit_size, which_unit)
     return which_unit
 
+
+
 def click_movement(units, which_unit, clicked_space, selected):
     unit_x = units[which_unit].x/Tile.Size
     unit_y = units[which_unit].y/Tile.Size
@@ -33,15 +35,14 @@ def click_movement(units, which_unit, clicked_space, selected):
 def draw_shadow(x, y, selected_color, tile_size, movement, screen):
     temp_x = x * tile_size
     temp_y = y * tile_size
-    if x < len(battlefield.tiles[0]) and y < len(battlefield.tiles):
+    if x < len(battlefield.tiles[0]) and y < len(battlefield.tiles) and not battlefield.tiles[y][x].solid:
         battlefield.tiles[y][x].draw(screen, x, y)
         pygame.gfxdraw.box(screen, pygame.Rect(temp_x, temp_y, Tile.Size, Tile.Size), selected_color)
-    if movement != 0:
-        draw_shadow(x + 1, y, selected_color, tile_size, movement - 1, screen)
-        draw_shadow(x - 1, y, selected_color, tile_size, movement - 1, screen)
-        draw_shadow(x, y + 1, selected_color, tile_size, movement - 1, screen)
-        draw_shadow(x, y - 1, selected_color, tile_size, movement - 1, screen)
-
+        if movement != 0:
+            draw_shadow(x + 1, y, selected_color, tile_size, movement - 1, screen)
+            draw_shadow(x - 1, y, selected_color, tile_size, movement - 1, screen)
+            draw_shadow(x, y + 1, selected_color, tile_size, movement - 1, screen)
+            draw_shadow(x, y - 1, selected_color, tile_size, movement - 1, screen)
 
 pygame.init()
 running = True
