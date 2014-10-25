@@ -1,4 +1,4 @@
-import sys, pygame, os
+import sys, pygame, os, pygame.gfxdraw
 from pygame.locals import *
 from Units.Footman import *
 from Battlefield.Battlefield import *
@@ -21,10 +21,6 @@ def handle_movement(units, which_unit):
     return which_unit
 
 pygame.init()
-
-
-backround_color = 100, 100, 100
-grid_color = 0, 0, 0
 running = True
 
 battlefield = Battlefield([
@@ -51,11 +47,30 @@ clock = pygame.time.Clock()
 units = [unit1]
 unit_size = len(units)
 which_unit = 0
+selected = False
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            clicked_space = (pos[0]/Tile.Size, pos[1]/Tile.Size)
+            if selected:
+                unit_x = units[which_unit].x/Tile.Size
+                unit_y = units[which_unit].y/Tile.Size
+                click_x = clicked_space[0]
+                click_y = clicked_space[1]
+                total_distance = abs((unit_x - click_x)) + abs((unit_y - click_y))
+                if total_distance <= units[which_unit].movement:
+                    units[which_unit].x = click_x*Tile.Size
+                    units[which_unit].y = click_y*Tile.Size
+                    selected = False
+            else:
+                for i in range(0, unit_size):
+                    if clicked_space == units[i].get_location():
+                        selected = True
+                        which_unit = i
         elif event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_UP: 
                 units[which_unit].move_up()
@@ -70,8 +85,18 @@ while running:
                 units[which_unit].move_right()
                 which_unit = handle_movement(units, which_unit)
 				
-	battlefield.draw(screen)
+    battlefield.draw(screen)
     unit1.draw(screen)
+    #unit2.draw(screen)
+    #unit3.draw(screen)
+
+    if selected:
+        location = units[which_unit].get_location()
+        x,y = location[0], location[1]
+        x = x * Tile.Size
+        y = y * Tile.Size
+        pygame.gfxdraw.box(screen, pygame.Rect(x,y,Tile.Size,Tile.Size), (100,115,245,100))
+        #pygame.draw.rect(screen, light_grey,(x,y,space_size,space_size),0)
     
     pygame.display.update()
 

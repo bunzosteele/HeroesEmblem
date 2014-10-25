@@ -41,3 +41,7 @@ class Unit(pygame.sprite.Sprite):
 
     def reset_movement(self):
         self.temp_movement = self.movement
+
+    def get_location(self):
+        current_space = (self.x/self.dist, self.y/self.dist)
+        return current_space
