@@ -1,9 +1,7 @@
-import sys, pygame, os, pygame.gfxdraw
-from pygame.locals import *
+import random
+import pygame.gfxdraw
 from Units.Footman import *
 from Battlefield.Battlefield import *
-from Battlefield.Tile import *
-from Battlefield.Grass import *
 from Battlefield.Mountain import *
 
 def change_unit(units_length, unit_num):
@@ -47,16 +45,8 @@ def draw_shadow(x, y, selected_color, tile_size, movement, screen):
 pygame.init()
 running = True
 
-battlefield = Battlefield([
-    [Mountain(), Mountain(), Mountain(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
-    [Mountain(), Mountain(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
-    [Mountain(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
-    [Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
-    [Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
-    [Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
-    [Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Mountain()],
-    [Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Mountain(), Mountain()],
-    [Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Mountain(), Mountain(), Mountain()]])
+battlefieldSeed = random.randint(1, 6)
+battlefield = Battlefield(Battlefield.build("Battlefield/"+ `battlefieldSeed` + ".txt"))
 
 pixelWidth = len(battlefield.tiles[0]) * Tile.Size
 pixelHeight = len(battlefield.tiles) * Tile.Size
