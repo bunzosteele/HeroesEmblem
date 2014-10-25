@@ -1,6 +1,6 @@
 import sys, pygame, os
 from pygame.locals import *
-from Unit import *
+from Units.Footman import *
 
 def change_unit(units_length, unit_num):
     if unit_num < units_length - 1:
@@ -28,9 +28,9 @@ grid_color = 0, 0, 0
 running = True
 
 screen = pygame.display.set_mode(screen_size)
-unit1 = Unit("images/Luigi.jpg", 0 , 0, 6)
-unit2 = Unit("images/Puff.png", 310, 310, 5)
-unit3 = Unit("images/Knight.jpg", 62, 62, 4)
+unit1 = Footman(0 , 0, 6)
+unit2 = Footman(310, 310, 5)
+unit3 = Footman(62, 62, 4)
 clock = pygame.time.Clock()
 
 units = [unit1, unit2, unit3]

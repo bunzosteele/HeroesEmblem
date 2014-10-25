@@ -4,7 +4,7 @@ from pygame.locals import *
 class Unit(pygame.sprite.Sprite):
     dist = 31
     
-    def __init__(self, art, x , y, movement):
+    def __init__(self, art, x , y, movement, health, attack):
         pygame.sprite.Sprite.__init__(self)
         self.dist = Unit.dist
         
