@@ -1,6 +1,10 @@
 import sys, pygame, os
 from pygame.locals import *
 from Units.Footman import *
+from Battlefield.Battlefield import *
+from Battlefield.Tile import *
+from Battlefield.Grass import *
+from Battlefield.Mountain import *
 
 def change_unit(units_length, unit_num):
     if unit_num < units_length - 1:
@@ -18,22 +22,33 @@ def handle_movement(units, which_unit):
 
 pygame.init()
 
-screen_size = width, height = 900,590
-wid = 900/31
-hght = 600/31
-space_size = 31
 
-backround_color = 255, 255, 255
+backround_color = 100, 100, 100
 grid_color = 0, 0, 0
 running = True
 
+battlefield = Battlefield([
+	[Mountain(), Mountain(), Mountain(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
+	[Mountain(), Mountain(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
+	[Mountain(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
+	[Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
+	[Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
+	[Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass()],
+	[Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Mountain()],
+	[Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Mountain(), Mountain()],
+	[Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Grass(), Mountain(), Mountain(), Mountain()]])
+
+pixelWidth = len(battlefield.tiles[0]) * Tile.Size
+pixelHeight = len(battlefield.tiles) * Tile.Size
+screen_size = width, height = pixelWidth, pixelHeight
 screen = pygame.display.set_mode(screen_size)
+battlefield.draw(screen)
+
 unit1 = Footman(0 , 0, 6)
-unit2 = Footman(310, 310, 5)
-unit3 = Footman(62, 62, 4)
+
 clock = pygame.time.Clock()
 
-units = [unit1, unit2, unit3]
+units = [unit1]
 unit_size = len(units)
 which_unit = 0
 
@@ -55,15 +70,8 @@ while running:
                 units[which_unit].move_right()
                 which_unit = handle_movement(units, which_unit)
 				
-
-    screen.fill(backround_color)
+	battlefield.draw(screen)
     unit1.draw(screen)
-    unit2.draw(screen)
-    unit3.draw(screen)
-
-    for i in range(1, wid):
-        pygame.draw.line (screen, grid_color, (space_size*i,0), (space_size*i,height), 1)
-        pygame.draw.line (screen, grid_color, (0, space_size*i), (width, space_size*i), 1)
     
     pygame.display.update()
 
