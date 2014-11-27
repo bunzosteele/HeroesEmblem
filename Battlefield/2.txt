@@ -1,8 +1,8 @@
-M M M M M M M M M M M M M M M M
-M G G G G G G G G W G G G G G M
-M G G G G G G G G W G G G G G M
-M G G G G G G G G W G G G G G M
-M G G G G G G G G W G G G G G M
-M G G G G G G G G W G G G G G M
-M G G G G G G G G W G G G G G M
-M M M M M M M M M M M M M M M M
+M M M M M M M M M M M M M
+M G G G G G G G G W G G M
+M G G G G G G G G W G G M
+M G G G G G G G G G G G M
+M G G G G G G G G W G G M
+M G G G G G G G G W G G M
+M G G G G G G G G W G G M
+M M M M M M M M M M M M M

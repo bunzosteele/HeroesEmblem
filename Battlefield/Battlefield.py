@@ -1,6 +1,5 @@
 from TileBuilder import TileBuilder
 
-
 class Battlefield():
     
     def __init__(self, tiles):
@@ -29,6 +28,9 @@ class Battlefield():
                 row = blueprint.readline().replace("\n", "").split(' ')
                 i += 1
             return battlefield
+
+    def getTile(self, x, y):
+        return self.tiles[y][x]
 
 
 
