@@ -32,5 +32,11 @@ class Battlefield():
     def getTile(self, x, y):
         return self.tiles[y][x]
 
+    def width(self):
+        return len(self.tiles[0])
+
+    def height(self):
+        return len(self.tiles)
+
 
 
