@@ -8,7 +8,10 @@ from pygame.locals import *
 pygame.init()
 class Button:
     def create_button(self, surface, color, x, y, length, height, width, text, text_color):
-        surface = self.draw_button(surface, color, length, height, x, y, width)
+        if width is None:
+            self.draw_button_no_border(surface, color, length, height, x, y)
+        else:
+            surface = self.draw_button(surface, color, length, height, x, y, width)
         surface = self.write_text(surface, text, text_color, length, height, x, y)
         self.rect = pygame.Rect(x,y, length, height)
         return surface
@@ -20,7 +23,7 @@ class Button:
         surface.blit(myText, ((x+length/2) - myText.get_width()/2, (y+height/2) - myText.get_height()/2))
         return surface
 
-    def draw_button(self, surface, color, length, height, x, y, width):           
+    def draw_button(self, surface, color, length, height, x, y, width):
         for i in range(1,10):
             s = pygame.Surface((length+(i*2),height+(i*2)))
             s.fill(color)
@@ -31,7 +34,12 @@ class Button:
             pygame.draw.rect(s, color, (x-i,y-i,length+i,height+i), width)
             surface.blit(s, (x-i,y-i))
         pygame.draw.rect(surface, color, (x,y,length,height), 0)
-        pygame.draw.rect(surface, (190,190,190), (x,y,length,height), 1)  
+        pygame.draw.rect(surface, (190,190,190), (x,y,length,height), 1)
+        return surface
+
+    def draw_button_no_border(self, surface, color, length, height, x, y):
+        pygame.draw.rect(surface, color, (x,y,length,height), 0)
+        pygame.draw.rect(surface, (190,190,190), (x,y,length,height), 1)
         return surface
 
     def pressed(self, mouse):

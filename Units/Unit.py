@@ -5,7 +5,7 @@ class Unit(pygame.sprite.Sprite):
     dist = 31
 
     
-    def __init__(self, art, x , y, movement, health, attack, team):
+    def __init__(self, art, x , y, movement, health, attack, minimumRange, maximumRange, team):
         pygame.sprite.Sprite.__init__(self)
         self.dist = Unit.dist
         
@@ -13,6 +13,8 @@ class Unit(pygame.sprite.Sprite):
         self.temp_movement = movement
         self.x = x * self.dist
         self.y = y * self.dist
+        self.minimumRange = minimumRange
+        self.maximumRange = maximumRange
         self.team = team
         self.tapped = False
 
@@ -38,6 +40,12 @@ class Unit(pygame.sprite.Sprite):
 
     def get_movement(self):
         return self.movement
+
+    def get_minimumRange(self):
+        return self.minimumRange
+
+    def get_maximumRange(self):
+        return self.maximumRange
 
     def tap(self):
         self.tapped = True

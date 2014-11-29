@@ -3,6 +3,8 @@ import pygame.gfxdraw
 import UI.Buttons
 from Units.Footman import *
 from Units.Mage import *
+from Units.Knight import *
+from Units.Spearman import *
 from Battlefield.Battlefield import *
 from Battlefield.Tile import *
 
@@ -28,7 +30,7 @@ def click_movement(units, tapped_units, battlefield, moving_unit, clicked_space,
     selected = None
     return selected
 
-def draw_shadow(x, y, units, current_unit,  battlefield, selected_color, tile_size, movement, screen):
+def draw_movement_shadow(x, y, units, current_unit,  battlefield, selected_color, tile_size, movement, screen):
     options = get_movement_options(x, y, units, current_unit, battlefield, movement)
     for option in options:
         temp_x = option[0] * tile_size
@@ -88,6 +90,7 @@ def draw_turn_indicator(pixel_height, pixel_width, button_height, current_player
     NewTurnX = (pixel_width - NewTurnWidth) / 2
     NewTurn.create_button(screen, (0, 0, 0), NewTurnX, NewTurnY, NewTurnWidth, NewTurnHeight, 100, "It is player " + str(current_player) + "'s turn", (255,255,255))
 
+
 def get_at(clicked_space, battlefield, units):
     unit = None
     for u in units:
@@ -98,12 +101,51 @@ def get_at(clicked_space, battlefield, units):
 
     return (tile, unit)
 
+def can_attack(attacker, battlefield, enemies):
+    startingPosition = attacker.get_location()
+    maxRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_maximumRange(), battlefield, 0, [])
+    minimumRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_minimumRange(), battlefield, 0, [])
+    options = []
+    for option in maxRangeOptions:
+        if option not in minimumRangeOptions:
+            options.append(option)
 
+    for enemy in enemies:
+        if enemy.get_location() in options:
+            return True
+
+    return False
+
+def draw_attack_shadow(attacker, battlefield, selected_color, screen):
+    startingPosition = attacker.get_location()
+    maxRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_maximumRange(), battlefield, 0, [])
+    minimumRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_minimumRange(), battlefield, 0, [])
+    options = []
+    for option in maxRangeOptions:
+        if option not in minimumRangeOptions:
+            options.append(option)
+
+    for option in options:
+        temp_x = option[0] * Tile.Size
+        temp_y = option[1] * Tile.Size
+        battlefield.tiles[option[1]][option[0]].draw(screen, option[0], option[1])
+        pygame.gfxdraw.box(screen, pygame.Rect(temp_x, temp_y, Tile.Size, Tile.Size), selected_color)
+
+def get_attack_options(x, y, range, battlefield, distance, options):
+    if is_in_bounds(x, y, battlefield) and distance <= range:
+        options.append((x,y))
+
+        get_attack_options(x + 1, y, range, battlefield, distance+1, options)
+        get_attack_options(x - 1, y, range, battlefield, distance+1, options)
+        get_attack_options(x, y + 1, range, battlefield, distance+1, options)
+        get_attack_options(x, y - 1, range, battlefield, distance+1, options)
+    return options
 
 
 pygame.init()
 running = True
-button_height = 50
+c_EndTurnButtonHeight = 50
+c_EndTurnPixelWidth = 150
 current_player = 1
 between_turns = True
 
@@ -111,27 +153,38 @@ between_turns = True
 battlefieldSeed = 2
 battlefield = Battlefield(Battlefield.build("Battlefield/"+ `battlefieldSeed` + ".txt"))
 
-pixel_width = len(battlefield.tiles[0]) * Tile.Size
-pixel_height = len(battlefield.tiles) * Tile.Size + button_height
-screen_size = width, height = pixel_width, pixel_height
+WindowPixelWidth = battlefield.width() * Tile.Size
+WindowPixelHeight = battlefield.height() * Tile.Size + c_EndTurnButtonHeight
+screen_size = width, height = WindowPixelWidth, WindowPixelHeight
 screen = pygame.display.set_mode(screen_size)
 battlefield.draw(screen)
-selected_color = (100, 115, 245, 100)
+movement_color = (100, 115, 245, 100)
+selected_color = (150, 150, 150, 100)
+attack_color = (200, 100, 100, 150)
 
 unit1 = Footman(0, 0, 1)
 unit2 = Mage(2, 2, 1)
-unit3 = Mage(7, 6, 2)
+unit3 = Mage(2, 3, 2)
 unit4 = Footman(12, 4, 2)
+unit5 = Knight(4, 5, 1)
+unit6 = Knight(11, 4, 2)
+unit7 = Spearman(1, 1, 1)
+unit8 = Spearman(3, 6, 2)
+
 
 clock = pygame.time.Clock()
 
-units = [unit1, unit2, unit3, unit4]
+units = [unit1, unit2, unit3, unit4, unit5, unit6, unit7, unit8]
 tapped_units = []
 unit_size = len(units)
 selected = None
+moving = False
+attacking = False
 
 EndTurn = UI.Buttons.Button()
 NewTurn = UI.Buttons.Button()
+Move = UI.Buttons.Button()
+Attack = UI.Buttons.Button()
 
 while running:
     for event in pygame.event.get():
@@ -144,42 +197,90 @@ while running:
                     between_turns = False
                     tapped_units = []
             elif EndTurn.pressed(pos):
+                    moving = False
                     current_player = end_turn(current_player)
                     between_turns = True
                     selected = None
+            elif Move.pressed(pos):
+                if selected is not None:
+                    moving = not moving
+            elif Attack.pressed(pos):
+                if selected is not None:
+                    moving = False
+                    attacking = not attacking
             else:
                 clicked_space = (pos[0]/Tile.Size, pos[1]/Tile.Size)
                 if selected is not None and units[selected].get_location() == clicked_space:
                     selected = None
-                elif selected is not None and get_at(clicked_space, battlefield, units)[1] is not None and get_at(clicked_space, battlefield, units)[1].get_team() == current_player:
+                    moving = False
+                    attacking = False
+                elif selected is not None and get_at(clicked_space, battlefield, units)[1] is not None\
+                        and get_at(clicked_space, battlefield, units)[1].get_team() == current_player:
                     selection = get_at(clicked_space, battlefield, units)[1]
                     if selection not in tapped_units:
                         selected = units.index(selection)
-                elif selected is not None:
+                        moving = False
+                        attacking = False
+                elif selected is not None and moving:
                     selected = click_movement(units, tapped_units, battlefield, units[selected], clicked_space, selected)
+                    moving = False
+                    attacking = False
                 else:
                     for unit in units:
                         if clicked_space == unit.get_location() and unit.get_team() == current_player and unit not in tapped_units:
                             selected = units.index(unit)
+                            moving = False
+                            attacking = False
                             break
                         else:
                             selected = None
+                            moving = False
+                            attacking = False
 
     battlefield.draw(screen)
 
+    EndTurn.create_button\
+        (screen, (200, 122, 90), WindowPixelWidth- c_EndTurnPixelWidth, WindowPixelHeight - c_EndTurnButtonHeight,
+         c_EndTurnPixelWidth, c_EndTurnButtonHeight, None, "End Turn", (255,255,255))
+
+    Move.create_button(screen, (160, 160, 160), 0, WindowPixelHeight - c_EndTurnButtonHeight,
+        (WindowPixelWidth - c_EndTurnPixelWidth)/2, c_EndTurnButtonHeight, None, "Move", (255,255,255))
+    Attack.create_button(screen, (160, 160, 160), (WindowPixelWidth - c_EndTurnPixelWidth)/2, WindowPixelHeight - c_EndTurnButtonHeight,
+        (WindowPixelWidth - c_EndTurnPixelWidth)/2 + 1, c_EndTurnButtonHeight, None, "Attack", (255,255,255))
+
+
     if selected is not None:
+        Move.create_button(screen, (180, 250, 140), 0, WindowPixelHeight - c_EndTurnButtonHeight,
+            (WindowPixelWidth - c_EndTurnPixelWidth)/2, c_EndTurnButtonHeight, None, "Move", (255,255,255))
         location = units[selected].get_location()
         x, y = location[0], location[1]
-        draw_shadow(x, y, units, units[selected],  battlefield, selected_color, Tile.Size, units[selected].movement, screen)
+
+        enemies = []
+        for unit in units:
+            if unit.get_team() != current_player:
+                enemies.append(unit)
+        if(can_attack(units[selected], battlefield, enemies)):
+            Attack.create_button(screen, (180, 250, 140), (WindowPixelWidth - c_EndTurnPixelWidth)/2, WindowPixelHeight - c_EndTurnButtonHeight,
+                (WindowPixelWidth - c_EndTurnPixelWidth)/2 + 1, c_EndTurnButtonHeight, None, "Attack", (255,255,255))
+
+        if(moving):
+            Move.create_button(screen, (100, 250, 105), 0, WindowPixelHeight - c_EndTurnButtonHeight,
+                (WindowPixelWidth - c_EndTurnPixelWidth)/2, c_EndTurnButtonHeight, None, "Move", (255,255,255))
+            draw_movement_shadow(x, y, units, units[selected],  battlefield, movement_color, Tile.Size, units[selected].movement, screen)
+        else:
+            if(attacking):
+                Attack.create_button(screen, (100, 250, 105), (WindowPixelWidth - c_EndTurnPixelWidth)/2, WindowPixelHeight - c_EndTurnButtonHeight,
+                    (WindowPixelWidth - c_EndTurnPixelWidth)/2 + 1, c_EndTurnButtonHeight, None, "Attack", (255,255,255))
+                draw_attack_shadow(units[selected], battlefield, attack_color, screen)
+            else:
+                pygame.gfxdraw.box(screen, pygame.Rect(units[selected].x, units[selected].y, Tile.Size, Tile.Size), selected_color)
+
 
     for u in units :
         u.draw(screen)
 
-    EndTurn.create_button\
-        (screen, (200, 122, 90), 0, pixel_height - button_height,
-         pixel_width, button_height, 100, "End Turn", (255,255,255))
     if(between_turns):
-        draw_turn_indicator(pixel_height, pixel_width, button_height, current_player)
+        draw_turn_indicator(WindowPixelHeight, WindowPixelWidth, c_EndTurnButtonHeight, current_player)
     pygame.display.update()
 
     clock.tick(60)
