@@ -6,10 +6,10 @@ class Grass(Tile):
     DefenseBoost = 0
     AccuracyPenalty = 0
     MovementCost = 1
-    Solid = False
+    Altitude = 1
 
     def __init__(self):
-        Tile.__init__(self, Grass.Image, Grass.DefenseBoost, Grass.AccuracyPenalty, Grass.MovementCost)
+        Tile.__init__(self, Grass.Image, Grass.DefenseBoost, Grass.AccuracyPenalty, Grass.MovementCost, Grass.Altitude)
 
     def draw(self, surface, x, y):
         super(Grass, self).draw(surface, x, y)

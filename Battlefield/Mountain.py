@@ -6,9 +6,10 @@ class Mountain(Tile):
     DefenseBoost = 2
     AccuracyPenalty = 10
     MovementCost = 2
+    Altitude = 2
 
     def __init__(self):
-     Tile.__init__(self, Mountain.Image, Mountain.DefenseBoost, Mountain.AccuracyPenalty, Mountain.MovementCost)
+     Tile.__init__(self, Mountain.Image, Mountain.DefenseBoost, Mountain.AccuracyPenalty, Mountain.MovementCost, Mountain.Altitude)
 
     def draw(self, surface, x, y):
         super(Mountain, self).draw(surface, x, y)

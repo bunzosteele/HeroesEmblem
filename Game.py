@@ -5,6 +5,7 @@ from Units.Footman import *
 from Units.Mage import *
 from Units.Knight import *
 from Units.Spearman import *
+from Units.Archer import *
 from Battlefield.Battlefield import *
 from Battlefield.Tile import *
 
@@ -101,10 +102,14 @@ def get_at(clicked_space, battlefield, units):
 
     return (tile, unit)
 
-def can_attack(attacker, battlefield, enemies):
+def can_attack(attacker, battlefield, units):
+    enemies = []
+    for unit in units:
+        if unit.get_team() != current_player:
+            enemies.append(unit)
     startingPosition = attacker.get_location()
-    maxRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_maximumRange(), battlefield, 0, [])
-    minimumRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_minimumRange(), battlefield, 0, [])
+    maxRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_maximumRange(), battlefield.tiles[startingPosition[1]][startingPosition[0]].Altitude, battlefield, 0, [])
+    minimumRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_minimumRange(), battlefield.tiles[startingPosition[1]][startingPosition[0]].Altitude, battlefield, 0, [])
     options = []
     for option in maxRangeOptions:
         if option not in minimumRangeOptions:
@@ -118,8 +123,8 @@ def can_attack(attacker, battlefield, enemies):
 
 def draw_attack_shadow(attacker, battlefield, selected_color, screen):
     startingPosition = attacker.get_location()
-    maxRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_maximumRange(), battlefield, 0, [])
-    minimumRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_minimumRange(), battlefield, 0, [])
+    maxRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_maximumRange(), battlefield.tiles[startingPosition[1]][startingPosition[0]].Altitude,  battlefield, 0, [])
+    minimumRangeOptions = get_attack_options(startingPosition[0], startingPosition[1], attacker.get_minimumRange(), battlefield.tiles[startingPosition[1]][startingPosition[0]].Altitude, battlefield, 0, [])
     options = []
     for option in maxRangeOptions:
         if option not in minimumRangeOptions:
@@ -131,18 +136,26 @@ def draw_attack_shadow(attacker, battlefield, selected_color, screen):
         battlefield.tiles[option[1]][option[0]].draw(screen, option[0], option[1])
         pygame.gfxdraw.box(screen, pygame.Rect(temp_x, temp_y, Tile.Size, Tile.Size), selected_color)
 
-def get_attack_options(x, y, range, battlefield, distance, options):
-    if is_in_bounds(x, y, battlefield) and distance <= range:
+def get_attack_options(x, y, range, attackerAltitude, battlefield, distance, options):
+    if is_in_bounds(x, y, battlefield) and distance <= range and attackerAltitude >= battlefield.tiles[y][x].Altitude:
         options.append((x,y))
 
-        get_attack_options(x + 1, y, range, battlefield, distance+1, options)
-        get_attack_options(x - 1, y, range, battlefield, distance+1, options)
-        get_attack_options(x, y + 1, range, battlefield, distance+1, options)
-        get_attack_options(x, y - 1, range, battlefield, distance+1, options)
+        get_attack_options(x + 1, y, range, attackerAltitude, battlefield, distance+1, options)
+        get_attack_options(x - 1, y, range, attackerAltitude, battlefield, distance+1, options)
+        get_attack_options(x, y + 1, range, attackerAltitude, battlefield, distance+1, options)
+        get_attack_options(x, y - 1, range, attackerAltitude, battlefield, distance+1, options)
     return options
+
+def nextAnimation(animationState):
+    if(animationState==3):
+        return 1
+    else:
+        return animationState +1
+
 
 
 pygame.init()
+pygame.display.set_caption("Heroes Emblem")
 running = True
 c_EndTurnButtonHeight = 50
 c_EndTurnPixelWidth = 150
@@ -162,24 +175,28 @@ movement_color = (100, 115, 245, 100)
 selected_color = (150, 150, 150, 100)
 attack_color = (200, 100, 100, 150)
 
-unit1 = Footman(0, 0, 1)
-unit2 = Mage(2, 2, 1)
-unit3 = Mage(2, 3, 2)
-unit4 = Footman(12, 4, 2)
-unit5 = Knight(4, 5, 1)
-unit6 = Knight(11, 4, 2)
-unit7 = Spearman(1, 1, 1)
-unit8 = Spearman(3, 6, 2)
-
+unit1 = Archer(4, 4, 1)
+unit2 = Archer(6, 4, 2)
+unit3 = Footman(7, 4, 2)
+unit4 = Footman(2, 4, 1)
+unit5 = Knight(4, 3, 1)
+unit6 = Knight(6, 3, 2)
+unit7 = Mage(7, 3, 2)
+unit8 = Mage(2, 3, 1)
+unit9 = Spearman(8, 3, 2)
+unit10 = Spearman(3, 3, 1)
 
 clock = pygame.time.Clock()
+animationState = 1
+animationTimer = pygame.time.set_timer(pygame.USEREVENT, 500)
 
-units = [unit1, unit2, unit3, unit4, unit5, unit6, unit7, unit8]
+units = [unit1, unit2, unit3, unit4, unit5, unit6, unit7, unit8, unit9, unit10]
 tapped_units = []
 unit_size = len(units)
 selected = None
 moving = False
 attacking = False
+
 
 EndTurn = UI.Buttons.Button()
 NewTurn = UI.Buttons.Button()
@@ -190,6 +207,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.USEREVENT:
+            animationState = nextAnimation(animationState);
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             if between_turns:
@@ -205,7 +224,7 @@ while running:
                 if selected is not None:
                     moving = not moving
             elif Attack.pressed(pos):
-                if selected is not None:
+                if selected is not None and can_attack(units[selected], battlefield, units):
                     moving = False
                     attacking = not attacking
             else:
@@ -255,11 +274,8 @@ while running:
         location = units[selected].get_location()
         x, y = location[0], location[1]
 
-        enemies = []
-        for unit in units:
-            if unit.get_team() != current_player:
-                enemies.append(unit)
-        if(can_attack(units[selected], battlefield, enemies)):
+
+        if(can_attack(units[selected], battlefield, units)):
             Attack.create_button(screen, (180, 250, 140), (WindowPixelWidth - c_EndTurnPixelWidth)/2, WindowPixelHeight - c_EndTurnButtonHeight,
                 (WindowPixelWidth - c_EndTurnPixelWidth)/2 + 1, c_EndTurnButtonHeight, None, "Attack", (255,255,255))
 
@@ -277,7 +293,7 @@ while running:
 
 
     for u in units :
-        u.draw(screen)
+        u.draw(screen, animationState)
 
     if(between_turns):
         draw_turn_indicator(WindowPixelHeight, WindowPixelWidth, c_EndTurnButtonHeight, current_player)

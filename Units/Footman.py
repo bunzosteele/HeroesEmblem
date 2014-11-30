@@ -3,7 +3,7 @@ from pygame.locals import *
 from Units.Unit import *
 
 class Footman(Unit):
-    Image = "images/Footman.png"
+    Image = "images/Footman-Idle-1-0.png"
     MaxHealth = 10
     AttackPower = 10
     Defense = 5
@@ -13,8 +13,8 @@ class Footman(Unit):
    
     def __init__(self, x , y, team):
         if team == 1:
-            self.Image = "images/footman1.png"
+            self.Image = "images/footman-idle-1-1.png"
         if team == 2:
-            self.Image = "images/footman2.png"
+            self.Image = "images/footman-idle-1-2.png"
         Unit.__init__(self, self.Image, x, y, Footman.Movement,
                       Footman.MaxHealth, Footman.Defense, Footman.MinimumRange, Footman.MaximumRange, team)

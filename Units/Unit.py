@@ -19,10 +19,15 @@ class Unit(pygame.sprite.Sprite):
         self.tapped = False
 
         self.image = pygame.image.load(art)
+        self.art = art
         self.rect = self.image.get_rect()
 
 
-    def draw(self, surface):
+    def draw(self, surface, animationState):
+        imageAttributes = self.art.split("-")
+        if(imageAttributes[0] == "images/archer" or imageAttributes[0] == "images/footman"):
+            imageAttributes[2] = str(animationState)
+            self.image = pygame.image.load("-".join(imageAttributes))
         surface.blit(self.image, (self.x, self.y))
     
     def movement_clac(self):
