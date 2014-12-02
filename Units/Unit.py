@@ -3,7 +3,6 @@ from pygame.locals import *
 
 class Unit(pygame.sprite.Sprite):
     dist = 31
-
     
     def __init__(self, art, x , y, movement, health, attack, minimumRange, maximumRange, team):
         pygame.sprite.Sprite.__init__(self)
@@ -23,11 +22,14 @@ class Unit(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
-    def draw(self, surface, animationState):
+    def draw(self, surface, animationState, tapped):
         imageAttributes = self.art.split("-")
-        if(imageAttributes[0] == "images/archer" or imageAttributes[0] == "images/footman"):
-            imageAttributes[2] = str(animationState)
-            self.image = pygame.image.load("-".join(imageAttributes))
+        imageAttributes[2] = str(animationState)
+        self.image = pygame.image.load("-".join(imageAttributes))
+
+        if(tapped):
+            self.image.fill((255, 255, 255, 128), None, pygame.BLEND_RGBA_MULT)
+
         surface.blit(self.image, (self.x, self.y))
     
     def movement_clac(self):

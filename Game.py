@@ -9,6 +9,11 @@ from Units.Archer import *
 from Battlefield.Battlefield import *
 from Battlefield.Tile import *
 
+x = 1400
+y = -640
+import os
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
+
 def change_unit(units_length, unit_num):
     if unit_num < units_length - 1:
         unit_num += 1
@@ -27,7 +32,6 @@ def click_movement(units, tapped_units, battlefield, moving_unit, clicked_space,
     if clicked_space in get_movement_options(x, y, units, moving_unit, battlefield, moving_unit.get_movement()):
         moving_unit.x = clicked_space[0]* Tile.Size
         moving_unit.y = clicked_space[1]* Tile.Size
-        tapped_units.append(moving_unit)
     selected = None
     return selected
 
@@ -77,11 +81,11 @@ def is_space_empty(current_unit, units, x, y):
 
     return empty
 
-def end_turn(player):
-    if player == 1:
-        player = 2
-    elif player == 2:
+def end_turn(player, turnCount):
+    if player == 0:
         player = 1
+    elif player == 1:
+        player = 0
     return player
 
 def draw_turn_indicator(pixel_height, pixel_width, button_height, current_player):
@@ -152,6 +156,10 @@ def nextAnimation(animationState):
     else:
         return animationState +1
 
+def drawStats(unit, battlefieldWidth, battlefieldHeight, surface):
+    surface.blit(unit.image, (battlefieldWidth, 10))
+
+
 
 
 pygame.init()
@@ -159,14 +167,16 @@ pygame.display.set_caption("Heroes Emblem")
 running = True
 c_EndTurnButtonHeight = 50
 c_EndTurnPixelWidth = 150
-current_player = 1
+c_StatusWindowWidth = 100
+myFont = pygame.font.SysFont("monospace", 15)
+current_player = 0
 between_turns = True
 
 #battlefieldSeed = random.randint(1, 6)
 battlefieldSeed = 2
 battlefield = Battlefield(Battlefield.build("Battlefield/"+ `battlefieldSeed` + ".txt"))
 
-WindowPixelWidth = battlefield.width() * Tile.Size
+WindowPixelWidth = battlefield.width() * Tile.Size + c_StatusWindowWidth
 WindowPixelHeight = battlefield.height() * Tile.Size + c_EndTurnButtonHeight
 screen_size = width, height = WindowPixelWidth, WindowPixelHeight
 screen = pygame.display.set_mode(screen_size)
@@ -175,27 +185,26 @@ movement_color = (100, 115, 245, 100)
 selected_color = (150, 150, 150, 100)
 attack_color = (200, 100, 100, 150)
 
-unit1 = Archer(4, 4, 1)
-unit2 = Archer(6, 4, 2)
-unit3 = Footman(7, 4, 2)
-unit4 = Footman(2, 4, 1)
-unit5 = Knight(4, 3, 1)
-unit6 = Knight(6, 3, 2)
-unit7 = Mage(7, 3, 2)
-unit8 = Mage(2, 3, 1)
-unit9 = Spearman(8, 3, 2)
-unit10 = Spearman(3, 3, 1)
+unit1 = Archer(4, 4, 0)
+unit2 = Archer(6, 4, 1)
+unit3 = Footman(7, 4, 1)
+unit4 = Footman(2, 4, 0)
+unit5 = Knight(4, 3, 0)
+unit6 = Knight(6, 3, 1)
+unit7 = Mage(7, 3, 1)
+unit8 = Mage(2, 3, 0)
 
 clock = pygame.time.Clock()
 animationState = 1
 animationTimer = pygame.time.set_timer(pygame.USEREVENT, 500)
 
-units = [unit1, unit2, unit3, unit4, unit5, unit6, unit7, unit8, unit9, unit10]
+units = [unit1, unit2, unit3, unit4, unit5, unit6, unit7, unit8]
 tapped_units = []
 unit_size = len(units)
 selected = None
 moving = False
 attacking = False
+turnCount = 1
 
 
 EndTurn = UI.Buttons.Button()
@@ -217,7 +226,9 @@ while running:
                     tapped_units = []
             elif EndTurn.pressed(pos):
                     moving = False
-                    current_player = end_turn(current_player)
+                    current_player = end_turn(current_player, turnCount)
+                    if current_player == 0:
+                        turnCount +=1
                     between_turns = True
                     selected = None
             elif Move.pressed(pos):
@@ -241,9 +252,20 @@ while running:
                         moving = False
                         attacking = False
                 elif selected is not None and moving:
-                    selected = click_movement(units, tapped_units, battlefield, units[selected], clicked_space, selected)
+                    movingUnit = units[selected]
+                    newSelected = click_movement(units, tapped_units, battlefield, movingUnit, clicked_space, selected)
                     moving = False
-                    attacking = False
+                    canAttack = can_attack(movingUnit, battlefield, units)
+                    if(canAttack):
+                        attacking = canAttack
+                    else:
+                        selected = newSelected
+                        if(selected is None):
+                            tapped_units.append(movingUnit)
+                elif selected is not None and attacking:
+                    #TODO IMPLEMENT ATTACKING
+                    tapped_units.append(units[selected])
+                    attacking = not attacking
                 else:
                     for unit in units:
                         if clicked_space == unit.get_location() and unit.get_team() == current_player and unit not in tapped_units:
@@ -293,12 +315,22 @@ while running:
 
 
     for u in units :
-        u.draw(screen, animationState)
+        if(u in tapped_units):
+            u.draw(screen, 1, True)
+        else:
+            u.draw(screen, animationState, False)
 
     if(between_turns):
         draw_turn_indicator(WindowPixelHeight, WindowPixelWidth, c_EndTurnButtonHeight, current_player)
-    pygame.display.update()
 
+    pygame.draw.rect(screen, (123,100,59), pygame.Rect(WindowPixelWidth - c_StatusWindowWidth, 0, c_StatusWindowWidth, battlefield.height() * Tile.Size - 2))
+    pygame.draw.rect(screen, (113,90,49), pygame.Rect(WindowPixelWidth - c_StatusWindowWidth, 0, c_StatusWindowWidth, battlefield.height() * Tile.Size - 2), 5)
+    if(selected is not None):
+        drawStats(units[selected], battlefield.width() * Tile.Size, battlefield.height() * Tile.Size, screen)
+    turnCountDisplay = myFont.render("Turn:" + str(turnCount), 1, (255,255,255))
+    screen.blit(turnCountDisplay, (battlefield.width() * Tile.Size + 13, battlefield.height() * Tile.Size - 20))
+
+    pygame.display.update()
     clock.tick(60)
 
 pygame.quit()
