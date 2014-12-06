@@ -4,6 +4,7 @@ from Units.Unit import *
 
 class Knight(Unit):
     Image = "images/Knight-Idle-1-2.png"
+    Type = "Knight"
     MaxHealth = 20
     AttackPower = 15
     Defense = 10
@@ -16,5 +17,4 @@ class Knight(Unit):
             self.Image = "images/Knight-Idle-1-0.png"
         if team == 1:
             self.Image = "images/Knight-Idle-1-1.png"
-        Unit.__init__(self, self.Image, x, y, Knight.Movement,
-                      Knight.MaxHealth, Knight.Defense, Knight.MinimumRange, Knight.MaximumRange, team)
+        Unit.__init__(self, x, y, team)

@@ -4,6 +4,7 @@ from Units.Unit import *
 
 class Spearman(Unit):
     Image = "images/spearman2.png"
+    Type = "Spearman"
     MaxHealth = 8
     AttackPower = 8
     Defense = 3
@@ -16,5 +17,4 @@ class Spearman(Unit):
             self.Image = "images/spearman.png"
         if team == 1:
             self.Image = "images/spearman1.png"
-        Unit.__init__(self, self.Image, x, y, Spearman.Movement,
-                      Spearman.MaxHealth, Spearman.Defense, Spearman.MinimumRange, Spearman.MaximumRange, team)
+        Unit.__init__(self, x, y, team)
