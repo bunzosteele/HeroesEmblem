@@ -5,9 +5,11 @@ from Units.Unit import *
 class Knight(Unit):
     Image = "images/Knight-Idle-1-2.png"
     Type = "Knight"
-    MaxHealth = 20
-    AttackPower = 15
-    Defense = 10
+    MaxHealth = 30
+    AttackPower = 10
+    Defense = 5
+    Evasion = 1
+    Accuracy = 85
     Movement = 5
     MinimumRange = 0
     MaximumRange = 1

@@ -8,6 +8,8 @@ class Spearman(Unit):
     MaxHealth = 8
     AttackPower = 8
     Defense = 3
+    Evasion = 3
+    Accuracy = 95
     Movement = 3
     MinimumRange = 0
     MaximumRange = 2

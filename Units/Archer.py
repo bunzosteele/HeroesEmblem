@@ -4,9 +4,11 @@ from Units.Unit import *
 class Archer(Unit):
     Image = "images/archer-idle-1-2.png"
     Type = "Archer"
-    MaxHealth = 6
+    MaxHealth = 15
     AttackPower = 10
     Defense = 2
+    Evasion = 10
+    Accuracy = 75
     Movement = 3
     MinimumRange = 2
     MaximumRange = 4

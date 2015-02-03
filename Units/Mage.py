@@ -4,9 +4,11 @@ from Units.Unit import *
 class Mage(Unit):
     Image = "images/Mage-Idle-1-2.png"
     Type = "Mage"
-    MaxHealth = 8
-    AttackPower = 13
-    Defense = 3
+    MaxHealth = 20
+    AttackPower = 10
+    Defense = 1
+    Evasion = 1
+    Accuracy = 80
     Movement = 3
     MinimumRange = 1
     MaximumRange = 3

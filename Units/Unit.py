@@ -53,3 +53,6 @@ class Unit(pygame.sprite.Sprite):
     def untap(self):
         self.tapped = False
 
+    def deal_damage(self, damage):
+        self.CurrentHealth -= damage
+

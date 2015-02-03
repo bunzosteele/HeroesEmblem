@@ -5,9 +5,11 @@ from Units.Unit import *
 class Footman(Unit):
     Image = "images/Footman-Idle-1-2.png"
     Type = "Footman"
-    MaxHealth = 10
-    AttackPower = 10
-    Defense = 5
+    MaxHealth = 20
+    AttackPower = 9
+    Defense = 4
+    Evasion = 5
+    Accuracy = 95
     Movement = 4
     MinimumRange = 0
     MaximumRange = 1

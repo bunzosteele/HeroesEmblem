@@ -14,8 +14,6 @@ class MovementHelper():
         if clicked_space in MovementHelper.get_movement_options(moving_unit.get_location()[0], moving_unit.get_location()[1], units, moving_unit, battlefield, moving_unit.get_movement()):
             moving_unit.x = clicked_space[0] * Tile.Size
             moving_unit.y = clicked_space[1] * Tile.Size
-        selected = None
-        return selected
 
     @staticmethod
     def get_movement_options(x, y, units, current_unit, battlefield, movement):
