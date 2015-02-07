@@ -16,10 +16,6 @@ from BattlefieldHelper import *
 
 pygame.init()
 pygame.display.set_caption("Heroes Emblem")
-windowX = 2950
-windowY = -700
-import os
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (windowX, windowY)
 button_height = 50
 status_width = 100
 battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
@@ -34,6 +30,8 @@ NewTurn = UI.Buttons.Button()
 Move = UI.Buttons.Button()
 Attack = UI.Buttons.Button()
 
+field_width = battlefield.width() * Tile.Size
+
 while game_state.running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -42,7 +40,9 @@ while game_state.running:
             game_state.cycle_animation()
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            if game_state.between_turns and NewTurn.pressed(pos):
+            if pos[0] > field_width:
+                break
+            elif game_state.between_turns and NewTurn.pressed(pos):
                 if NewTurn.pressed(pos):
                     game_state.start_new_turn()
             elif EndTurn.pressed(pos):
