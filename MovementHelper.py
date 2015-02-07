@@ -18,9 +18,10 @@ class MovementHelper():
     @staticmethod
     def get_movement_options(x, y, units, current_unit, battlefield, movement):
         options = MovementHelper.get_movement_options_core(x, y, units, current_unit, battlefield, movement, [])
-        for u in units:
-            if any(options) and u.get_location in options:
-                options = filter(lambda x: x != u.get_location(), options)
+        if any(options):
+            for u in units:
+                if u.get_location() in options:
+                    options.remove(u.get_location())
         return options
 
     @staticmethod

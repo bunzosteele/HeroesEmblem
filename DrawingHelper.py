@@ -106,8 +106,5 @@ class DrawingHelper():
     @staticmethod
     def draw_units(game_state, screen):
         for u in game_state.units:
-            if u in game_state.tapped_units:
-                u.draw(screen, 1, True)
-            else:
-                u.draw(screen, game_state.animation_state, False)
+            u.draw(screen, game_state.animation_state)
 

@@ -11,7 +11,6 @@ class GameState:
         self.current_player = 0
         self.between_turns = True
         self.animation_state = 1
-        self.tapped_units = []
         self.previously_moved = None
         self.selected = None
         self.moving = False
@@ -40,7 +39,7 @@ class GameState:
         self.moving = False
         self.attacking = not self.attacking
         if not self.attacking and self.previously_moved == self.selected:
-            self.tapped_units.append(self.selected)
+            self.selected.tap()
             self.selected = None
             self.previously_moved = None
 
@@ -68,7 +67,8 @@ class GameState:
 
     def start_new_turn(self):
         self.between_turns = False
-        self.tapped_units = []
+        for u in self.units:
+            u.untap()
         self.previously_moved = None
 
     def end_turn(self):
@@ -87,7 +87,7 @@ class GameState:
 
     def deselect_unit(self):
         if self.previously_moved is not None:
-            self.tapped_units.append(self.selected)
+            sself.selected.tap()
             self.previously_moved = None
         self.selected = None
         self.moving = False
@@ -95,7 +95,7 @@ class GameState:
 
     def attempt_to_select_unit(self, clicked_space):
         selection = self.get_clicked_tile_and_unit(clicked_space)[1]
-        if selection is not None and selection not in self.tapped_units:
+        if selection is not None and not selection.tapped:
             self.selected = selection
         else:
             self.selected = None
@@ -113,7 +113,7 @@ class GameState:
             self.previously_moved = self.selected
         else:
             if current_location != new_location:
-                self.tapped_units.append(self.selected)
+                self.selected.tap()
             self.selected = None
 
     def attempt_to_attack(self, clicked_space):
@@ -125,9 +125,9 @@ class GameState:
             CombatHelper.attack(target_tile, target_unit, self.selected)
             if target_unit.CurrentHealth <= 0:
                 self.units.remove(target_unit)
-            self.tapped_units.append(self.selected)
+            self.selected.tap()
         if self.selected == self.previously_moved:
-            self.tapped_units.append(self.selected)
+            self.selected.tap()
             self.previously_moved = None
         self.selected = None
 

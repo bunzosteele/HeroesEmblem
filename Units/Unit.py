@@ -15,12 +15,15 @@ class Unit(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
-    def draw(self, surface, animationState, tapped):
-        imageAttributes = self.Image.split("-")
-        imageAttributes[2] = str(animationState)
-        self.image = pygame.image.load("-".join(imageAttributes))
+    def draw(self, surface, animation_state):
+        image_attributes = self.Image.split("-")
+        if self.tapped:
+            image_attributes[2] = "1"
+        else:
+            image_attributes[2] = str(animation_state)
+        self.image = pygame.image.load("-".join(image_attributes))
 
-        if(tapped):
+        if self.tapped:
             self.image.fill((255, 255, 255, 128), None, pygame.BLEND_RGBA_MULT)
 
         surface.blit(self.image, (self.x, self.y))
@@ -41,10 +44,10 @@ class Unit(pygame.sprite.Sprite):
     def get_movement(self):
         return self.Movement
 
-    def get_minimumRange(self):
+    def get_minimum_range(self):
         return self.MinimumRange
 
-    def get_maximumRange(self):
+    def get_maximum_range(self):
         return self.MaximumRange
 
     def tap(self):

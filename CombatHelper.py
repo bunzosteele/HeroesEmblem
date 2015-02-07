@@ -11,10 +11,10 @@ class CombatHelper():
     @staticmethod
     def draw_attack_shadow(attacker, battlefield, screen, drawing_helper):
         starting_pos = attacker.get_location()
-        max_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_maximumRange(),
+        max_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_maximum_range(),
                                          battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
                                          battlefield, 0, [])
-        min_range_option = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_minimumRange(),
+        min_range_option = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_minimum_range(),
                                              battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
                                              battlefield, 0, [])
         options = []
@@ -46,10 +46,10 @@ class CombatHelper():
     @staticmethod
     def can_attack_targets(attacker, battlefield, targets):
         starting_pos = attacker.get_location()
-        max_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_maximumRange(),
+        max_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_maximum_range(),
                                          battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
                                          battlefield, 0, [])
-        min_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_minimumRange(),
+        min_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_minimum_range(),
                                              battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
                                              battlefield, 0, [])
         options = []
