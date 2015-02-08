@@ -19,11 +19,12 @@ class DrawingHelper():
         game_state.battlefield.draw(screen)
         DrawingHelper.draw_end_turn_button(end_turn, screen, game_state)
         if game_state.is_owned_unit_selected():
-            DrawingHelper.draw_move_button(move, DrawingHelper.active_button_color, screen, game_state)
-            location = game_state.get_selected_unit().get_location()
+            if game_state.can_selected_unit_move():
+                DrawingHelper.draw_move_button(move, DrawingHelper.active_button_color, screen, game_state)
             if game_state.can_selected_unit_attack():
                 DrawingHelper.draw_attack_button(attack, DrawingHelper.active_button_color, screen, game_state)
             if game_state.moving:
+                location = game_state.get_selected_unit().get_location()
                 DrawingHelper.draw_move_button(move, DrawingHelper.selected_button_color, screen, game_state)
                 movement_helper.draw_movement_shadow(location[0], location[1], game_state, screen)
             else:
@@ -106,5 +107,5 @@ class DrawingHelper():
     @staticmethod
     def draw_units(game_state, screen):
         for u in game_state.units:
-            u.draw(screen, game_state.animation_state)
+            u.draw(screen, game_state.animation_state, u in game_state.tapped_units)
 

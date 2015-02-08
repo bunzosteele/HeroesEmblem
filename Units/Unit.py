@@ -8,22 +8,23 @@ class Unit(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.x = x * self.dist
         self.y = y * self.dist
-        self.tapped = False
+        self.has_moved = False
+        self.has_attacked = False
         self.team = team
         self.CurrentHealth = self.MaxHealth
         self.image = pygame.image.load(self.Image)
         self.rect = self.image.get_rect()
 
 
-    def draw(self, surface, animation_state):
+    def draw(self, surface, animation_state, tapped):
         image_attributes = self.Image.split("-")
-        if self.tapped:
+        if tapped:
             image_attributes[2] = "1"
         else:
             image_attributes[2] = str(animation_state)
         self.image = pygame.image.load("-".join(image_attributes))
 
-        if self.tapped:
+        if tapped:
             self.image.fill((255, 255, 255, 128), None, pygame.BLEND_RGBA_MULT)
 
         surface.blit(self.image, (self.x, self.y))
@@ -49,12 +50,6 @@ class Unit(pygame.sprite.Sprite):
 
     def get_maximum_range(self):
         return self.MaximumRange
-
-    def tap(self):
-        self.tapped = True
-
-    def untap(self):
-        self.tapped = False
 
     def deal_damage(self, damage):
         self.CurrentHealth -= damage

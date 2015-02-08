@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "pyg.py", line 22, in <module>
-  File "runpy.pyc", line 240, in run_path
-  File "runpy.pyc", line 82, in _run_module_code
-  File "runpy.pyc", line 72, in _run_code
-  File "Game.py", line 2, in <module>
-    import pygame.gfxdraw
-ImportError: No module named gfxdraw

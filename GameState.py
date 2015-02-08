@@ -11,7 +11,7 @@ class GameState:
         self.current_player = 0
         self.between_turns = True
         self.animation_state = 1
-        self.previously_moved = None
+        self.tapped_units = []
         self.selected = None
         self.moving = False
         self.attacking = False
@@ -38,10 +38,6 @@ class GameState:
     def toggle_attacking(self):
         self.moving = False
         self.attacking = not self.attacking
-        if not self.attacking and self.previously_moved == self.selected:
-            self.selected.tap()
-            self.selected = None
-            self.previously_moved = None
 
     def is_clicking_selected_unit(self, clicked_space):
         return self.selected is not None and self.selected.get_location() == clicked_space
@@ -59,6 +55,9 @@ class GameState:
     def is_owned_unit_selected(self):
         return self.selected is not None and self.selected.get_team() == self.current_player
 
+    def can_selected_unit_move(self):
+        return not self.selected.has_moved
+
     def cycle_animation(self):
         if self.animation_state == 3:
             self.animation_state = 1
@@ -67,9 +66,10 @@ class GameState:
 
     def start_new_turn(self):
         self.between_turns = False
+        self.tapped_units = []
         for u in self.units:
-            u.untap()
-        self.previously_moved = None
+            u.has_attacked = False
+            u.has_moved = False
 
     def end_turn(self):
         self.moving = False
@@ -86,16 +86,13 @@ class GameState:
             self.current_player = 0
 
     def deselect_unit(self):
-        if self.previously_moved is not None:
-            sself.selected.tap()
-            self.previously_moved = None
         self.selected = None
         self.moving = False
         self.attacking = False
 
     def attempt_to_select_unit(self, clicked_space):
         selection = self.get_clicked_tile_and_unit(clicked_space)[1]
-        if selection is not None and not selection.tapped:
+        if selection is not None:
             self.selected = selection
         else:
             self.selected = None
@@ -103,18 +100,13 @@ class GameState:
         self.attacking = False
 
     def attempt_to_move_unit(self, clicked_space):
-        self.selected
         current_location = self.selected.get_location()
         MovementHelper.click_movement(self.units, self.battlefield, self.selected, clicked_space)
         new_location = self.selected.get_location()
         self.moving = False
-        if CombatHelper.can_attack(self.selected, self.battlefield, self.units, self.current_player):
-            self.attacking = True
-            self.previously_moved = self.selected
-        else:
-            if current_location != new_location:
-                self.selected.tap()
-            self.selected = None
+        self.selected.has_moved = True
+        if current_location != new_location and not CombatHelper.can_attack(self.selected, self.battlefield, self.units, self.current_player):
+            self.tapped_units.append(self.selected)
 
     def attempt_to_attack(self, clicked_space):
         target_tile, target_unit = self.get_clicked_tile_and_unit(clicked_space)
