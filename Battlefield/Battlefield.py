@@ -1,3 +1,4 @@
+import os
 from TileBuilder import TileBuilder
 
 class Battlefield():
@@ -15,8 +16,8 @@ class Battlefield():
             column += 1
 
     @staticmethod
-    def build(inputfile):
-        with open(inputfile, "r") as blueprint:
+    def build(input_file):
+        with open(Battlefield.resource_path(input_file), "r") as blueprint:
             row = blueprint.readline().replace("\n", "").split(' ')
             battlefield = []
             i = 0
@@ -28,6 +29,16 @@ class Battlefield():
                 row = blueprint.readline().replace("\n", "").split(' ')
                 i += 1
             return battlefield
+
+    @staticmethod
+    def resource_path(relative):
+        return os.path.join(
+            os.environ.get(
+            "_MEIPASS2",
+            os.path.abspath(".")
+            ),
+            relative
+        )
 
     def getTile(self, x, y):
         return self.tiles[y][x]

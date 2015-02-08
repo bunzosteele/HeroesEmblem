@@ -21,8 +21,12 @@ class DrawingHelper():
         if game_state.is_owned_unit_selected():
             if game_state.can_selected_unit_move():
                 DrawingHelper.draw_move_button(move, DrawingHelper.active_button_color, screen, game_state)
+            else:
+                DrawingHelper.draw_move_button(move, DrawingHelper.inactive_button_color, screen, game_state)
             if game_state.can_selected_unit_attack():
                 DrawingHelper.draw_attack_button(attack, DrawingHelper.active_button_color, screen, game_state)
+            else:
+                DrawingHelper.draw_attack_button(attack, DrawingHelper.inactive_button_color, screen, game_state)
             if game_state.moving:
                 location = game_state.get_selected_unit().get_location()
                 DrawingHelper.draw_move_button(move, DrawingHelper.selected_button_color, screen, game_state)

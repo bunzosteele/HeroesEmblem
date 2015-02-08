@@ -2,7 +2,7 @@ import sys, pygame, os
 from pygame.locals import *
 
 class Unit(pygame.sprite.Sprite):
-    dist = 31
+    dist = 32
     
     def __init__(self, x, y, team):
         pygame.sprite.Sprite.__init__(self)
@@ -12,7 +12,7 @@ class Unit(pygame.sprite.Sprite):
         self.has_attacked = False
         self.team = team
         self.CurrentHealth = self.MaxHealth
-        self.image = pygame.image.load(self.Image)
+        self.image = pygame.image.load(self.resource_path(self.Image))
         self.rect = self.image.get_rect()
 
 
@@ -53,4 +53,13 @@ class Unit(pygame.sprite.Sprite):
 
     def deal_damage(self, damage):
         self.CurrentHealth -= damage
+
+    def resource_path(self, relative):
+        return os.path.join(
+            os.environ.get(
+            "_MEIPASS2",
+            os.path.abspath(".")
+            ),
+            relative
+        )
 

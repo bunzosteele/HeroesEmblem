@@ -16,10 +16,6 @@ from BattlefieldHelper import *
 
 pygame.init()
 pygame.display.set_caption("Heroes Emblem")
-windowX = 2950
-windowY = -700
-import os
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (windowX, windowY)
 button_height = 50
 status_width = 100
 battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
@@ -50,23 +46,24 @@ while game_state.running:
             elif EndTurn.pressed(pos):
                 game_state.end_turn()
             elif Move.pressed(pos):
-                if game_state.selected is not None:
+                if game_state.selected is not None and game_state.can_selected_unit_move():
                     game_state.moving = not game_state.moving
             elif Attack.pressed(pos):
                 if game_state.can_selected_unit_attack():
                     game_state.toggle_attacking()
             else:
                 clicked_space = (pos[0] / Tile.Size, pos[1] / Tile.Size)
-                if game_state.is_clicking_selected_unit(clicked_space):
-                    game_state.deselect_unit()
-                elif game_state.is_clicking_own_unit(clicked_space):
-                    game_state.attempt_to_select_unit(clicked_space)
-                elif game_state.is_unit_moving():
-                    game_state.attempt_to_move_unit(clicked_space)
-                elif game_state.is_unit_attacking():
-                    game_state.attempt_to_attack(clicked_space)
-                else:
-                    game_state.attempt_to_select_unit(clicked_space)
+                if game_state.is_click_in_bounds(clicked_space):
+                    if game_state.is_clicking_selected_unit(clicked_space):
+                        game_state.deselect_unit()
+                    elif game_state.is_clicking_own_unit(clicked_space):
+                        game_state.attempt_to_select_unit(clicked_space)
+                    elif game_state.is_unit_moving():
+                        game_state.attempt_to_move_unit(clicked_space)
+                    elif game_state.is_unit_attacking():
+                        game_state.attempt_to_attack(clicked_space)
+                    else:
+                        game_state.attempt_to_select_unit(clicked_space)
 
     DrawingHelper.draw_all_the_things(game_state, screen, EndTurn, NewTurn, Move, Attack, MovementHelper)
     clock.tick(60)
