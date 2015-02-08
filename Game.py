@@ -34,6 +34,8 @@ NewTurn = UI.Buttons.Button()
 Move = UI.Buttons.Button()
 Attack = UI.Buttons.Button()
 
+field_height = battlefield.height() * Tile.Size
+
 while game_state.running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
