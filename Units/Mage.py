@@ -2,7 +2,7 @@ from Units.Unit import *
 
 
 class Mage(Unit):
-    Image = "images/Mage-Idle-1-2.png"
+    img_src = "images/Mage-Idle-1-2.png"
     Type = "Mage"
     MaxHealth = 20
     AttackPower = 10
@@ -16,7 +16,7 @@ class Mage(Unit):
 
     def __init__(self, x, y, team):
         if team == 0:
-            self.Image = "images/Mage-Idle-1-0.png"
+            self.img_src = "images/Mage-Idle-1-0.png"
         if team == 1:
-            self.Image = "images/Mage-Idle-1-1.png"
+            self.img_src = "images/Mage-Idle-1-1.png"
         Unit.__init__(self, x, y, team)

@@ -73,8 +73,9 @@ class DrawingHelper():
             pygame.Rect(game_state.get_window_width() - game_state.status_width, 0, game_state.status_width, game_state.battlefield.height() * Tile.Size - 2), 5)
         if game_state.selected is not None:
             unit = game_state.get_selected_unit()
+            unit.draw_preview(screen, (game_state.battlefield.width() * Tile.Size + 10, 10), game_state.animation_state, game_state.attacking)
             screen.blit(unit.image, (game_state.battlefield.width() * Tile.Size + 10, 10))
-            class_display = font.render(str(unit.Type), 1, DrawingHelper.white_color)
+            class_display = font.render(str(unit.name), 1, DrawingHelper.white_color)
             screen.blit(class_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 10))
             hitpoint_display = font.render("HP: " + str(unit.CurrentHealth) + "/" + str(unit.MaxHealth), 1, DrawingHelper.white_color)
             screen.blit(hitpoint_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 24))

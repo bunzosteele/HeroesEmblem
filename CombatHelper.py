@@ -62,9 +62,11 @@ class CombatHelper():
         return False
 
     @staticmethod
-    def attack(target_tile, target_unit, attacker):
-        if CombatHelper.check_hit(target_tile, target_unit, attacker):
-            CombatHelper.deal_damage(target_tile, target_unit, attacker)
+    def attack(target_tile, target_unit, game_state):
+        game_state.selected.attacking = True
+        game_state.selected.attack_start_frame = game_state.animation_state
+        if CombatHelper.check_hit(target_tile, target_unit, game_state.selected):
+            CombatHelper.deal_damage(target_tile, target_unit, game_state.selected)
 
     @staticmethod
     def check_hit(target_tile, target_unit, attacker):
