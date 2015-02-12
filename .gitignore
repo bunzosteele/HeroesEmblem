@@ -5,6 +5,9 @@ __pycache__/
 # C extensions
 *.so
 
+# XML FILES ARE AMMOYING
+*.xml
+
 # Distribution / packaging
 .Python
 env/
