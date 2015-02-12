@@ -6,10 +6,12 @@ from DrawingHelper import *
 def run(screen, game_state):
     clock = pygame.time.Clock()
     pygame.time.set_timer(pygame.USEREVENT, 500)
-    EndTurn = UI.Buttons.Button("EndTurn")
+    EndTurn = UI.Buttons.Button("End Turn")
     NewTurn = UI.Buttons.Button("NewTurn")
     Move = UI.Buttons.Button("Move")
+    Abilities = UI.Buttons.Button("Abilities")
     Attack = UI.Buttons.Button("Attack")
+    Inventory = UI.Buttons.Button("Inventory")
 
     while game_state.running:
         for event in pygame.event.get():
@@ -44,7 +46,8 @@ def run(screen, game_state):
                         else:
                             game_state.attempt_to_select_unit(clicked_space)
 
-        DrawingHelper.draw_all_the_things(game_state, screen, EndTurn, NewTurn, Move, Attack, MovementHelper)
+        DrawingHelper.draw_all_the_things(game_state, screen, EndTurn, NewTurn, Move, Attack, Abilities, Inventory,
+                                          MovementHelper)
         clock.tick(60)
 
     pygame.quit()

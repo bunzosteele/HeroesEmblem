@@ -16,7 +16,7 @@ class GameState:
         self.turn_count = 1
         self.battlefield = battlefield
         self.button_height = button_height
-        self.button_width = (battlefield.width() * Tile.Size + status_width) / 3
+        self.button_width = (battlefield.width() * Tile.Size + status_width) / 5
         self.status_width = status_width
         self.units = units
 
