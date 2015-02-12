@@ -12,7 +12,7 @@ class Button:
 
     def __init__(self, the_name):
         self.name = the_name
-        self.rect = null
+        self.rect = None
 
     def create_button(self, surface, color, x, y, length, height, width, text, text_color):
         if width is None:
@@ -27,8 +27,8 @@ class Button:
     def write_text(surface, text, text_color, length, height, x, y):
         font_size = int(length//len(text))
         my_font = pygame.font.SysFont("Calibri", font_size)
-        my_text = myFont.render(text, 1, text_color)
-        surface.blit(myText, ((x+length/2) - myText.get_width()/2, (y+height/2) - myText.get_height()/2))
+        my_text = my_font.render(text, 1, text_color)
+        surface.blit(my_text, ((x+length/2) - my_text.get_width()/2, (y+height/2) - my_text.get_height()/2))
         return surface
 
     @staticmethod

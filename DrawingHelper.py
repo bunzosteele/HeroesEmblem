@@ -1,4 +1,5 @@
 from Battlefield.Tile import *
+import pygame.gfxdraw
 from CombatHelper import *
 
 
@@ -110,7 +111,6 @@ class DrawingHelper():
         DrawingHelper.draw_button(screen, button, background_color, game_state.button_width + 1,
                                   game_state.get_window_height() - game_state.button_height, game_state.button_width,
                                   game_state.button_height, "Attack", DrawingHelper.white_color)
-
 
     @staticmethod
     def draw_button(screen, button, background_color, x_offset, y_offset, button_width, button_height, text,
