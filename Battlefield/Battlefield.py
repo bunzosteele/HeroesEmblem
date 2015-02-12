@@ -1,8 +1,8 @@
 import os
 from TileBuilder import TileBuilder
 
+
 class Battlefield():
-    
     def __init__(self, tiles):
         self.tiles = tiles
 
@@ -34,8 +34,8 @@ class Battlefield():
     def resource_path(relative):
         return os.path.join(
             os.environ.get(
-            "_MEIPASS2",
-            os.path.abspath(".")
+                "_MEIPASS2",
+                os.path.abspath(".")
             ),
             relative
         )

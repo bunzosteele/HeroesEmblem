@@ -1,8 +1,8 @@
 from random import randint
 import os
 
-class NameGenerator():
 
+class NameGenerator():
     def __init__(self):
         pass
 
@@ -22,8 +22,8 @@ class NameGenerator():
     def resource_path(relative):
         return os.path.join(
             os.environ.get(
-            "_MEIPASS2",
-            os.path.abspath(".")
+                "_MEIPASS2",
+                os.path.abspath(".")
             ),
             relative
         )

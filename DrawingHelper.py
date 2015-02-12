@@ -1,8 +1,8 @@
 from Battlefield.Tile import *
 from CombatHelper import *
 
-class DrawingHelper():
 
+class DrawingHelper():
     inactive_button_color = (160, 160, 160)
     white_color = (255, 255, 255)
     black_color = (0, 0, 0)
@@ -34,7 +34,8 @@ class DrawingHelper():
             else:
                 if game_state.attacking:
                     DrawingHelper.draw_attack_button(attack, DrawingHelper.selected_button_color, screen, game_state)
-                    CombatHelper.draw_attack_shadow(game_state.get_selected_unit(), game_state.battlefield, screen, DrawingHelper)
+                    CombatHelper.draw_attack_shadow(game_state.get_selected_unit(), game_state.battlefield, screen,
+                                                    DrawingHelper)
         else:
             DrawingHelper.draw_move_button(move, DrawingHelper.inactive_button_color, screen, game_state)
             DrawingHelper.draw_attack_button(attack, DrawingHelper.inactive_button_color, screen, game_state)
@@ -44,8 +45,10 @@ class DrawingHelper():
         if game_state.between_turns:
             DrawingHelper.draw_turn_indicator(game_state, new_turn, screen)
         DrawingHelper.draw_stats(game_state, DrawingHelper.font, screen)
-        turn_count_display = DrawingHelper.font.render("Round:" + str(game_state.turn_count), 1, DrawingHelper.white_color)
-        screen.blit(turn_count_display, (game_state.battlefield.width() * Tile.Size + 13, game_state.battlefield.height() * Tile.Size - 20))
+        turn_count_display = DrawingHelper.font.render("Round:" + str(game_state.turn_count), 1,
+                                                       DrawingHelper.white_color)
+        screen.blit(turn_count_display,
+                    (game_state.battlefield.width() * Tile.Size + 13, game_state.battlefield.height() * Tile.Size - 20))
         pygame.display.update()
 
     @staticmethod
@@ -62,22 +65,28 @@ class DrawingHelper():
         new_turn_width = 250
         new_turn_y = (game_state.get_window_height() - game_state.button_height - new_turn_height) / 2
         new_turn_x = (game_state.get_window_width() - new_turn_width) / 2
-        DrawingHelper.draw_button(screen, button, DrawingHelper.black_color, new_turn_x, new_turn_y, new_turn_width, new_turn_height,
-                          "It is player " + str(game_state.current_player + 1) + "'s turn", DrawingHelper.white_color)
+        DrawingHelper.draw_button(screen, button, DrawingHelper.black_color, new_turn_x, new_turn_y, new_turn_width,
+                                  new_turn_height,
+                                  "It is player " + str(game_state.current_player + 1) + "'s turn",
+                                  DrawingHelper.white_color)
 
     @staticmethod
     def draw_stats(game_state, font, screen):
         pygame.draw.rect(screen, (123, 100, 59),
-            pygame.Rect(game_state.get_window_width() - game_state.status_width, 0, game_state.status_width, game_state.battlefield.height() * Tile.Size - 2))
+                         pygame.Rect(game_state.get_window_width() - game_state.status_width, 0,
+                                     game_state.status_width, game_state.battlefield.height() * Tile.Size - 2))
         pygame.draw.rect(screen, (113, 90, 49),
-            pygame.Rect(game_state.get_window_width() - game_state.status_width, 0, game_state.status_width, game_state.battlefield.height() * Tile.Size - 2), 5)
+                         pygame.Rect(game_state.get_window_width() - game_state.status_width, 0,
+                                     game_state.status_width, game_state.battlefield.height() * Tile.Size - 2), 5)
         if game_state.selected is not None:
             unit = game_state.get_selected_unit()
-            unit.draw_preview(screen, (game_state.battlefield.width() * Tile.Size + 10, 10), game_state.animation_state, game_state.attacking)
+            unit.draw_preview(screen, (game_state.battlefield.width() * Tile.Size + 10, 10), game_state.animation_state,
+                              game_state.attacking)
             screen.blit(unit.image, (game_state.battlefield.width() * Tile.Size + 10, 10))
             class_display = font.render(str(unit.name), 1, DrawingHelper.white_color)
             screen.blit(class_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 10))
-            hitpoint_display = font.render("HP: " + str(unit.CurrentHealth) + "/" + str(unit.MaxHealth), 1, DrawingHelper.white_color)
+            hitpoint_display = font.render("HP: " + str(unit.CurrentHealth) + "/" + str(unit.MaxHealth), 1,
+                                           DrawingHelper.white_color)
             screen.blit(hitpoint_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 24))
             attack_display = font.render("ATK: " + str(unit.AttackPower), 1, DrawingHelper.white_color)
             screen.blit(attack_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 38))
@@ -87,27 +96,34 @@ class DrawingHelper():
     @staticmethod
     def draw_end_turn_button(button, screen, game_state):
         DrawingHelper.draw_button(screen, button, (200, 122, 90), (game_state.button_width + 1) * 2,
-            game_state.get_window_height() - game_state.button_height, game_state.button_width, game_state.button_height, "End Turn", DrawingHelper.white_color)
+                                  game_state.get_window_height() - game_state.button_height, game_state.button_width,
+                                  game_state.button_height, "End Turn", DrawingHelper.white_color)
 
     @staticmethod
     def draw_move_button(button, background_color, screen, game_state):
         DrawingHelper.draw_button(screen, button, background_color, 0,
-             game_state.get_window_height() - game_state.button_height, game_state.button_width, game_state.button_height, "Move", DrawingHelper.white_color)
+                                  game_state.get_window_height() - game_state.button_height, game_state.button_width,
+                                  game_state.button_height, "Move", DrawingHelper.white_color)
 
     @staticmethod
     def draw_attack_button(button, background_color, screen, game_state):
         DrawingHelper.draw_button(screen, button, background_color, game_state.button_width + 1,
-             game_state.get_window_height() - game_state.button_height, game_state.button_width, game_state.button_height, "Attack", DrawingHelper.white_color)
+                                  game_state.get_window_height() - game_state.button_height, game_state.button_width,
+                                  game_state.button_height, "Attack", DrawingHelper.white_color)
 
 
     @staticmethod
-    def draw_button(screen, button, background_color, x_offset, y_offset, button_width, button_height, text, text_color):
-        button.create_button(screen, background_color, x_offset, y_offset, button_width, button_height, None, text, text_color)
+    def draw_button(screen, button, background_color, x_offset, y_offset, button_width, button_height, text,
+                    text_color):
+        button.create_button(screen, background_color, x_offset, y_offset, button_width, button_height, None, text,
+                             text_color)
 
     @staticmethod
     def draw_selected_unit_highlight(game_state, screen):
-        pygame.gfxdraw.box(screen, pygame.Rect(game_state.get_selected_unit().x, game_state.get_selected_unit().y, Tile.Size, Tile.Size),
-                                   DrawingHelper.selected_unit_color)
+        pygame.gfxdraw.box(screen,
+                           pygame.Rect(game_state.get_selected_unit().x, game_state.get_selected_unit().y, Tile.Size,
+                                       Tile.Size),
+                           DrawingHelper.selected_unit_color)
 
     @staticmethod
     def draw_units(game_state, screen):

@@ -1,18 +1,12 @@
-import random
-import pygame.gfxdraw
 import UI.Buttons
 from Units.Footman import *
 from Units.Mage import *
 from Units.Knight import *
-from Units.Spearman import *
 from Units.Archer import *
 from Battlefield.Battlefield import *
-from Battlefield.Tile import *
 from GameState import *
 from MovementHelper import *
 from DrawingHelper import *
-from CombatHelper import *
-from BattlefieldHelper import *
 
 pygame.init()
 pygame.display.set_caption("Heroes Emblem")

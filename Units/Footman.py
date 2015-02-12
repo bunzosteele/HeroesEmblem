@@ -2,6 +2,7 @@ import sys, pygame, os
 from pygame.locals import *
 from Units.Unit import *
 
+
 class Footman(Unit):
     img_src = "images/Footman-Idle-1-2.png"
     Type = "Footman"
@@ -13,8 +14,8 @@ class Footman(Unit):
     Movement = 4
     MinimumRange = 0
     MaximumRange = 1
-   
-    def __init__(self, x , y, team):
+
+    def __init__(self, x, y, team):
         if team == 0:
             self.img_src = "images/footman-idle-1-0.png"
         if team == 1:

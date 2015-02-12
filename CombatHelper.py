@@ -1,8 +1,8 @@
 from BattlefieldHelper import *
 from random import randint
 
-class CombatHelper():
 
+class CombatHelper():
     def __init__(self):
         pass
 
@@ -11,12 +11,15 @@ class CombatHelper():
     @staticmethod
     def draw_attack_shadow(attacker, battlefield, screen, drawing_helper):
         starting_pos = attacker.get_location()
-        max_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_maximum_range(),
-                                         battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
-                                         battlefield, 0, [])
-        min_range_option = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_minimum_range(),
-                                             battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
-                                             battlefield, 0, [])
+        max_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1],
+                                                            attacker.get_maximum_range(),
+                                                            battlefield.tiles[starting_pos[1]][
+                                                                starting_pos[0]].Altitude,
+                                                            battlefield, 0, [])
+        min_range_option = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1],
+                                                           attacker.get_minimum_range(),
+                                                           battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
+                                                           battlefield, 0, [])
         options = []
         for option in max_range_options:
             if option not in min_range_option:
@@ -46,12 +49,16 @@ class CombatHelper():
     @staticmethod
     def can_attack_targets(attacker, battlefield, targets):
         starting_pos = attacker.get_location()
-        max_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_maximum_range(),
-                                         battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
-                                         battlefield, 0, [])
-        min_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1], attacker.get_minimum_range(),
-                                             battlefield.tiles[starting_pos[1]][starting_pos[0]].Altitude,
-                                             battlefield, 0, [])
+        max_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1],
+                                                            attacker.get_maximum_range(),
+                                                            battlefield.tiles[starting_pos[1]][
+                                                                starting_pos[0]].Altitude,
+                                                            battlefield, 0, [])
+        min_range_options = CombatHelper.get_attack_options(starting_pos[0], starting_pos[1],
+                                                            attacker.get_minimum_range(),
+                                                            battlefield.tiles[starting_pos[1]][
+                                                                starting_pos[0]].Altitude,
+                                                            battlefield, 0, [])
         options = []
         for option in max_range_options:
             if option not in min_range_options:

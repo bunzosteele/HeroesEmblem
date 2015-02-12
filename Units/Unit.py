@@ -1,10 +1,10 @@
-import sys, pygame, os
-from pygame.locals import *
+import pygame
 from NameGenerator import *
+
 
 class Unit(pygame.sprite.Sprite):
     dist = 32
-    
+
     def __init__(self, x, y, team):
         pygame.sprite.Sprite.__init__(self)
         self.x = x * self.dist
@@ -72,7 +72,7 @@ class Unit(pygame.sprite.Sprite):
         self.temp_movement = self.movement
 
     def get_location(self):
-        current_space = (self.x/self.dist, self.y/self.dist)
+        current_space = (self.x / self.dist, self.y / self.dist)
         return current_space
 
     def get_team(self):
@@ -93,8 +93,8 @@ class Unit(pygame.sprite.Sprite):
     def resource_path(self, relative):
         return os.path.join(
             os.environ.get(
-            "_MEIPASS2",
-            os.path.abspath(".")
+                "_MEIPASS2",
+                os.path.abspath(".")
             ),
             relative
         )
