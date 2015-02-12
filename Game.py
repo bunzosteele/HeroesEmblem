@@ -25,12 +25,10 @@ screen = pygame.display.set_mode((game_state.get_window_width(), game_state.get_
 clock = pygame.time.Clock()
 pygame.time.set_timer(pygame.USEREVENT, 500)
 
-EndTurn = UI.Buttons.Button()
-NewTurn = UI.Buttons.Button()
-Move = UI.Buttons.Button()
-Attack = UI.Buttons.Button()
-
-field_height = battlefield.height() * Tile.Size
+EndTurn = UI.Buttons.Button("EndTurn")
+NewTurn = UI.Buttons.Button("NewTurn")
+Move = UI.Buttons.Button("Move")
+Attack = UI.Buttons.Button("Attack")
 
 while game_state.running:
     for event in pygame.event.get():

@@ -2,6 +2,7 @@ from Battlefield.Tile import *
 from BattlefieldHelper import *
 from DrawingHelper import *
 
+
 class MovementHelper():
 
     def __init__(self):

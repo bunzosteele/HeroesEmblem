@@ -6,7 +6,14 @@
 import pygame
 from pygame.locals import *
 pygame.init()
+
+
 class Button:
+
+    def __init__(self, the_name):
+        self.name = the_name
+        self.rect = null
+
     def create_button(self, surface, color, x, y, length, height, width, text, text_color):
         if width is None:
             self.draw_button_no_border(surface, color, length, height, x, y)
@@ -16,14 +23,16 @@ class Button:
         self.rect = pygame.Rect(x,y, length, height)
         return surface
 
-    def write_text(self, surface, text, text_color, length, height, x, y):
+    @staticmethod
+    def write_text(surface, text, text_color, length, height, x, y):
         font_size = int(length//len(text))
-        myFont = pygame.font.SysFont("Calibri", font_size)
-        myText = myFont.render(text, 1, text_color)
+        my_font = pygame.font.SysFont("Calibri", font_size)
+        my_text = myFont.render(text, 1, text_color)
         surface.blit(myText, ((x+length/2) - myText.get_width()/2, (y+height/2) - myText.get_height()/2))
         return surface
 
-    def draw_button(self, surface, color, length, height, x, y, width):
+    @staticmethod
+    def draw_button(surface, color, length, height, x, y, width):
         for i in range(1,10):
             s = pygame.Surface((length+(i*2),height+(i*2)))
             s.fill(color)
