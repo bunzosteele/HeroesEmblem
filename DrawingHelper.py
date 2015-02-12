@@ -10,6 +10,7 @@ class DrawingHelper():
     active_button_color = (180, 250, 140)
     selected_button_color = (100, 250, 105)
     selected_unit_color = (150, 150, 150, 100)
+    pygame.font.init()
     font = pygame.font.SysFont("monospace", 15)
 
     def __init__(self):

@@ -1,26 +1,11 @@
 import UI.Buttons
-from Units.Footman import *
-from Units.Mage import *
-from Units.Knight import *
-from Units.Archer import *
-from Battlefield.Battlefield import *
-from GameState import *
 from MovementHelper import *
 from DrawingHelper import *
 
-def run():
-    pygame.init()
-    pygame.display.set_caption("Heroes Emblem")
-    button_height = 50
-    status_width = 100
-    battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
-    units = [Archer(4, 4, 0), Archer(6, 4, 1), Footman(7, 4, 1), Footman(2, 4, 0), Knight(4, 3, 0), Knight(6, 3, 1),
-            Mage(7, 3, 1), Mage(2, 3, 0)]
-    game_state = GameState(battlefield, button_height, status_width, units)
-    screen = pygame.display.set_mode((game_state.get_window_width(), game_state.get_window_height()))
+
+def run(screen, game_state):
     clock = pygame.time.Clock()
     pygame.time.set_timer(pygame.USEREVENT, 500)
-
     EndTurn = UI.Buttons.Button("EndTurn")
     NewTurn = UI.Buttons.Button("NewTurn")
     Move = UI.Buttons.Button("Move")
@@ -40,7 +25,7 @@ def run():
                 elif EndTurn.pressed(pos):
                     game_state.end_turn()
                 elif Move.pressed(pos):
-                   if game_state.selected is not None and game_state.can_selected_unit_move():
+                    if game_state.selected is not None and game_state.can_selected_unit_move():
                         game_state.moving = not game_state.moving
                 elif Attack.pressed(pos):
                     if game_state.can_selected_unit_attack():
