@@ -83,7 +83,7 @@ class GameState:
 
     def cycle_current_player(self):
         if self.current_player == 0:
-             self.current_player = 1
+            self.current_player = 1
         elif self.current_player == 1:
             self.current_player = 0
 
