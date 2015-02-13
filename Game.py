@@ -6,12 +6,12 @@ from DrawingHelper import *
 def run(screen, game_state):
     clock = pygame.time.Clock()
     pygame.time.set_timer(pygame.USEREVENT, 500)
-    EndTurn = UI.Buttons.Button("End Turn")
-    NewTurn = UI.Buttons.Button("NewTurn")
-    Move = UI.Buttons.Button("Move")
-    Abilities = UI.Buttons.Button("Abilities")
-    Attack = UI.Buttons.Button("Attack")
-    Inventory = UI.Buttons.Button("Inventory")
+    end_turn = UI.Buttons.Button("End Turn")
+    new_turn = UI.Buttons.Button("New Turn")
+    move = UI.Buttons.Button("Move")
+    abilities = UI.Buttons.Button("abilities")
+    attack = UI.Buttons.Button("Attack")
+    inventory = UI.Buttons.Button("Inventory")
 
     while game_state.running:
         for event in pygame.event.get():
@@ -21,15 +21,15 @@ def run(screen, game_state):
                 game_state.cycle_animation()
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                if game_state.between_turns and NewTurn.pressed(pos):
-                    if NewTurn.pressed(pos):
+                if game_state.between_turns and new_turn.pressed(pos):
+                    if new_turn.pressed(pos):
                         game_state.start_new_turn()
-                elif EndTurn.pressed(pos):
+                elif end_turn.pressed(pos):
                     game_state.end_turn()
-                elif Move.pressed(pos):
+                elif move.pressed(pos):
                     if game_state.selected is not None and game_state.can_selected_unit_move():
                         game_state.moving = not game_state.moving
-                elif Attack.pressed(pos):
+                elif attack.pressed(pos):
                     if game_state.can_selected_unit_attack():
                         game_state.toggle_attacking()
                 else:
@@ -46,7 +46,7 @@ def run(screen, game_state):
                         else:
                             game_state.attempt_to_select_unit(clicked_space)
 
-        DrawingHelper.draw_all_the_things(game_state, screen, EndTurn, NewTurn, Move, Attack, Abilities, Inventory,
+        DrawingHelper.draw_all_the_things(game_state, screen, end_turn, new_turn, move, attack, abilities, inventory,
                                           MovementHelper)
         clock.tick(60)
 

@@ -40,7 +40,7 @@ class Battlefield():
             relative
         )
 
-    def getTile(self, x, y):
+    def get_tile(self, x, y):
         return self.tiles[y][x]
 
     def width(self):
