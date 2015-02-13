@@ -14,14 +14,17 @@ class Button:
         self.name = the_name
         self.rect = None
 
-    def create_button(self, surface, color, x, y, length, height, width, text, text_color):
+    def create_button(self, surface, color, x, y, length, height, width, text_color):
         if width is None:
             self.draw_button_no_border(surface, color, length, height, x, y)
         else:
             surface = self.draw_button(surface, color, length, height, x, y, width)
-        surface = self.write_text(surface, text, text_color, length, height, x, y)
+        surface = self.write_text(surface, self.name, text_color, length, height, x, y)
         self.rect = pygame.Rect(x,y, length, height)
         return surface
+
+    def change_name(self, new_name):
+        self.name = new_name
 
     @staticmethod
     def write_text(surface, text, text_color, length, height, x, y):

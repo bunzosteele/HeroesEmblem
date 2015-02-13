@@ -17,30 +17,38 @@ class DrawingHelper():
         pass
 
     @staticmethod
-    def draw_all_the_things(game_state, screen, end_turn, new_turn, move, attack, movement_helper):
+    def draw_all_the_things(game_state, screen, end_turn, new_turn, move, attack, abilities, inventory, move_helper):
         game_state.battlefield.draw(screen)
         DrawingHelper.draw_end_turn_button(end_turn, screen, game_state)
         if game_state.is_owned_unit_selected():
             if game_state.can_selected_unit_move():
                 DrawingHelper.draw_move_button(move, DrawingHelper.active_button_color, screen, game_state)
+                DrawingHelper.draw_inventory_button(inventory, DrawingHelper.active_button_color, screen, game_state)
             else:
                 DrawingHelper.draw_move_button(move, DrawingHelper.inactive_button_color, screen, game_state)
             if game_state.can_selected_unit_attack():
                 DrawingHelper.draw_attack_button(attack, DrawingHelper.active_button_color, screen, game_state)
+                DrawingHelper.draw_ability_button(abilities, DrawingHelper.active_button_color, screen, game_state)
+                DrawingHelper.draw_inventory_button(inventory, DrawingHelper.active_button_color, screen, game_state)
             else:
                 DrawingHelper.draw_attack_button(attack, DrawingHelper.inactive_button_color, screen, game_state)
+                DrawingHelper.draw_ability_button(abilities, DrawingHelper.inactive_button_color, screen, game_state)
             if game_state.moving:
                 location = game_state.get_selected_unit().get_location()
                 DrawingHelper.draw_move_button(move, DrawingHelper.selected_button_color, screen, game_state)
-                movement_helper.draw_movement_shadow(location[0], location[1], game_state, screen)
+                move_helper.draw_movement_shadow(location[0], location[1], game_state, screen)
             else:
                 if game_state.attacking:
                     DrawingHelper.draw_attack_button(attack, DrawingHelper.selected_button_color, screen, game_state)
                     CombatHelper.draw_attack_shadow(game_state.get_selected_unit(), game_state.battlefield, screen,
                                                     DrawingHelper)
+            if not game_state.can_selected_unit_attack and not game_state.can_selected_unit_move:
+                DrawingHelper.draw_inventory_button(inventory, DrawingHelper.inactive_button_color, screen, game_state)
         else:
             DrawingHelper.draw_move_button(move, DrawingHelper.inactive_button_color, screen, game_state)
             DrawingHelper.draw_attack_button(attack, DrawingHelper.inactive_button_color, screen, game_state)
+            DrawingHelper.draw_ability_button(abilities, DrawingHelper.inactive_button_color, screen, game_state)
+            DrawingHelper.draw_inventory_button(inventory, DrawingHelper.inactive_button_color, screen, game_state)
         if game_state.selected is not None:
             DrawingHelper.draw_selected_unit_highlight(game_state, screen)
         DrawingHelper.draw_units(game_state, screen)
@@ -67,10 +75,9 @@ class DrawingHelper():
         new_turn_width = 250
         new_turn_y = (game_state.get_window_height() - game_state.button_height - new_turn_height) / 2
         new_turn_x = (game_state.get_window_width() - new_turn_width) / 2
+        button.change_name("It is player " + str(game_state.current_player + 1) + "'s turn")
         DrawingHelper.draw_button(screen, button, DrawingHelper.black_color, new_turn_x, new_turn_y, new_turn_width,
-                                  new_turn_height,
-                                  "It is player " + str(game_state.current_player + 1) + "'s turn",
-                                  DrawingHelper.white_color)
+                                  new_turn_height, DrawingHelper.white_color)
 
     @staticmethod
     def draw_stats(game_state, font, screen):
@@ -96,27 +103,39 @@ class DrawingHelper():
             screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 52))
 
     @staticmethod
-    def draw_end_turn_button(button, screen, game_state):
-        DrawingHelper.draw_button(screen, button, (200, 122, 90), (game_state.button_width + 1) * 2,
-                                  game_state.get_window_height() - game_state.button_height, game_state.button_width,
-                                  game_state.button_height, "End Turn", DrawingHelper.white_color)
-
-    @staticmethod
     def draw_move_button(button, background_color, screen, game_state):
         DrawingHelper.draw_button(screen, button, background_color, 0,
                                   game_state.get_window_height() - game_state.button_height, game_state.button_width,
-                                  game_state.button_height, "Move", DrawingHelper.white_color)
+                                  game_state.button_height, DrawingHelper.white_color)
 
     @staticmethod
     def draw_attack_button(button, background_color, screen, game_state):
         DrawingHelper.draw_button(screen, button, background_color, game_state.button_width + 1,
                                   game_state.get_window_height() - game_state.button_height, game_state.button_width,
-                                  game_state.button_height, "Attack", DrawingHelper.white_color)
+                                  game_state.button_height, DrawingHelper.white_color)
 
     @staticmethod
-    def draw_button(screen, button, background_color, x_offset, y_offset, button_width, button_height, text,
+    def draw_ability_button(button, background_color, screen, game_state):
+        DrawingHelper.draw_button(screen, button, background_color, (game_state.button_width + 1) * 2,
+                                  game_state.get_window_height() - game_state.button_height, game_state.button_width,
+                                  game_state.button_height, DrawingHelper.white_color)
+
+    @staticmethod
+    def draw_inventory_button(button, background_color, screen, game_state):
+        DrawingHelper.draw_button(screen, button, background_color, (game_state.button_width + 1) * 3,
+                                  game_state.get_window_height() - game_state.button_height, game_state.button_width,
+                                  game_state.button_height, DrawingHelper.white_color)
+
+    @staticmethod
+    def draw_end_turn_button(button, screen, game_state):
+        DrawingHelper.draw_button(screen, button, (200, 122, 90), (game_state.button_width + 1) * 4,
+                                  game_state.get_window_height() - game_state.button_height, game_state.button_width,
+                                  game_state.button_height, DrawingHelper.white_color)
+
+    @staticmethod
+    def draw_button(screen, button, background_color, x_offset, y_offset, button_width, button_height,
                     text_color):
-        button.create_button(screen, background_color, x_offset, y_offset, button_width, button_height, None, text,
+        button.create_button(screen, background_color, x_offset, y_offset, button_width, button_height, None,
                              text_color)
 
     @staticmethod

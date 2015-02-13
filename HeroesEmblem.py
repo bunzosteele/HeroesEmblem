@@ -38,7 +38,7 @@ if __name__ == '__main__':
                 if StartGame.pressed(pos):
                     launch_game()
 
-        StartGame.create_button(screen, (50, 80, 200), 300, 150, 200, 100, None, "Start Game", (135, 144, 15))
+        StartGame.create_button(screen, (50, 80, 200), 300, 150, 200, 100, None, (135, 144, 15))
         pygame.display.update()
 
 
