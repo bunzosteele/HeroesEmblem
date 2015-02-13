@@ -20,7 +20,7 @@ class Button:
         else:
             surface = self.draw_button(surface, button_color, length, height, x, y, width)
         surface = self.write_text(surface, self.name, text_color, length, height, x, y)
-        self.rect = pygame.Rect(x,y, length, height)
+        self.rect = pygame.Rect(x, y, length, height)
         return surface
 
     def change_name(self, new_name):

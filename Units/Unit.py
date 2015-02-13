@@ -19,7 +19,6 @@ class Unit(pygame.sprite.Sprite):
         self.attack_start_frame = None
         self.name = NameGenerator.generate_name("Units\\Names.txt")
 
-
     def draw(self, surface, animation_state, tapped):
         image_attributes = self.img_src.split("-")
         if not self.attacking:
