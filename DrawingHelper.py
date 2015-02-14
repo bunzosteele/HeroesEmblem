@@ -71,10 +71,10 @@ class DrawingHelper():
 
     @staticmethod
     def draw_turn_indicator(game_state, button, screen):
-        new_turn_height = 100
-        new_turn_width = 250
+        new_turn_height = game_state.battlefield.height() * Tile.Size
+        new_turn_width = game_state.battlefield.width() * Tile.Size
         new_turn_y = (game_state.get_window_height() - game_state.button_height - new_turn_height) / 2
-        new_turn_x = (game_state.get_window_width() - new_turn_width) / 2
+        new_turn_x = 0
         button.change_name("It is player " + str(game_state.current_player + 1) + "'s turn")
         DrawingHelper.draw_button(screen, button, DrawingHelper.black_color, new_turn_x, new_turn_y, new_turn_width,
                                   new_turn_height, DrawingHelper.white_color)
