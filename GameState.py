@@ -117,7 +117,9 @@ class GameState:
                 self.moving = False
                 self.attacking = not self.attacking
         elif CombatHelper.can_attack_targets(self.selected, self.battlefield, [target_unit]):
-            CombatHelper.attack(target_tile, target_unit, self)
+            damage = CombatHelper.attack(target_tile, target_unit, self)
+            target_unit.selected_target()
+            target_unit.incoming_damage(damage)
             self.selected.has_attacked = True
             if target_unit.CurrentHealth <= 0:
                 self.units.remove(target_unit)

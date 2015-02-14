@@ -18,6 +18,9 @@ class Unit(pygame.sprite.Sprite):
         self.attacking = False
         self.attack_start_frame = None
         self.name = NameGenerator.generate_name("Units\\Names.txt")
+        self.temp_movement = 0
+        self.is_target = False
+        self.damage = 0
 
     def draw(self, surface, animation_state, tapped):
         image_attributes = self.img_src.split("-")
@@ -43,8 +46,8 @@ class Unit(pygame.sprite.Sprite):
             surface.blit(self.image, (self.x, self.y))
 
             if self.have_two_frames_passed(animation_state, self.attack_start_frame):
-                self.attacking = False
-                self.attack_start_frame = None
+                    self.attacking = False
+                    self.attack_start_frame = None
 
     def draw_preview(self, surface, location, animation_state, attacking):
         image_attributes = self.img_src.split("-")
@@ -63,6 +66,12 @@ class Unit(pygame.sprite.Sprite):
             surface.blit(self.image, location)
 
         surface.blit(self.image, location)
+
+    def incoming_damage(self, damage):
+        self.damage = damage
+
+    def selected_target(self):
+        self.is_target = True
 
     def movement_clac(self):
         self.temp_movement -= 1
@@ -89,7 +98,8 @@ class Unit(pygame.sprite.Sprite):
     def deal_damage(self, damage):
         self.CurrentHealth -= damage
 
-    def resource_path(self, relative):
+    @staticmethod
+    def resource_path(relative):
         return os.path.join(
             os.environ.get(
                 "_MEIPASS2",
@@ -98,6 +108,7 @@ class Unit(pygame.sprite.Sprite):
             relative
         )
 
-    def have_two_frames_passed(self, first, current):
+    @staticmethod
+    def have_two_frames_passed(first, current):
         return (current == 1 and first == 2) or (current == 2 and first == 3) or (current == 3 and first == 1)
 

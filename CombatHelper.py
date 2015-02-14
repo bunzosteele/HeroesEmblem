@@ -71,9 +71,12 @@ class CombatHelper():
     @staticmethod
     def attack(target_tile, target_unit, game_state):
         game_state.selected.attacking = True
-        game_state.selected.attack_start_frame = game_state.animation_state
+        game_state.selected.attack_start_frame = game_state.animation_state + 1
         if CombatHelper.check_hit(target_tile, target_unit, game_state.selected):
-            CombatHelper.deal_damage(target_tile, target_unit, game_state.selected)
+            damage = CombatHelper.deal_damage(target_tile, target_unit, game_state.selected)
+        else:
+            damage = 0
+        return damage
 
     @staticmethod
     def check_hit(target_tile, target_unit, attacker):
@@ -96,4 +99,5 @@ class CombatHelper():
         if roll == 100:
             damage_dealt *= 2
         target_unit.deal_damage(damage_dealt)
+        return damage_dealt
 

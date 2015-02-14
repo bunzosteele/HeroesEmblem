@@ -9,7 +9,7 @@ def run(screen, game_state):
     end_turn = UI.Buttons.Button("End Turn")
     new_turn = UI.Buttons.Button("New Turn")
     move = UI.Buttons.Button("Move")
-    abilities = UI.Buttons.Button("abilities")
+    abilities = UI.Buttons.Button("Abilities")
     attack = UI.Buttons.Button("Attack")
     inventory = UI.Buttons.Button("Inventory")
 
