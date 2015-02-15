@@ -3,7 +3,7 @@ from GameState import GameState
 from Shop import Shop
 from Shop.ShopState import ShopState
 import UI.Buttons
-import Game
+import Battle
 import pygame
 
 def launch_game():
@@ -15,7 +15,7 @@ def launch_game():
     battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
     game_state = GameState(battlefield, button_height, status_width, units)
     battle_screen = pygame.display.set_mode((game_state.get_window_width(), game_state.get_window_height()))
-    Game.run(battle_screen, game_state)
+    Battle.run(battle_screen, game_state)
 
 if __name__ == '__main__':
     pygame.init()
