@@ -4,20 +4,20 @@ from Units.Unit import *
 
 
 class Spearman(Unit):
-    img_src = "images/spearman2.png"
+    img_src = "images/Spearman-Idle-1-2.png"
     Type = "Spearman"
-    MaxHealth = 8
-    AttackPower = 8
-    Defense = 3
-    Evasion = 3
-    Accuracy = 95
-    Movement = 3
+    MaxHealth = 25
+    AttackPower = 9
+    Defense = 2
+    Evasion = 7
+    Accuracy = 90
+    Movement = 4
     MinimumRange = 0
     MaximumRange = 2
 
-    def __init__(self, x, y, team):
+    def __init__(self, team):
         if team == 0:
-            self.img_src = "images/spearman.png"
+            self.img_src = "images/Spearman-Idle-1-0.png"
         if team == 1:
-            self.img_src = "images/spearman1.png"
-        Unit.__init__(self, x, y, team)
+            self.img_src = "images/Spearman-Idle-1-1.png"
+        Unit.__init__(self, team)
