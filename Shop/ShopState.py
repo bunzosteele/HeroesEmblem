@@ -6,7 +6,7 @@ import math
 
 
 class ShopState:
-    def __init__(self, starting_units, button_height):
+    def __init__(self, starting_units, button_height, difficulty):
         self.is_draft = len(starting_units) == 0
         self.roster = starting_units
         if self.is_draft:
@@ -23,9 +23,10 @@ class ShopState:
         self.animation_state = 1
         self.pedestals = ShopState.build_pedestals(self.shop_width, self.shop_height, self.button_width)
         self.roster_offset = self.button_width + (self.pedestals[0].size[0] / 4) - 5
+        self.difficulty = difficulty
 
     def is_stock_selected(self):
-        return self.selected is not None and self.stock.contains(self.selected)
+        return self.selected is not None and self.selected in self.stock
 
     def try_select(self, pos):
         if self.get_at_pedestal(pos) is not None:
@@ -44,15 +45,13 @@ class ShopState:
         return None
 
     def get_from_roster(self, pos):
-        if pos[1] > self.shop_height and self.button_width > pos[0] > self.window_width - self.button_width:
+        if pos[1] < self.shop_height or pos[0] < self.button_width or pos[0] > self.window_width - self.button_width:
             return None
         i = (pos[0] - self.roster_offset) / self.pedestals[0].size[0]
         if len(self.roster) > i:
             return self.roster[i]
         else:
             return None
-
-
 
     def draft_unit(self):
         self.roster.append(self.selected)
@@ -80,3 +79,7 @@ class ShopState:
             x_offset += 2 * pedestal_size
 
         return pedestals
+
+    def finalize(self):
+        self.roster.extend(UnitGenerator.generate_enemies(self.difficulty))
+        return self.roster

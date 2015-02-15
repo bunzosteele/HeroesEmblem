@@ -7,12 +7,12 @@ import Game
 import pygame
 
 def launch_game():
-    battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
     button_height = 50
     status_width = 100
-    shop_state = ShopState([], button_height)
+    shop_state = ShopState([], button_height, 1)
     shopping_screen = pygame.display.set_mode((shop_state.window_width, shop_state.window_height))
     units = Shop.run(shopping_screen, shop_state)
+    battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
     game_state = GameState(battlefield, button_height, status_width, units)
     battle_screen = pygame.display.set_mode((game_state.get_window_width(), game_state.get_window_height()))
     Game.run(battle_screen, game_state)
@@ -22,8 +22,6 @@ if __name__ == '__main__':
     pygame.display.set_caption("Heroes Emblem")
 
     screen = pygame.display.set_mode(((32 * 16) + 100, (32 * 9) + 50))
-
-
     StartGame = UI.Buttons.Button("Start Game")
     running = True
 

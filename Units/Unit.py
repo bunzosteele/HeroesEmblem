@@ -5,10 +5,10 @@ from NameGenerator import *
 class Unit(pygame.sprite.Sprite):
     dist = 32
 
-    def __init__(self, x, y, team):
+    def __init__(self, team):
         pygame.sprite.Sprite.__init__(self)
-        self.x = x * self.dist
-        self.y = y * self.dist
+        self.x = None
+        self.y = None
         self.has_moved = False
         self.has_attacked = False
         self.team = team

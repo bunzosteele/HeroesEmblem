@@ -3,6 +3,8 @@ from Units.Archer import Archer
 from Units.Footman import Footman
 from Units.Knight import Knight
 from Units.Mage import Mage
+from Units.Priest import Priest
+from Units.Spearman import Spearman
 
 
 class UnitGenerator():
@@ -11,5 +13,10 @@ class UnitGenerator():
 
     @staticmethod
     def generate_units():
-        return [Archer(4, 4, 0), Footman(2, 4, 0), Knight(4, 3, 0), Mage(2, 3, 0), Archer(4, 4, 0), Footman(2, 4, 0),
-                Knight(4, 3, 0), Mage(2, 3, 0)]
+        return [Archer(0), Footman(0), Knight(0), Mage(0), Archer(0), Footman(0),
+                Spearman(0), Priest(0)]
+
+    @staticmethod
+    def generate_enemies(difficulty):
+        return [Archer(1), Footman(1), Knight(1), Mage(1), Archer(1), Footman(1),
+                Spearman(1), Priest(1)]

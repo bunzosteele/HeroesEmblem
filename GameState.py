@@ -19,6 +19,7 @@ class GameState:
         self.button_width = (battlefield.width() * Tile.Size + status_width) / 5
         self.status_width = status_width
         self.units = units
+        self.spawn_units()
 
     def get_window_height(self):
         return self.battlefield.height() * Tile.Size + self.button_height
@@ -134,6 +135,39 @@ class GameState:
                 unit = u
         tile = self.battlefield.tiles[clicked_space[1]][clicked_space[0]]
         return tile, unit
+
+    def spawn_units(self):
+        player_one_units = []
+        player_two_units = []
+        for unit in self.units:
+            if unit.get_team() == 0:
+                player_one_units.append(unit)
+            if unit.get_team() == 1:
+                player_two_units.append(unit)
+
+        player_one_spawns = []
+        player_two_spawns = []
+        for x in range(0, 15):
+            for y in range(0, 8):
+                tile = self.battlefield.tiles[y][x]
+                if tile.spawn is not None:
+                    if tile.spawn == '*':
+                        player_two_spawns.append((x, y))
+                    else:
+                        player_one_spawns.append((x, y, tile.spawn))
+        player_one_spawns = sorted(player_one_spawns, key=lambda tile: int(tile[2]))
+        i = 0
+        for unit in player_one_units:
+            unit.x = player_one_spawns[i][0] * Tile.Size
+            unit.y = player_one_spawns[i][1] * Tile.Size
+            i += 1
+
+        for unit in player_two_units:
+            spawn = randint(0, len(player_two_spawns) - 1)
+            unit.x = player_two_spawns[spawn][0] * Tile.Size
+            unit.y = player_two_spawns[spawn][1] * Tile.Size
+            player_two_spawns.remove(player_two_spawns[spawn])
+
 
 
 

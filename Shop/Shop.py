@@ -18,8 +18,8 @@ def run(screen, shop_state):
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 if complete_button.pressed(pos):
-                    return shop_state.roster
-                elif buy_button.pressed(pos) and shop_state.is_stock_selected:
+                    return shop_state.finalize()
+                elif buy_button.pressed(pos) and shop_state.is_stock_selected():
                     if shop_state.is_draft:
                         shop_state.draft_unit()
                     else:
