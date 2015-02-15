@@ -3,6 +3,9 @@ from TileBuilder import TileBuilder
 
 
 class Battlefield():
+    Width = 16
+    Height = 9
+
     def __init__(self, tiles):
         self.tiles = tiles
 
