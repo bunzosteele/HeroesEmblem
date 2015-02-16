@@ -2,7 +2,7 @@ from Tile import *
 
 
 class Mountain(Tile):
-    Image = "images/mountain.png"
+    Image = "images/Mountain.png"
     DefenseBoost = 2
     AccuracyPenalty = 10
     MovementCost = 2

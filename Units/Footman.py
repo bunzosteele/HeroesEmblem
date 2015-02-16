@@ -17,7 +17,7 @@ class Footman(Unit):
 
     def __init__(self, team):
         if team == 0:
-            self.img_src = "images/footman-idle-1-0.png"
+            self.img_src = "images/Footman-Idle-1-0.png"
         if team == 1:
-            self.img_src = "images/footman-idle-1-1.png"
+            self.img_src = "images/Footman-Idle-1-1.png"
         Unit.__init__(self, team)

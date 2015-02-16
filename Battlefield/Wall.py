@@ -2,7 +2,7 @@ from Tile import *
 
 
 class Wall(Tile):
-    Image = "images/wall.png"
+    Image = "images/Wall.png"
     DefenseBoost = 0
     AccuracyPenalty = 0
     MovementCost = 1000
