@@ -88,7 +88,7 @@ class CombatHelper():
 
     @staticmethod
     def deal_damage(target_tile, target_unit, attacker):
-        damage_dealt = attacker.AttackPower
+        damage_dealt = attacker.Attack
         damage_dealt = damage_dealt - target_unit.Defense
         damage_dealt = damage_dealt - target_tile.DefenseBoost
         roll = randint(1, 100)

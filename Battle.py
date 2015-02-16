@@ -17,6 +17,8 @@ def run(screen, game_state):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_state.running = False
+            elif game_state.is_player_defeated():
+                pass
             elif event.type == pygame.USEREVENT:
                 game_state.cycle_animation()
             elif event.type == pygame.MOUSEBUTTONUP:

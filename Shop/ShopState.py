@@ -6,7 +6,7 @@ import math
 
 
 class ShopState:
-    def __init__(self, starting_units, button_height, difficulty):
+    def __init__(self, starting_units, button_height, difficulty, gold):
         self.is_draft = len(starting_units) == 0
         self.roster = starting_units
         if self.is_draft:
@@ -25,12 +25,20 @@ class ShopState:
         self.roster_offset = self.button_width + (self.pedestals[0].size[0] / 4) - 5
         self.difficulty = difficulty
         self.selected_position = None
+        self.gold = gold
 
     def is_stock_selected(self):
         return self.selected is not None and self.selected in self.stock
 
     def can_shop(self):
-        return len(self.roster) <= 7
+        can_afford = False
+        for item in self.stock:
+            if item.Cost <= self.gold:
+                can_afford = True
+        return len(self.roster) <= 7 and can_afford
+
+    def can_buy_selected(self):
+        return len(self.roster) <= 7 and self.selected.Cost <= self.gold
 
     def try_select(self, pos):
         if self.get_at_pedestal(pos) is not None:
@@ -58,8 +66,9 @@ class ShopState:
             return None
 
     def draft_unit(self):
-        if len(self.roster) < 8:
+        if self.can_buy_selected():
             self.roster.append(self.selected)
+            self.gold -= self.selected.Cost
             self.selected = None
             self.stock = UnitGenerator.generate_units()
 

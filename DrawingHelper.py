@@ -97,7 +97,7 @@ class DrawingHelper():
             hitpoint_display = font.render("HP: " + str(unit.CurrentHealth) + "/" + str(unit.MaxHealth), 1,
                                            DrawingHelper.white_color)
             screen.blit(hitpoint_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 24))
-            attack_display = font.render("ATK: " + str(unit.AttackPower), 1, DrawingHelper.white_color)
+            attack_display = font.render("ATK: " + str(unit.Attack), 1, DrawingHelper.white_color)
             screen.blit(attack_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 38))
             defense_display = font.render("DEF: " + str(unit.Defense), 1, DrawingHelper.white_color)
             screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 52))

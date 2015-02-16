@@ -14,7 +14,7 @@ Chakra
 Xatron
 Howllo
 Honeyblood
-CraftBeerChamp
+Beer
 Covertz
 Pyro
 Bitty
@@ -38,7 +38,7 @@ Saxri
 Shlope
 Ciabluu
 PlayBoy
-ZombieHunter
+Zombie
 Ruf
 Poof
 Mr. Phil
@@ -52,7 +52,7 @@ Toker
 I'm so hot
 Warpto
 Nefoog
-TroutGrenade
+Trout
 TrollRanker
 Deesaid
 Flemmett
@@ -75,3 +75,12 @@ Shackro
 Lapil
 Engi
 FatesSword
+Korjon
+Gilbert
+Awent
+Lazy
+Goofball
+Cheech
+Andersick
+Squeak
+Bubbles

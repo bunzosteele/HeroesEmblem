@@ -9,10 +9,11 @@ import pygame
 def launch_game():
     button_height = 50
     status_width = 100
-    shop_state = ShopState([], button_height, 1)
+    difficulty = 1
+    battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
+    shop_state = ShopState([], button_height, difficulty, 5000)
     shopping_screen = pygame.display.set_mode((shop_state.window_width, shop_state.window_height))
     units = Shop.run(shopping_screen, shop_state)
-    battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
     game_state = GameState(battlefield, button_height, status_width, units)
     battle_screen = pygame.display.set_mode((game_state.get_window_width(), game_state.get_window_height()))
     Battle.run(battle_screen, game_state)

@@ -5,19 +5,27 @@ from Units.Unit import *
 
 class Knight(Unit):
     img_src = "images/Knight-Idle-1-2.png"
-    Type = "Knight"
-    MaxHealth = 30
-    AttackPower = 10
-    Defense = 5
-    Evasion = 1
-    Accuracy = 85
-    Movement = 5
-    MinimumRange = 0
-    MaximumRange = 1
+    BaseMinimumRange = 0
+    BaseMaximumRange = 1
+    BaseMaxHealth = 30
+    BaseAttack = 10
+    BaseDefense = 5
+    BaseEvasion = 3
+    BaseAccuracy = 85
+    BaseMovement = 5
+    BaseCost = 1000
 
-    def __init__(self, team):
-        if team == 0:
-            self.img_src = "images/Knight-Idle-1-0.png"
-        if team == 1:
-            self.img_src = "images/Knight-Idle-1-1.png"
+    def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
+                 movement_bonus, cost_modifier):
+        self.Type = Knight
+        self.MinimumRange = Knight.BaseMinimumRange
+        self.MaximumRange = Knight.BaseMaximumRange
+        self.img_src = "images/knight-idle-1-" + str(team) + ".png"
+        self.MaxHealth = Knight.BaseMaxHealth + health_bonus
+        self.Attack = Knight.BaseAttack + attack_bonus
+        self.Defense = Knight.BaseDefense + defense_bonus
+        self.Evasion = Knight.BaseEvasion + evasion_bonus
+        self.Accuracy = Knight.BaseAccuracy + accuracy_bonus
+        self.Movement = Knight.BaseMovement + movement_bonus
+        self.Cost = Knight.BaseCost + cost_modifier
         Unit.__init__(self, team)

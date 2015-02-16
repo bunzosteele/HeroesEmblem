@@ -168,6 +168,14 @@ class GameState:
             unit.y = player_two_spawns[spawn][1] * Tile.Size
             player_two_spawns.remove(player_two_spawns[spawn])
 
+    def is_player_defeated(self):
+        players = []
+        for unit in self.units:
+            if unit.get_team() not in players:
+                players.append(unit.get_team())
+
+        return len(players) == 1
+
 
 
 
