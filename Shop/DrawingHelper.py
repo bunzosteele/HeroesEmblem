@@ -143,6 +143,22 @@ class DrawingHelper():
             movement_display = DrawingHelper.font.render("MOVE: " + str(unit.Movement), 1, font_color)
             screen.blit(movement_display, (status_offset + 10, Tile.Size + 92))
 
+            movement_display = DrawingHelper.font.render("Hails from:", 1, DrawingHelper.white_color)
+            screen.blit(movement_display, (status_offset + 10, Tile.Size + 106))
+            movement_display = DrawingHelper.font.render(str(unit.hometown), 1, DrawingHelper.gold_color)
+            screen.blit(movement_display, (status_offset + 10, Tile.Size + 120))
+            movement_display = DrawingHelper.font.render("Likes:", 1, DrawingHelper.white_color)
+            screen.blit(movement_display, (status_offset + 10, Tile.Size + 134))
+            movement_display = DrawingHelper.font.render(str(unit.like), 1, DrawingHelper.gold_color)
+            screen.blit(movement_display, (status_offset + 10, Tile.Size + 148))
+            movement_display = DrawingHelper.font.render("Dislikes:", 1, DrawingHelper.white_color)
+            screen.blit(movement_display, (status_offset + 10, Tile.Size + 162))
+            movement_display = DrawingHelper.font.render(str(unit.dislike), 1, DrawingHelper.gold_color)
+            screen.blit(movement_display, (status_offset + 10, Tile.Size + 176))
+            movement_display = DrawingHelper.font.render("Hobby:", 1, DrawingHelper.white_color)
+            screen.blit(movement_display, (status_offset + 10, Tile.Size + 190))
+            movement_display = DrawingHelper.font.render(str(unit.hobby), 1, DrawingHelper.gold_color)
+            screen.blit(movement_display, (status_offset + 10, Tile.Size + 204))
     @staticmethod
     def draw_shop_data(shop_state, screen):
         screen.blit(pygame.image.load(DrawingHelper.resource_path("images/Shopkeeper.png")), (10, 10))
