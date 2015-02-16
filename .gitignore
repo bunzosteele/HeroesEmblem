@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+# Fuck off workspace.xml
+workspace.xml
+
 # C extensions
 *.so
 

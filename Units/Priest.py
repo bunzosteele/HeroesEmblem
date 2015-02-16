@@ -18,7 +18,7 @@ class Priest(Unit):
         self.Type = Priest
         self.MinimumRange = Priest.BaseMinimumRange
         self.MaximumRange = Priest.BaseMaximumRange
-        self.img_src = "images/priest-idle-1-" + str(team) + ".png"
+        self.img_src = "images/Priest-Idle-1-" + str(team) + ".png"
         self.MaxHealth = Priest.BaseMaxHealth + health_bonus
         self.Attack = Priest.BaseAttack + attack_bonus
         self.Defense = Priest.BaseDefense + defense_bonus

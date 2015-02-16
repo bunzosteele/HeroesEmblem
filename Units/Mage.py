@@ -16,7 +16,7 @@ class Mage(Unit):
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                  movement_bonus, cost_modifier):
         self.Type = Mage
-        self.img_src = "images/mage-idle-1-" + str(team) + ".png"
+        self.img_src = "images/Mage-Idle-1-" + str(team) + ".png"
         self.MaxHealth = Mage.BaseMaxHealth + health_bonus
         self.Attack = Mage.BaseAttack + attack_bonus
         self.Defense = Mage.BaseDefense + defense_bonus

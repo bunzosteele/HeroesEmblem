@@ -20,7 +20,7 @@ class Spearman(Unit):
         self.Type = Spearman
         self.MinimumRange = Spearman.BaseMinimumRange
         self.MaximumRange = Spearman.BaseMaximumRange
-        self.img_src = "images/spearman-idle-1-" + str(team) + ".png"
+        self.img_src = "images/Spearman-Idle-1-" + str(team) + ".png"
         self.MaxHealth = Spearman.BaseMaxHealth + health_bonus
         self.Attack = Spearman.BaseAttack + attack_bonus
         self.Defense = Spearman.BaseDefense + defense_bonus
