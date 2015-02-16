@@ -20,7 +20,7 @@ class Knight(Unit):
         self.Type = Knight
         self.MinimumRange = Knight.BaseMinimumRange
         self.MaximumRange = Knight.BaseMaximumRange
-        self.img_src = "images/knight-idle-1-" + str(team) + ".png"
+        self.img_src = "images/Knight-Idle-1-" + str(team) + ".png"
         self.MaxHealth = Knight.BaseMaxHealth + health_bonus
         self.Attack = Knight.BaseAttack + attack_bonus
         self.Defense = Knight.BaseDefense + defense_bonus
