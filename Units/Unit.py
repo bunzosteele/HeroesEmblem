@@ -18,6 +18,10 @@ class Unit(pygame.sprite.Sprite):
         self.attacking = False
         self.attack_start_frame = None
         self.name = NameGenerator.generate_name("Units/Names.txt")
+        self.hometown = NameGenerator.generate_name("Units/Hometowns.txt")
+        self.hobby = NameGenerator.generate_name("Units/Hobbies.txt")
+        self.like = NameGenerator.generate_name("Units/LikesDislikes.txt")
+        self.dislike = NameGenerator.generate_name("Units/LikesDislikes.txt")
         self.temp_movement = 0
         self.is_target = False
         self.damage = 0
