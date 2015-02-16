@@ -22,7 +22,6 @@ class DrawingHelper():
         DrawingHelper.draw_roster(shop_state, screen)
         DrawingHelper.draw_stock(shop_state, screen)
         DrawingHelper.draw_stats(shop_state, screen)
-
         pygame.display.update()
 
 
@@ -115,11 +114,4 @@ class DrawingHelper():
                     text_color):
         button.create_button(screen, background_color, x_offset, y_offset, button_width, button_height, None,
                              text_color)
-
-    @staticmethod
-    def draw_selected_unit_highlight(game_state, screen):
-        pygame.gfxdraw.box(screen,
-                           pygame.Rect(game_state.get_selected_unit().x, game_state.get_selected_unit().y, Tile.Size,
-                                       Tile.Size),
-                           DrawingHelper.selected_unit_color)
 

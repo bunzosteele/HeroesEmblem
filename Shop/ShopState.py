@@ -24,6 +24,7 @@ class ShopState:
         self.pedestals = ShopState.build_pedestals(self.shop_width, self.shop_height, self.button_width)
         self.roster_offset = self.button_width + (self.pedestals[0].size[0] / 4) - 5
         self.difficulty = difficulty
+        self.selected_position = None
 
     def is_stock_selected(self):
         return self.selected is not None and self.selected in self.stock
