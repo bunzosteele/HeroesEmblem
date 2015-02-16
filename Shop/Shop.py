@@ -17,7 +17,7 @@ def run(screen, shop_state):
                 shop_state.cycle_animation()
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                if complete_button.pressed(pos):
+                if complete_button.pressed(pos) and len(shop_state.roster) > 0:
                     return shop_state.finalize()
                 elif buy_button.pressed(pos) and shop_state.is_stock_selected():
                     if shop_state.is_draft:

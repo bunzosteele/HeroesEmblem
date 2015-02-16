@@ -186,6 +186,9 @@ class DrawingHelper():
         else:
             background_color = DrawingHelper.selected_button_color
 
+        if len(shop_state.roster) == 0:
+            background_color = DrawingHelper.inactive_button_color
+
         DrawingHelper.draw_button(screen, button, background_color,
                                   shop_state.window_width - shop_state.button_width,
                                   shop_state.window_height - shop_state.button_height, shop_state.button_width,

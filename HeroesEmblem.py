@@ -55,6 +55,7 @@ if __name__ == '__main__':
                     while running:
                         game_result = launch_game()
                         gold -= game_result[1]
+                        gold += difficulty * 50
                         difficulty += 1
                         running = game_result[0]
 
