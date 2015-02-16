@@ -25,6 +25,9 @@ class Unit(pygame.sprite.Sprite):
         self.temp_movement = 0
         self.is_target = False
         self.damage = 0
+        self.experience = 0
+        self.next_level_exp = 100
+        self.level = 1
 
     def draw(self, surface, animation_state, tapped):
         image_attributes = self.img_src.split("-")
@@ -101,6 +104,20 @@ class Unit(pygame.sprite.Sprite):
 
     def deal_damage(self, damage):
         self.CurrentHealth -= damage
+        self.experience += 25
+        self.calculate_level()
+
+    def calculate_level(self):
+        if self.experience >= self.next_level_exp:
+            self.level += 1
+            self.experience = 0
+            self.next_level_exp += 50
+            self.MaxHealth += 5
+            self.Attack += 3
+            self.Defense += 5
+            self.Evasion += 5
+            self.Accuracy += 5
+            self.Movement += 1
 
     @staticmethod
     def resource_path(relative):

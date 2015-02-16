@@ -2,7 +2,7 @@ from Units.Unit import *
 
 
 class Archer(Unit):
-    img_src = "images/archer-idle-1-2.png"
+    img_src = "images/Archer-Idle-1-2.png"
     BaseMinimumRange = 2
     BaseMaximumRange = 4
     BaseMaxHealth = 15

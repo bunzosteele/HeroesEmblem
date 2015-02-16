@@ -101,6 +101,14 @@ class DrawingHelper():
             screen.blit(attack_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 38))
             defense_display = font.render("DEF: " + str(unit.Defense), 1, DrawingHelper.white_color)
             screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 52))
+            defense_display = font.render("EXP: " + str(unit.experience), 1, DrawingHelper.white_color)
+            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 66))
+            defense_display = font.render("NEXT LVL: ", 1, DrawingHelper.white_color)
+            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 80))
+            defense_display = font.render(str(unit.next_level_exp), 1, DrawingHelper.white_color)
+            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 94))
+            defense_display = font.render("LVL: " + str(unit.level), 1, DrawingHelper.white_color)
+            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 108))
 
     @staticmethod
     def draw_move_button(button, background_color, screen, game_state):
