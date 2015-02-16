@@ -17,7 +17,7 @@ class Unit(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.attacking = False
         self.attack_start_frame = None
-        self.name = NameGenerator.generate_name("Units\\Names.txt")
+        self.name = NameGenerator.generate_name("Units/Names.txt")
         self.temp_movement = 0
         self.is_target = False
         self.damage = 0

@@ -2,7 +2,7 @@ from Tile import *
 
 
 class Water(Tile):
-    Image = "images/water.png"
+    Image = "images/Water.png"
     DefenseBoost = 1
     AccuracyPenalty = 0
     MovementCost = 5
