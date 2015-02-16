@@ -28,6 +28,9 @@ class ShopState:
     def is_stock_selected(self):
         return self.selected is not None and self.selected in self.stock
 
+    def can_shop(self):
+        return len(self.roster) <= 7
+
     def try_select(self, pos):
         if self.get_at_pedestal(pos) is not None:
             return self.get_at_pedestal(pos)
@@ -54,8 +57,10 @@ class ShopState:
             return None
 
     def draft_unit(self):
-        self.roster.append(self.selected)
-        self.stock = UnitGenerator.generate_units()
+        if len(self.roster) < 8:
+            self.roster.append(self.selected)
+            self.selected = None
+            self.stock = UnitGenerator.generate_units()
 
     def cycle_animation(self):
         if self.animation_state == 3:

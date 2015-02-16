@@ -89,7 +89,7 @@ class DrawingHelper():
 
     @staticmethod
     def draw_buy_button(button, screen, shop_state):
-        if shop_state.selected is not None:
+        if shop_state.is_stock_selected() and shop_state.can_shop():
             background_color = DrawingHelper.active_button_color
         else:
             background_color = DrawingHelper.inactive_button_color
@@ -100,7 +100,12 @@ class DrawingHelper():
 
     @staticmethod
     def draw_complete_button(button, screen, shop_state):
-        DrawingHelper.draw_button(screen, button, DrawingHelper.active_button_color,
+        if shop_state.is_draft and shop_state.can_shop():
+            background_color = DrawingHelper.active_button_color
+        else:
+            background_color = DrawingHelper.selected_button_color
+
+        DrawingHelper.draw_button(screen, button, background_color,
                                   shop_state.window_width - shop_state.button_width,
                                   shop_state.window_height - shop_state.button_height, shop_state.button_width,
                                   shop_state.button_height, DrawingHelper.white_color)
