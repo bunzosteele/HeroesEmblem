@@ -18,7 +18,7 @@ def run(screen, game_state):
             if event.type == pygame.QUIT:
                 game_state.running = False
             elif game_state.is_player_defeated():
-                pass
+                return game_state.units
             elif event.type == pygame.USEREVENT:
                 game_state.cycle_animation()
             elif event.type == pygame.MOUSEBUTTONUP:
@@ -52,4 +52,5 @@ def run(screen, game_state):
                                           MovementHelper)
         clock.tick(60)
 
+    return None
     pygame.quit()

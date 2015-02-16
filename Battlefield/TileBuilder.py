@@ -6,7 +6,7 @@ from Sand import Sand
 from MetalWall import MetalWall
 from MetalFloor import MetalFloor
 from Plating import Plating
-
+from Void import Void
 
 class TileBuilder():
 
@@ -52,3 +52,8 @@ class TileBuilder():
                 return Plating(key[1])
             else:
                 return Plating(None)
+        if key[0] == ".":
+            if len(key) > 1:
+                return Void(key[1])
+            else:
+                return Void(None)

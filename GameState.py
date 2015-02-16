@@ -174,7 +174,7 @@ class GameState:
             if unit.get_team() not in players:
                 players.append(unit.get_team())
 
-        return len(players) == 1
+        return len(players) <= 1
 
 
 

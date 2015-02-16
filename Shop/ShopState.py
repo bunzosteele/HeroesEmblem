@@ -7,7 +7,7 @@ import math
 
 class ShopState:
     def __init__(self, starting_units, button_height, difficulty, gold):
-        self.is_draft = len(starting_units) == 0
+        self.is_draft = True
         self.roster = starting_units
         if self.is_draft:
             self.stock = UnitGenerator.generate_units()
@@ -26,6 +26,7 @@ class ShopState:
         self.difficulty = difficulty
         self.selected_position = None
         self.gold = gold
+        self.gold_spent = 0
 
     def is_stock_selected(self):
         return self.selected is not None and self.selected in self.stock
@@ -69,6 +70,7 @@ class ShopState:
         if self.can_buy_selected():
             self.roster.append(self.selected)
             self.gold -= self.selected.Cost
+            self.gold_spent += self.selected.Cost
             self.selected = None
             self.stock = UnitGenerator.generate_units()
 
@@ -97,4 +99,4 @@ class ShopState:
 
     def finalize(self):
         self.roster.extend(UnitGenerator.generate_enemies(self.difficulty))
-        return self.roster
+        return self.roster, self.gold_spent
