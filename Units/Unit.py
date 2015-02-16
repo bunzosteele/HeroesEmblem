@@ -29,10 +29,12 @@ class Unit(pygame.sprite.Sprite):
         self.experience = 0
         self.next_level_exp = 100
         self.level = 1
+        self.count = 0
+        self.damage = 0
 
     def draw(self, surface, animation_state, tapped):
         image_attributes = self.img_src.split("-")
-        if not self.attacking:
+        if not self.attacking and self.damage == 0:
             if tapped:
                 image_attributes[2] = "1"
             else:
@@ -42,9 +44,10 @@ class Unit(pygame.sprite.Sprite):
             if tapped:
                 self.image.fill((255, 255, 255, 128), None, pygame.BLEND_RGBA_MULT)
             surface.blit(self.image, (self.x, self.y))
-        else:
+        elif self.attacking:
+            self.count += 1
             image_attributes[1] = "Attack"
-            if animation_state != self.attack_start_frame:
+            if animation_state % 2 == 0:
                 attack_frame = 2
             else:
                 attack_frame = 1
@@ -53,9 +56,34 @@ class Unit(pygame.sprite.Sprite):
             self.image = pygame.image.load("-".join(image_attributes))
             surface.blit(self.image, (self.x, self.y))
 
-            if self.have_two_frames_passed(animation_state, self.attack_start_frame):
+            if self.have_two_frames_passed(animation_state, self.attack_start_frame) or self.count >= 90:
                 self.attacking = False
                 self.attack_start_frame = None
+                self.count = 0
+        elif self.damage > 0:
+            self.count += 1
+            image_attributes[2] = str(animation_state)
+            self.image = pygame.image.load("-".join(image_attributes))
+            self.image.fill((255, 0, 0, 100), None, pygame.BLEND_RGBA_MULT)
+            font = pygame.font.SysFont("comicsansms", 16)
+            text = font.render(str(self.damage), True, (255, 51, 51))
+            surface.blit(self.image, (self.x, self.y))
+            surface.blit(text, (self.x + 9, self.y - 18))
+            if self.count >= 40:
+                self.count = 0
+                self.damage = 0
+        else:
+            self.count += 1
+            image_attributes[2] = str(animation_state)
+            self.image = pygame.image.load("-".join(image_attributes))
+            font = pygame.font.SysFont("comicsansms", 18)
+            text = font.render("MISSED!", True, (51, 255, 255))
+            surface.blit(self.image, (self.x, self.y))
+            surface.blit(text, (self.x - 16, self.y - 20))
+
+            if self.count >= 40:
+                self.count = 0
+                self.damage = 0
 
     def draw_preview(self, surface, location, animation_state, attacking):
         image_attributes = self.img_src.split("-")
