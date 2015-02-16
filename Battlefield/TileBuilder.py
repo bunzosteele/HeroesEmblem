@@ -3,6 +3,9 @@ from Grass import Grass
 from Mountain import Mountain
 from Water import Water
 from Sand import Sand
+from MetalWall import MetalWall
+from MetalFloor import MetalFloor
+from Plating import Plating
 
 
 class TileBuilder():
@@ -34,3 +37,18 @@ class TileBuilder():
                 return Sand(key[1])
             else:
                 return Sand(None)
+        if key[0] == "E":
+            if len(key) > 1:
+                return MetalWall(key[1])
+            else:
+                return MetalWall(None)
+        if key[0] == "T":
+            if len(key) > 1:
+                return MetalFloor(key[1])
+            else:
+                return MetalFloor(None)
+        if key[0] == "P":
+            if len(key) > 1:
+                return Plating(key[1])
+            else:
+                return Plating(None)
