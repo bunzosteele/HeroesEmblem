@@ -7,7 +7,7 @@ Burning
 Stabbing
 Hunting
 Helping
-Charity Work
+CharityWork
 Donating
 Coding
 Gaming
@@ -23,7 +23,7 @@ Writing
 Crocheting
 Cryptography
 Dance
-Digital Arts
+DigitalArts
 Drama
 Drawing
 Electronics
@@ -31,8 +31,8 @@ Embroidery
 Herbalism
 Linguistics
 Tabletop
-RPG Games
-RTS Games
+RPGGames
+RTSGames
 Gambling
 Genealogy
 Homebrewing
@@ -40,7 +40,7 @@ Skating
 Jewelry
 Jigsaw
 Juggling
-LEGO Build
+LEGOBuild
 Knitting
 Kabaddi
 Lacemaking
@@ -49,7 +49,7 @@ Crafting
 Machining
 Macrame
 Magic
-Model Build
+ModelBuild
 Origami
 Pottery
 Music
@@ -64,13 +64,72 @@ Comedy
 Sudoku
 Seppuku
 Tennis
-Table Tennis
+TableTennis
 Taxidermy
-Video Gaming
-Watch Movies
+VideoGaming
+WatchMovies
 Yoga
 Yo-yoing
-Web Surfing
+WebSurfing
 Woodworking
 Worldbuilding
-
+Arson
+Blackmail
+Burglary
+Embezzlement
+Extortion
+Falsepretenses
+Fraud
+Larceny
+Robbery
+Theft
+Assassination
+Assault
+Battery
+CriminalNegligence
+FalseImprisonment
+Kidnapping
+Mayhem
+Robbery
+SexualAssault
+StatutoryRape
+Homicide
+Manslaughter
+Murder
+Felonies
+NegligentHomicide
+VehicularHomicide
+Conspiracy
+Incitement
+Solicitation
+Adultery
+Blasphemy
+Fornication
+Incest
+Prostitution
+RecreationalDrugUse
+Sodomy
+PettyTheft
+Prostitution
+PublicTntoxication
+SimpleAssault
+DisorderlyConduct
+Trespassing
+Vandalism
+Murder
+AggravatedAssault
+Manslaughter
+Animalcruelty
+VehicularHomicide
+Arson
+Burglary
+TaxEvasion
+Fraud
+Drugs
+Treason
+Kidnapping
+Obstruct.Justice
+Perjury
+ChequeFraud
+CopyrightInfringement
+MailAndWireFraud
