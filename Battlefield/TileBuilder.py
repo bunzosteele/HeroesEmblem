@@ -7,6 +7,8 @@ from MetalWall import MetalWall
 from MetalFloor import MetalFloor
 from Plating import Plating
 from Void import Void
+from WoodFloor import WoodFloor
+from WoodFloorDam import WoodFloorDam
 
 class TileBuilder():
 
@@ -57,3 +59,13 @@ class TileBuilder():
                 return Void(key[1])
             else:
                 return Void(None)
+        if key[0] == "O":
+            if len(key) > 1:
+                return WoodFloor(key[1])
+            else:
+                return WoodFloor(None)
+        if key[0] == "L":
+            if len(key) > 1:
+                return WoodFloorDam(key[1])
+            else:
+                return WoodFloorDam(None)
