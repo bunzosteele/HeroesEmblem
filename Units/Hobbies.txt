@@ -78,7 +78,6 @@ Blackmail
 Burglary
 Embezzlement
 Extortion
-Falsepretenses
 Fraud
 Larceny
 Robbery
@@ -86,8 +85,6 @@ Theft
 Assassination
 Assault
 Battery
-CriminalNegligence
-FalseImprisonment
 Kidnapping
 Mayhem
 Robbery
@@ -97,8 +94,6 @@ Homicide
 Manslaughter
 Murder
 Felonies
-NegligentHomicide
-VehicularHomicide
 Conspiracy
 Incitement
 Solicitation
@@ -107,20 +102,15 @@ Blasphemy
 Fornication
 Incest
 Prostitution
-RecreationalDrugUse
 Sodomy
 PettyTheft
 Prostitution
-PublicTntoxication
 SimpleAssault
-DisorderlyConduct
 Trespassing
 Vandalism
 Murder
-AggravatedAssault
 Manslaughter
 Animalcruelty
-VehicularHomicide
 Arson
 Burglary
 TaxEvasion
@@ -128,8 +118,5 @@ Fraud
 Drugs
 Treason
 Kidnapping
-Obstruct.Justice
 Perjury
 ChequeFraud
-CopyrightInfringement
-MailAndWireFraud
