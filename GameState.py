@@ -1,10 +1,11 @@
+import math
 from MovementHelper import *
 from CombatHelper import *
 
 
 class GameState:
 
-    def __init__(self, battlefield, button_height, status_width, units):
+    def __init__(self, battlefield, button_height, units):
         self.running = True
         self.current_player = 0
         self.between_turns = True
@@ -16,8 +17,7 @@ class GameState:
         self.turn_count = 1
         self.battlefield = battlefield
         self.button_height = button_height
-        self.button_width = (battlefield.width() * Tile.Size + status_width) / 5
-        self.status_width = status_width
+        self.button_width = int(math.floor(((battlefield.width() * Tile.Size) * 1.25) / 5))
         self.units = units
         self.spawn_units()
 
@@ -25,7 +25,7 @@ class GameState:
         return self.battlefield.height() * Tile.Size + self.button_height
 
     def get_window_width(self):
-        return self.battlefield.width() * Tile.Size + self.status_width
+        return self.battlefield.width() * Tile.Size + self.button_width
 
     def get_selected_unit(self):
         return self.selected
@@ -124,6 +124,8 @@ class GameState:
             self.selected.has_attacked = True
             if target_unit.CurrentHealth <= 0:
                 self.units.remove(target_unit)
+                self.selected.experience += target_unit.MaxHealth
+                self.selected.calculate_level()
             if self.selected.has_moved:
                 self.tapped_units.append(self.selected)
         self.attacking = False

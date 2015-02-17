@@ -82,11 +82,11 @@ class DrawingHelper():
     @staticmethod
     def draw_stats(game_state, font, screen):
         pygame.draw.rect(screen, (123, 100, 59),
-                         pygame.Rect(game_state.get_window_width() - game_state.status_width, 0,
-                                     game_state.status_width, game_state.battlefield.height() * Tile.Size - 2))
+                         pygame.Rect(game_state.get_window_width() - game_state.button_width, 0,
+                                     game_state.button_width, game_state.battlefield.height() * Tile.Size - 2))
         pygame.draw.rect(screen, (113, 90, 49),
-                         pygame.Rect(game_state.get_window_width() - game_state.status_width, 0,
-                                     game_state.status_width, game_state.battlefield.height() * Tile.Size - 2), 5)
+                         pygame.Rect(game_state.get_window_width() - game_state.button_width, 0,
+                                     game_state.button_width, game_state.battlefield.height() * Tile.Size - 2), 5)
         if game_state.selected is not None:
             unit = game_state.get_selected_unit()
             unit.draw_preview(screen, (game_state.battlefield.width() * Tile.Size + 10, 10), game_state.animation_state,
@@ -96,19 +96,20 @@ class DrawingHelper():
             screen.blit(class_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 10))
             hitpoint_display = font.render("HP: " + str(unit.CurrentHealth) + "/" + str(unit.MaxHealth), 1,
                                            DrawingHelper.white_color)
-            screen.blit(hitpoint_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 24))
-            attack_display = font.render("ATK: " + str(unit.Attack), 1, DrawingHelper.white_color)
-            screen.blit(attack_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 38))
-            defense_display = font.render("DEF: " + str(unit.Defense), 1, DrawingHelper.white_color)
-            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 52))
-            defense_display = font.render("EXP: " + str(unit.experience), 1, DrawingHelper.white_color)
-            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 66))
-            defense_display = font.render("NEXT LVL: ", 1, DrawingHelper.white_color)
-            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 80))
-            defense_display = font.render(str(unit.next_level_exp), 1, DrawingHelper.white_color)
-            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 94))
-            defense_display = font.render("LVL: " + str(unit.level), 1, DrawingHelper.white_color)
-            screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 108))
+            screen.blit(hitpoint_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 38))
+            level_display = font.render("LVL: " + str(unit.level), 1, DrawingHelper.white_color)
+            screen.blit(level_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 24))
+
+            if unit.get_team() == game_state.current_player:
+                attack_display = font.render("ATK: " + str(unit.Attack), 1, DrawingHelper.white_color)
+                screen.blit(attack_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 52))
+                defense_display = font.render("DEF: " + str(unit.Defense), 1, DrawingHelper.white_color)
+                screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 66))
+                experience_display = font.render("EXP: " + str(unit.experience), 1, DrawingHelper.white_color)
+                screen.blit(experience_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 80))
+                next_level_display = font.render("NXT LVL: " + str(unit.next_level_exp), 1, DrawingHelper.white_color)
+                screen.blit(next_level_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + 94))
+
 
     @staticmethod
     def draw_move_button(button, background_color, screen, game_state):

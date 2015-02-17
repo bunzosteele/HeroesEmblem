@@ -99,7 +99,5 @@ class CombatHelper():
         if roll == 100:
             damage_dealt *= 2
         target_unit.deal_damage(damage_dealt)
-        attacker.experience += 50
-        attacker.calculate_level()
         return damage_dealt
 

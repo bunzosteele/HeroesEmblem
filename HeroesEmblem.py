@@ -10,7 +10,6 @@ import pygame
 
 def launch_game():
     button_height = 50
-    status_width = 100
     chosen_field = NameGenerator.generate_name("Battlefield/MapList.txt")
     battlefield = Battlefield(Battlefield.build("Battlefield/" + chosen_field + ".txt"))
     shop_state = ShopState(units, button_height, difficulty, gold)
@@ -19,7 +18,7 @@ def launch_game():
     for unit in shop_result[0]:
         if unit not in units:
             units.append(unit)
-    game_state = GameState(battlefield, button_height, status_width, units)
+    game_state = GameState(battlefield, button_height, units)
     battle_screen = pygame.display.set_mode((game_state.get_window_width(), game_state.get_window_height()))
     survivors = Battle.run(battle_screen, game_state)
 

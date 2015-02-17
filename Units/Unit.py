@@ -1,5 +1,5 @@
 import pygame
-
+from random import randint
 from NameGenerator import *
 
 
@@ -14,7 +14,7 @@ class Unit(pygame.sprite.Sprite):
         self.has_attacked = False
         self.team = team
         self.CurrentHealth = self.MaxHealth
-        self.image = pygame.image.load(self.resource_path(self.img_src))
+        self.image = pygame.image.load(Unit.resource_path(self.img_src))
         self.rect = self.image.get_rect()
         self.attacking = False
         self.attack_start_frame = None
@@ -54,8 +54,8 @@ class Unit(pygame.sprite.Sprite):
             surface.blit(self.image, (self.x, self.y))
 
             if self.have_two_frames_passed(animation_state, self.attack_start_frame):
-                    self.attacking = False
-                    self.attack_start_frame = None
+                self.attacking = False
+                self.attack_start_frame = None
 
     def draw_preview(self, surface, location, animation_state, attacking):
         image_attributes = self.img_src.split("-")
@@ -105,20 +105,57 @@ class Unit(pygame.sprite.Sprite):
 
     def deal_damage(self, damage):
         self.CurrentHealth -= damage
-        self.experience += 25
-        self.calculate_level()
 
     def calculate_level(self):
-        if self.experience >= self.next_level_exp:
+        while self.experience >= self.next_level_exp:
             self.level += 1
-            self.experience = 0
+            self.experience -= self.next_level_exp
             self.next_level_exp += 50
-            self.MaxHealth += 5
-            self.Attack += 3
-            self.Defense += 5
-            self.Evasion += 5
-            self.Accuracy += 5
-            self.Movement += 1
+
+            bonus_roll = randint(0, 100)
+
+            if bonus_roll >= 95:
+                bonus_points = 5
+            elif bonus_roll >= 85:
+                bonus_points = 4
+            elif bonus_roll >= 75:
+                bonus_points = 3
+            elif bonus_roll >= 50:
+                bonus_points = 2
+            else:
+                bonus_points = 1
+
+            for point in range(1, bonus_points):
+                stat_roll = randint(0, 100)
+                is_critical_point = randint(0, 100) >= 95
+                if stat_roll >= 95:
+                    self.Movement += 1
+                elif stat_roll >= 70:
+                    if is_critical_point:
+                        self.MaxHealth += 2
+                    else:
+                        self.MaxHealth += 1
+                elif stat_roll >= 50:
+                    if is_critical_point:
+                        self.Attack += 2
+                    else:
+                        self.Attack += 1
+                elif stat_roll >= 30:
+                    if is_critical_point:
+                        self.Defense += 2
+                    else:
+                        self.Defense += 1
+                elif stat_roll >= 15:
+                    if is_critical_point:
+                        self.Evasion += 3
+                    else:
+                        self.Evasion += 2
+                else:
+                    if is_critical_point:
+                        self.Accuracy += 3
+                    else:
+                        self.Accuracy += 2
+
 
     @staticmethod
     def resource_path(relative):
@@ -129,6 +166,7 @@ class Unit(pygame.sprite.Sprite):
             ),
             relative
         )
+
 
     @staticmethod
     def have_two_frames_passed(first, current):
