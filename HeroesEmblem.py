@@ -1,4 +1,5 @@
 from Battlefield.Battlefield import *
+from NameGenerator import *
 from GameState import GameState
 from Shop import Shop
 from Shop.ShopState import ShopState
@@ -10,7 +11,8 @@ import pygame
 def launch_game():
     button_height = 50
     status_width = 100
-    battlefield = Battlefield(Battlefield.build("Battlefield/2.txt"))
+    chosen_field = NameGenerator.generate_name("Battlefield/MapList.txt")
+    battlefield = Battlefield(Battlefield.build("Battlefield/" + chosen_field + ".txt"))
     shop_state = ShopState(units, button_height, difficulty, gold)
     shopping_screen = pygame.display.set_mode((shop_state.window_width, shop_state.window_height))
     shop_result = Shop.run(shopping_screen, shop_state)
