@@ -27,7 +27,8 @@ class Battlefield():
             while row != ['']:
                 tileRow = []
                 for key in row:
-                    tileRow.append(TileBuilder.build(key))
+                    if key != '':
+                        tileRow.append(TileBuilder.build(key))
                 battlefield.append(tileRow)
                 row = blueprint.readline().replace("\n", "").split(' ')
                 i += 1
@@ -51,6 +52,15 @@ class Battlefield():
 
     def height(self):
         return len(self.tiles)
+
+    def get_enemy_spawn_count(self):
+        count = 0
+        for x in range(0, Battlefield.Width - 1):
+            for y in range(0, Battlefield.Height - 1):
+                if self.get_tile(x, y).spawn == '*':
+                    count += 1
+        return count
+
 
 
 

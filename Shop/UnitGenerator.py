@@ -53,8 +53,8 @@ class UnitGenerator():
         return generated_units
 
     @staticmethod
-    def generate_enemies(difficulty):
-        return [Archer(1, 0, 0, 0, 0, 0, 0, 0)]
+    def generate_enemies(difficulty, max_enemies):
+        return [Archer(1, 0, 0, 0, 0, 0, 0, 0), Archer(1, 0, 0, 0, 0, 0, 0, 0), Archer(1, 0, 0, 0, 0, 0, 0, 0), Archer(1, 0, 0, 0, 0, 0, 0, 0), Archer(1, 0, 0, 0, 0, 0, 0, 0), Archer(1, 0, 0, 0, 0, 0, 0, 0),Archer(1, 0, 0, 0, 0, 0, 0, 0),Archer(1, 0, 0, 0, 0, 0, 0, 0)]
 
 
     @staticmethod

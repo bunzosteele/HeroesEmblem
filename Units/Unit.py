@@ -1,6 +1,5 @@
 import pygame
-from random import randint
-from NameGenerator import *
+from FileReader import *
 
 
 class Unit(pygame.sprite.Sprite):
@@ -18,11 +17,11 @@ class Unit(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.attacking = False
         self.attack_start_frame = None
-        self.name = NameGenerator.generate_name("Units/Names.txt")
-        self.hometown = NameGenerator.generate_name("Units/Hometowns.txt")
-        self.hobby = NameGenerator.generate_name("Units/Hobbies.txt")
-        self.like = NameGenerator.generate_name("Units/LikesDislikes.txt")
-        self.dislike = NameGenerator.generate_name("Units/LikesDislikes.txt")
+        self.name = FileReader.generate_name()
+        self.hometown = FileReader.generate_hometown()
+        self.hobby = FileReader.generate_hobby()
+        self.like = FileReader.generate_opinion()
+        self.dislike = FileReader.generate_opinion()
         self.temp_movement = 0
         self.is_target = False
         self.damage = 0
@@ -183,6 +182,7 @@ class Unit(pygame.sprite.Sprite):
                         self.Accuracy += 3
                     else:
                         self.Accuracy += 2
+                self.CurrentHealth = self.MaxHealth
 
 
     @staticmethod

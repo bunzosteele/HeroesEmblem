@@ -6,7 +6,7 @@ import math
 
 
 class ShopState:
-    def __init__(self, starting_units, button_height, difficulty, gold):
+    def __init__(self, starting_units, button_height, difficulty, gold, max_enemies):
         self.is_draft = True
         self.roster = starting_units
         if self.is_draft:
@@ -27,6 +27,7 @@ class ShopState:
         self.selected_position = None
         self.gold = gold
         self.gold_spent = 0
+        self.max_enemies = max_enemies
 
     def is_stock_selected(self):
         return self.selected is not None and self.selected in self.stock
@@ -98,5 +99,5 @@ class ShopState:
         return pedestals
 
     def finalize(self):
-        self.roster.extend(UnitGenerator.generate_enemies(self.difficulty))
+        self.roster.extend(UnitGenerator.generate_enemies(self.difficulty, self.max_enemies))
         return self.roster, self.gold_spent
