@@ -1,19 +1,19 @@
-JackVice
+Jack Vice
 Lizardo
 Arbitrium
 Atlantique
-JackKrozzer
-QuickPocket
-PoboJangles
+Jack Krozzer
+Pocket
+Pobo Jangles
 Meowing
-Lazarusrock
+Lazarus
 Rob
 Idrey
 Deat
 Chakra
 Xatron
 Howllo
-Honeyblood
+Honey Blood
 Beer
 Covertz
 Pyro
@@ -30,14 +30,14 @@ Muk
 Savagious
 Snivy
 Vart
-ReidParker
-ZackFogarty
+Reid Parker
+Zack Fogarty
 Phamouz
 Justy
 Saxri
 Shlope
 Ciabluu
-PlayBoy
+Play Boy
 Zombie
 Ruf
 Poof
@@ -49,11 +49,11 @@ Wagomu
 Cube
 Splits
 Toker
-I'm so hot
+Hot
 Warpto
 Nefoog
 Trout
-TrollRanker
+Ranker
 Deesaid
 Flemmett
 Akash
@@ -141,28 +141,29 @@ Poetter
 Tuck You
 Stabby McGee
 Maxx Power
-Sir Killaslot
-Slab Bulkhead
-Bold Bigflank
-Fist Rockbone
-Smash Lampjaw
-Dirk Hardpeck
-Rip Steakface
-Crud Bonemeal
-Rip Sidecheek
-Buff Hardback
-Lump Beefrock
-Touch Rustrod
-Pack Blowfist
-Lance Killiam
-George Melons
+Killaslot
+Bulkhead
+Bigflank
+Rockbone
+Lampjaw
+Hardpeck
+Steakface
+Bonemeal
+Sidecheek
+Hardback
+Beefrock
+Rustrod
+Blowfist
+Killiam
+Melons
 Maximilian
 Bob Johnson
 Max Pain
-Theodore Pain
+Ted Pain
 Sarah Pain
-GORE Vidal
+Vidal
 Noam Bombsky
-AMERICA
-Toolboxl Rose
-Zombie Gandhi
+America
+Rose
+Dead Gandhi
+Vartis

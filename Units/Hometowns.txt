@@ -5,7 +5,9 @@ Bruma
 Newberg
 Portland
 Bellevue
-Washington DC
+Bellingham
+Tempe
+Washington
 Caracas
 Bogota
 Quito
@@ -18,7 +20,6 @@ Taiwan
 Osaka
 New York
 Northwich
-Bournemouth
 Kirekwall
 Loukussa
 Tarrin
@@ -26,7 +27,6 @@ Larcbost
 Bellmoral
 Aberstwyth
 Aucteraden
-Edinborourgh
 Caister
 Mestauskalio
 Beachmarsh
@@ -39,14 +39,11 @@ Ilragorn
 Farncombe
 Kirekwall
 Caister
-Begger's Hole
-Violl's Garden
 Auctermunty
 Swindlincote
 Warthford
 Addersfield
 Clacton
-Hardersfield
 Wandermere
 Troutberk
 Haling Cove
@@ -54,81 +51,35 @@ Ramshorn
 Calmarnock
 Penzance
 Accrington
-Drumnadrochit
 Three Streams
-Fucking
-Disappointment
 Shitterton
 Horneytown
 Middelfart
 Toad Suck
 Hell
 Hookersville
-WhiskeyDickMtn
 Cockup
 Bald Knob
-Spread Eagle
 Wetwang
 Gravesend
-Thong
-Titty Hill
 Looneyville
-Muff
-Twatt
 Cockburn
 Butteville
-Bong County
-Boring
-Dull
+Dullsville
 Boquete
 Bowna
-Bulls
-Butthole Road
-Butthole Lane
-Cock Hill
-Cocking
-Cocks
 Coffin Top
-Condom
 Cut Off
 Deadhorse
 Whitehorse
-Devil's Bit
 Dick Peaks
-Dickshooter
-Dildo
-DolphinsBarn
-DISH
-Downhill
-Eek
-Embarrass
-Emo
-Eye
+Down Hill
 Feltwell
-Findringhoe
-Fishkill
-Flushing
-FootballMtn
 Ganja
 George
-Gogogogo
-Gore
-Great Kills
-Ho
-Hare Bay
-House
-Ho-Ho-Kus
-Hooker
-Hop Bottom
-Hospital
-Intercourse
-Kill
 Killbride
-Killkenny
-Killmacow
+Kennikill
 Kilmore
-Knobhead
-Knob Lick
 Lost
 Mars
 Miass
@@ -136,9 +87,59 @@ Mianus
 Mistake Peak
 Moneymore
 Moon
-Onancock
 Petting
 Pill
 Pity Me
 Popcorn
 Police
+Alabama
+Alaska
+Arizona
+Arkansas
+California
+Colorado
+Conneticut
+Deleware
+Forida
+Georgia
+Hawaii
+Idaho
+Illinois
+Indiana
+Iowa
+Kansas
+Kentucky
+Louisianna
+Maine
+Maryland
+Michigan
+Minnesota
+Mississippi
+Misouri
+Montana
+Nebraska
+Nevada
+New Hampshire
+New Jersy
+Hampshire
+Jersy
+New Mexico
+Mexico
+Carolina
+Dakota
+Ohio
+Oklahoma
+Oregon
+Rhode
+Texas
+Utah
+Vermont
+Verginia
+Wisconsin
+Wyoming
+Columbia
+Cuba
+England
+Australia
+China
+North Korea

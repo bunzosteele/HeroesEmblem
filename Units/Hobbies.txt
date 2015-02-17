@@ -7,7 +7,6 @@ Burning
 Stabbing
 Hunting
 Helping
-CharityWork
 Donating
 Coding
 Gaming
@@ -30,9 +29,6 @@ Electronics
 Embroidery
 Herbalism
 Linguistics
-Tabletop
-RPGGames
-RTSGames
 Gambling
 Genealogy
 Homebrewing
@@ -40,16 +36,14 @@ Skating
 Jewelry
 Jigsaw
 Juggling
-LEGOBuild
+LEGO
 Knitting
-Kabaddi
 Lacemaking
 Lapidary
 Crafting
 Machining
 Macrame
 Magic
-ModelBuild
 Origami
 Pottery
 Music
@@ -64,15 +58,13 @@ Comedy
 Sudoku
 Seppuku
 Tennis
-TableTennis
 Taxidermy
-VideoGaming
-WatchMovies
+Video Games
+Film Critic
 Yoga
 Yo-yoing
-WebSurfing
+Web Surfing
 Woodworking
-Worldbuilding
 Arson
 Blackmail
 Burglary
@@ -88,12 +80,9 @@ Battery
 Kidnapping
 Mayhem
 Robbery
-SexualAssault
-StatutoryRape
 Homicide
 Manslaughter
 Murder
-Felonies
 Conspiracy
 Incitement
 Solicitation
@@ -103,20 +92,18 @@ Fornication
 Incest
 Prostitution
 Sodomy
-PettyTheft
-Prostitution
-SimpleAssault
+Petty Theft
 Trespassing
 Vandalism
 Murder
 Manslaughter
-Animalcruelty
 Arson
 Burglary
-TaxEvasion
+Tax Evasion
 Fraud
 Drugs
 Treason
 Kidnapping
 Perjury
-ChequeFraud
+Tweeting
+Reddit

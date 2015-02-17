@@ -78,8 +78,7 @@ class DrawingHelper():
         if shop_state.selected is not None:
             unit = shop_state.selected
             status_offset = shop_state.window_width - shop_state.button_width
-            unit.draw_preview(screen, (status_offset + 10, 10),
-                              shop_state.animation_state, False)
+            unit.draw_preview(screen, (status_offset + 10, 10), shop_state.animation_state, False)
             name_display = DrawingHelper.font.render(str(unit.name), 1, DrawingHelper.white_color)
             screen.blit(name_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset))
             level_display = DrawingHelper.font.render("LVL: " + str(unit.level), 1, DrawingHelper.white_color)
@@ -106,16 +105,18 @@ class DrawingHelper():
                 hobby_display = DrawingHelper.font.render(str(unit.hobby), 1, DrawingHelper.gold_color)
                 screen.blit(hobby_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 16))
             else:
-                experience_display = DrawingHelper.font.render("EXP: " + str(unit.experience), 1, DrawingHelper.white_color)
-                screen.blit(experience_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset *  9))
-                next_level_display = DrawingHelper.font.render("NXT LVL: " + str(unit.next_level_exp), 1, DrawingHelper.white_color)
-                screen.blit(next_level_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset *  10))
+                experience_display = DrawingHelper.font.render("EXP: " + str(unit.experience), 1,
+                                                               DrawingHelper.white_color)
+                screen.blit(experience_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 9))
+                next_level_display = DrawingHelper.font.render("NXT LVL: " + str(unit.next_level_exp), 1,
+                                                               DrawingHelper.white_color)
+                screen.blit(next_level_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 10))
 
             font_color = DrawingHelper.white_color
-            if unit.MaxHealth > unit.Type.BaseMaxHealth:
+            if unit.MaxHealth > unit.Type.BaseMaxHealth and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.gold_color
 
-            if unit.MaxHealth < unit.Type.BaseMaxHealth:
+            if unit.MaxHealth < unit.Type.BaseMaxHealth and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.red_color
 
             hitpoint_display = DrawingHelper.font.render("HP: " + str(unit.CurrentHealth) + "/" + str(unit.MaxHealth),
@@ -124,46 +125,46 @@ class DrawingHelper():
             screen.blit(hitpoint_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 3))
 
             font_color = DrawingHelper.white_color
-            if unit.Attack > unit.Type.BaseAttack:
+            if unit.Attack > unit.Type.BaseAttack and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.gold_color
 
-            if unit.Attack < unit.Type.BaseAttack:
+            if unit.Attack < unit.Type.BaseAttack and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.red_color
             attack_display = DrawingHelper.font.render("ATK: " + str(unit.Attack), 1, font_color)
             screen.blit(attack_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 4))
 
             font_color = DrawingHelper.white_color
-            if unit.Defense > unit.Type.BaseDefense:
+            if unit.Defense > unit.Type.BaseDefense and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.gold_color
 
-            if unit.Defense < unit.Type.BaseDefense:
+            if unit.Defense < unit.Type.BaseDefense and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.red_color
             defense_display = DrawingHelper.font.render("DEF: " + str(unit.Defense), 1, font_color)
             screen.blit(defense_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 5))
 
             font_color = DrawingHelper.white_color
-            if unit.Evasion > unit.Type.BaseEvasion:
+            if unit.Evasion > unit.Type.BaseEvasion and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.gold_color
 
-            if unit.Evasion < unit.Type.BaseEvasion:
+            if unit.Evasion < unit.Type.BaseEvasion and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.red_color
             evasion_display = DrawingHelper.font.render("EVP: " + str(unit.Evasion), 1, font_color)
             screen.blit(evasion_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 6))
 
             font_color = DrawingHelper.white_color
-            if unit.Accuracy > unit.Type.BaseAccuracy:
+            if unit.Accuracy > unit.Type.BaseAccuracy and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.gold_color
 
-            if unit.Accuracy < unit.Type.BaseAccuracy:
+            if unit.Accuracy < unit.Type.BaseAccuracy and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.red_color
             accuracy_display = DrawingHelper.font.render("ACC: " + str(unit.Accuracy), 1, font_color)
             screen.blit(accuracy_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 7))
 
             font_color = DrawingHelper.white_color
-            if unit.Movement > unit.Type.BaseMovement:
+            if unit.Movement > unit.Type.BaseMovement and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.gold_color
 
-            if unit.Movement < unit.Type.BaseMovement:
+            if unit.Movement < unit.Type.BaseMovement and shop_state.selected in shop_state.stock:
                 font_color = DrawingHelper.red_color
             movement_display = DrawingHelper.font.render("MOVE: " + str(unit.Movement), 1, font_color)
             screen.blit(movement_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 8))
