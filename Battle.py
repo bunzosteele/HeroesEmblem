@@ -26,7 +26,7 @@ def run(screen, game_state):
                 if game_state.between_turns and new_turn.pressed(pos):
                     if new_turn.pressed(pos):
                         game_state.start_new_turn()
-                elif end_turn.pressed(pos):
+                elif end_turn.pressed(pos) and not game_state.between_turns:
                     game_state.end_turn()
                 elif move.pressed(pos):
                     if game_state.selected is not None and game_state.can_selected_unit_move():

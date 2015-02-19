@@ -75,7 +75,7 @@ class CombatHelper():
         if CombatHelper.check_hit(target_tile, target_unit, game_state.selected):
             damage = CombatHelper.deal_damage(target_tile, target_unit, game_state.selected)
         else:
-            damage = 0
+            damage = -1
         return damage
 
     @staticmethod

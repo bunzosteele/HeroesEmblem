@@ -1,9 +1,0 @@
-W W W W W W W W W W G G G G G G
-W O O O O O O O O W G* G* G* G* G* G
-W O O O O O O O O W G* G* G* G* G* G
-W O O O O O O O O W G* G* G2 G* G* G
-W W W W O W W W O W G* G1 G* G* G* G
-G G5 G6 G7 G8 G G G G G G* G* G3 G* G* G
-~ ~ ~ ~ ~ G G G G G G* G* G4 G* G* G
-~ ~ ~ ~ ~ G G G G G G* G* G* G* G* G
-~ ~ ~ ~ ~ G G G G G G G G G G G
