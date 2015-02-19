@@ -9,6 +9,9 @@ from Plating import Plating
 from Void import Void
 from WoodFloor import WoodFloor
 from WoodFloorDam import WoodFloorDam
+from Bridge import Bridge
+from BridgeTop import BridgeTop
+from BridgeBot import BridgeBot
 
 class TileBuilder():
 
@@ -69,3 +72,18 @@ class TileBuilder():
                 return WoodFloorDam(key[1])
             else:
                 return WoodFloorDam(None)
+        if key[0] == "B":
+            if len(key) > 1:
+                return Bridge(key[1])
+            else:
+                return Bridge(None)
+        if key[0] == "-":
+            if len(key) > 1:
+                return BridgeTop(key[1])
+            else:
+                return BridgeTop(None)
+        if key[0] == "+":
+            if len(key) > 1:
+                return BridgeBot(key[1])
+            else:
+                return BridgeBot(None)
