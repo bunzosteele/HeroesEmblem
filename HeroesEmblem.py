@@ -49,13 +49,14 @@ if __name__ == '__main__':
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 if StartGame.pressed(pos):
-                    difficulty = 1
+                    difficulty = 3
                     gold = 5000
                     units = []
                     while running:
                         chosen_field = FileReader.generate_battlefield(difficulty)
                         difficulty -= int(chosen_field)
                         game_result = launch_game()
+                        difficulty += int(chosen_field)
                         gold -= game_result[1]
                         gold += difficulty * 50
                         difficulty += 1

@@ -1,3 +1,4 @@
+from AIHelper import *
 import UI.Buttons
 from MovementHelper import *
 from DrawingHelper import *
@@ -23,10 +24,14 @@ def run(screen, game_state):
                 game_state.cycle_animation()
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                if game_state.between_turns and new_turn.pressed(pos):
+                if game_state.between_turns and game_state.current_player != 0:
+                    pass
+                elif game_state.between_turns and game_state.current_player == 0 and new_turn.pressed(pos):
                     if new_turn.pressed(pos):
                         game_state.start_new_turn()
                 elif end_turn.pressed(pos) and not game_state.between_turns:
+                    game_state.end_turn()
+                    AIHelper.play_turn(game_state)
                     game_state.end_turn()
                 elif move.pressed(pos):
                     if game_state.selected is not None and game_state.can_selected_unit_move():

@@ -2,7 +2,6 @@ import math
 from MovementHelper import *
 from CombatHelper import *
 
-
 class GameState:
 
     def __init__(self, battlefield, button_height, units):

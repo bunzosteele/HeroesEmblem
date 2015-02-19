@@ -52,7 +52,7 @@ class DrawingHelper():
         if game_state.selected is not None:
             DrawingHelper.draw_selected_unit_highlight(game_state, screen)
         DrawingHelper.draw_units(game_state, screen)
-        if game_state.between_turns:
+        if game_state.between_turns and game_state.current_player == 0:
             DrawingHelper.draw_turn_indicator(game_state, new_turn, screen)
         DrawingHelper.draw_stats(game_state, DrawingHelper.font, screen)
         turn_count_display = DrawingHelper.font.render("Round:" + str(game_state.turn_count), 1,
