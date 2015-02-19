@@ -5,7 +5,7 @@ Bruma
 Newberg
 Portland
 Bellevue
-Washington DC
+Washington D.C.
 Caracas
 Bogota
 Quito
@@ -21,6 +21,7 @@ Northwich
 Bournemouth
 Kirekwall
 Loukussa
+Middlesbrough
 Tarrin
 Larcbost
 Bellmoral
@@ -64,7 +65,7 @@ Middelfart
 Toad Suck
 Hell
 Hookersville
-WhiskeyDickMtn
+WhiskeyDick Mtn
 Cockup
 Bald Knob
 Spread Eagle
@@ -83,7 +84,7 @@ Dull
 Boquete
 Bowna
 Bulls
-Butthole Road
+Butt Hole Road
 Butthole Lane
 Cock Hill
 Cocking
@@ -97,7 +98,7 @@ Devil's Bit
 Dick Peaks
 Dickshooter
 Dildo
-DolphinsBarn
+Dolphin's Barn
 DISH
 Downhill
 Eek
@@ -108,7 +109,7 @@ Feltwell
 Findringhoe
 Fishkill
 Flushing
-FootballMtn
+Football Mtn
 Ganja
 George
 Gogogogo
