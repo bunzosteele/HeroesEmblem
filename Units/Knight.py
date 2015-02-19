@@ -7,7 +7,7 @@ class Knight(Unit):
     img_src = "images/Knight-Idle-1-2.png"
     BaseMinimumRange = 0
     BaseMaximumRange = 1
-    BaseMaxHealth = 30
+    BaseMaxHealth = 20
     BaseAttack = 10
     BaseDefense = 5
     BaseEvasion = 3
