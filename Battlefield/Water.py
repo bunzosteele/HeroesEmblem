@@ -5,7 +5,7 @@ class Water(Tile):
     Image = "images/Water.png"
     DefenseBoost = 1
     AccuracyPenalty = 0
-    MovementCost = 5
+    MovementCost = 10
     Altitude = 0
 
     def __init__(self, spawn):

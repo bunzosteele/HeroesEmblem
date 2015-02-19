@@ -5,7 +5,7 @@ class BridgeBot(Tile):
     Image = "images/BridgeBot.png"
     DefenseBoost = 0
     AccuracyPenalty = 0
-    MovementCost = 1
+    MovementCost = 10
     Altitude = 1
 
     def __init__(self, spawn):
