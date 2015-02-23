@@ -32,6 +32,7 @@ class Unit(pygame.sprite.Sprite):
         self.damage = 0
 
     def draw(self, surface, animation_state, tapped):
+        pygame.draw.rect(surface, pygame.Color('green'), (self.x, self.y - 5, 30 * (float(self.CurrentHealth)/self.MaxHealth), 2))
         image_attributes = self.img_src.split("-")
         if not self.attacking and self.damage == 0:
             if tapped:
