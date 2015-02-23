@@ -171,7 +171,8 @@ class DrawingHelper():
 
     @staticmethod
     def draw_shop_data(shop_state, screen):
-        screen.blit(pygame.image.load(DrawingHelper.resource_path("images/Shopkeeper.png")), (10, 10))
+        screen.blit(pygame.image.load(
+            DrawingHelper.resource_path("images/Shopkeeper-" + str(shop_state.animation_state) + ".png")), (10, 10))
         screen.blit(pygame.image.load(DrawingHelper.resource_path("images/gold.png")),
                     (10, shop_state.window_height - (shop_state.button_height + 42)))
         gold_display = pygame.font.SysFont("monospace", 32).render(str(shop_state.gold), 1, DrawingHelper.gold_color)
