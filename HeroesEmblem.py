@@ -40,7 +40,9 @@ if __name__ == '__main__':
 
     screen = pygame.display.set_mode(((32 * 16) + 100, (32 * 9) + 50))
     StartGame = UI.Buttons.Button("Start Game")
+    RestartGame = UI.Buttons.Button("YOU SHOULDNT SEE THIS")
     running = True
+    not_lost = True
 
     while running:
         for event in pygame.event.get():
@@ -48,11 +50,14 @@ if __name__ == '__main__':
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                if StartGame.pressed(pos):
+                if StartGame.pressed(pos) or RestartGame.pressed(pos):
+                    rounds_survived = 0
                     difficulty = 3
                     gold = 5000
                     units = []
-                    while running:
+                    not_lost = True
+
+                    while not_lost:
                         chosen_field = FileReader.generate_battlefield(difficulty)
                         difficulty -= int(chosen_field)
                         game_result = launch_game()
@@ -60,10 +65,16 @@ if __name__ == '__main__':
                         gold -= game_result[1]
                         gold += difficulty * 50
                         difficulty += 1
-                        running = game_result[0]
+                        not_lost = game_result[0]
+                        if not_lost:
+                            rounds_survived += 1
+                    font = pygame.font.SysFont("monospace", 32)
 
-        StartGame.create_button(screen, (50, 80, 200), ((32 * 16) - 100) / 2, ((32 * 9) - 50) / 2, 200, 100, None,
-                                (135, 144, 15))
+                    RestartGame.change_name("Rounds Survived: " + str(rounds_survived))
+                    RestartGame.create_button(screen, (0, 0, 0), 0, 0, (32 * 16) * 1.25, (32 * 9) + 50, None, (255, 255, 255))
+        if not_lost:
+            StartGame.create_button(screen, (50, 80, 200), ((32 * 16) - 100) / 2, ((32 * 9) - 50) / 2, 200, 100, None,
+                                    (135, 144, 15))
         pygame.display.update()
 
 

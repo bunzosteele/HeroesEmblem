@@ -6,12 +6,12 @@ class Priest(Unit):
     BaseMinimumRange = 0
     BaseMaximumRange = 1
     BaseMaxHealth = 10
-    BaseAttack = 2
-    BaseDefense = 2
+    BaseAttack = 4
+    BaseDefense = 3
     BaseEvasion = 10
     BaseAccuracy = 100
     BaseMovement = 3
-    BaseCost = 1500
+    BaseCost = 400
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                  movement_bonus, cost_modifier):

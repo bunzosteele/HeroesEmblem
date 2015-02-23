@@ -98,6 +98,9 @@ class CombatHelper():
             damage_dealt += 1
         if roll == 100:
             damage_dealt *= 2
-        target_unit.deal_damage(damage_dealt)
-        return damage_dealt
+        if damage_dealt > 0:
+            target_unit.deal_damage(damage_dealt)
+            return damage_dealt
+        else:
+            return 0
 

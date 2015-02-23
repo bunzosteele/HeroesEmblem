@@ -5,13 +5,13 @@ class Mage(Unit):
     img_src = "images/Mage-Idle-1-2.png"
     MinimumRange = 1
     MaximumRange = 3
-    BaseMaxHealth = 20
+    BaseMaxHealth = 15
     BaseAttack = 10
     BaseDefense = 2
     BaseEvasion = 3
     BaseAccuracy = 80
     BaseMovement = 3
-    BaseCost = 900
+    BaseCost = 800
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                  movement_bonus, cost_modifier):

@@ -9,11 +9,11 @@ class Footman(Unit):
     BaseMaximumRange = 1
     BaseMaxHealth = 20
     BaseAttack = 9
-    BaseDefense = 4
+    BaseDefense = 3
     BaseEvasion = 5
     BaseAccuracy = 95
     BaseMovement = 4
-    BaseCost = 700
+    BaseCost = 750
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                  movement_bonus, cost_modifier):

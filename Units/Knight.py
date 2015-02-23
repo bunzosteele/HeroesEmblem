@@ -13,7 +13,7 @@ class Knight(Unit):
     BaseEvasion = 3
     BaseAccuracy = 85
     BaseMovement = 5
-    BaseCost = 1000
+    BaseCost = 1100
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                  movement_bonus, cost_modifier):

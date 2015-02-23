@@ -80,6 +80,8 @@ class GameState:
             self.turn_count += 1
         self.between_turns = True
         self.selected = None
+        self.tapped_units = self.get_player_units()
+
 
     def cycle_current_player(self):
         if self.current_player == 0:
@@ -129,6 +131,23 @@ class GameState:
                 self.tapped_units.append(self.selected)
         self.attacking = False
 
+    def ai_attack(self, target_tile, target_unit):
+        if target_unit is None or target_unit.get_team() == self.current_player:
+                self.moving = False
+                self.attacking = not self.attacking
+        elif CombatHelper.can_attack_targets(self.selected, self.battlefield, [target_unit]):
+            damage = CombatHelper.attack(target_tile, target_unit, self)
+            target_unit.selected_target()
+            target_unit.incoming_damage(damage)
+            self.selected.has_attacked = True
+            if target_unit.CurrentHealth <= 0:
+                self.units.remove(target_unit)
+                self.selected.experience += target_unit.MaxHealth
+                self.selected.calculate_level()
+            if self.selected.has_moved:
+                self.tapped_units.append(self.selected)
+        self.attacking = False
+
     def get_clicked_tile_and_unit(self, clicked_space):
         unit = None
         for u in self.units:
@@ -136,6 +155,7 @@ class GameState:
                 unit = u
         tile = self.battlefield.tiles[clicked_space[1]][clicked_space[0]]
         return tile, unit
+
 
     def spawn_units(self):
         player_one_units = []
@@ -177,6 +197,12 @@ class GameState:
 
         return len(players) <= 1
 
+    def get_player_units(self):
+        player_units = []
+        for unit in self.units:
+            if unit.get_team() == 0:
+                player_units.append(unit)
+        return player_units
 
 
 

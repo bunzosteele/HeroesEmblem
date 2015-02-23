@@ -22,6 +22,9 @@ def run(screen, game_state):
                 return game_state.units
             elif event.type == pygame.USEREVENT:
                 game_state.cycle_animation()
+                if game_state.between_turns and game_state.current_player != 0:
+                    if not AIHelper.play_turn(game_state):
+                        game_state.end_turn()
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 if game_state.between_turns and game_state.current_player != 0:
@@ -30,8 +33,6 @@ def run(screen, game_state):
                     if new_turn.pressed(pos):
                         game_state.start_new_turn()
                 elif end_turn.pressed(pos) and not game_state.between_turns:
-                    game_state.end_turn()
-                    AIHelper.play_turn(game_state)
                     game_state.end_turn()
                 elif move.pressed(pos):
                     if game_state.selected is not None and game_state.can_selected_unit_move():

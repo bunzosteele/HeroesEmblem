@@ -4,7 +4,7 @@ from Tile import *
 class Sand(Tile):
     Image = "images/sand.png"
     DefenseBoost = -1
-    AccuracyPenalty = -1
+    AccuracyPenalty = -5
     MovementCost = 3
     Altitude = 1
 

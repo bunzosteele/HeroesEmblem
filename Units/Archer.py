@@ -5,10 +5,10 @@ class Archer(Unit):
     img_src = "images/Archer-Idle-1-2.png"
     BaseMinimumRange = 2
     BaseMaximumRange = 4
-    BaseMaxHealth = 15
+    BaseMaxHealth = 10
     BaseAttack = 10
     BaseDefense = 2
-    BaseEvasion = 10
+    BaseEvasion = 15
     BaseAccuracy = 75
     BaseMovement = 3
     BaseCost = 800

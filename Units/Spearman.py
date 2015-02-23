@@ -7,7 +7,7 @@ class Spearman(Unit):
     img_src = "images/Spearman-Idle-1-2.png"
     BaseMinimumRange = 0
     BaseMaximumRange = 2
-    BaseMaxHealth = 25
+    BaseMaxHealth = 15
     BaseAttack = 9
     BaseDefense = 2
     BaseEvasion = 7
