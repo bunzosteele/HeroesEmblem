@@ -1,7 +1,7 @@
 from Battlefield.Tile import *
 import pygame.gfxdraw
 from CombatHelper import *
-
+from UI.HealthBar import HealthBar
 
 class DrawingHelper():
     inactive_button_color = (160, 160, 160)
@@ -52,6 +52,7 @@ class DrawingHelper():
         if game_state.selected is not None:
             DrawingHelper.draw_selected_unit_highlight(game_state, screen)
         DrawingHelper.draw_units(game_state, screen)
+        DrawingHelper.draw_unit_healthbars(game_state, screen)
         if game_state.between_turns and game_state.current_player == 0:
             DrawingHelper.draw_turn_indicator(game_state, new_turn, screen)
         DrawingHelper.draw_stats(game_state, DrawingHelper.font, screen)
@@ -159,3 +160,7 @@ class DrawingHelper():
         for u in game_state.units:
             u.draw(screen, game_state.animation_state, u in game_state.tapped_units)
 
+    @staticmethod
+    def draw_unit_healthbars(game_state, screen):
+        for u in game_state.units:
+            HealthBar.draw_healthbar(screen, u)
