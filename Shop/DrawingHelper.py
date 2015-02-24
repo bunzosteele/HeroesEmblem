@@ -49,8 +49,8 @@ class DrawingHelper():
     def draw_stock(shop_state, screen):
         i = 0
         for pedestal in shop_state.pedestals:
-            pygame.draw.rect(screen, (123, 100, 59), pedestal)
-            pygame.draw.rect(screen, (113, 90, 49), pedestal, 5)
+            screen.blit(pygame.image.load(DrawingHelper.resource_path("images/Pedestal.png")),
+                            (pedestal.left, pedestal.top))
             shop_state.stock[i].draw_preview(screen, (
                 (pedestal.left + (pedestal.size[0] - Tile.Size) / 2),
                 (pedestal.top + (pedestal.size[0] - Tile.Size) / 2)),

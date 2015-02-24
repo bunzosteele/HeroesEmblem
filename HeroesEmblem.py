@@ -10,7 +10,8 @@ import pygame
 
 def launch_game():
     button_height = 50
-    battlefield = Battlefield(Battlefield.build("Battlefield/" + chosen_field + ".txt"))
+    # battlefield = Battlefield(Battlefield.build("Battlefield/" + chosen_field + ".txt"))
+    battlefield = Battlefield(Battlefield.build("Battlefield/test.txt"))
     shop_state = ShopState(units, button_height, difficulty, gold, battlefield.get_enemy_spawn_count())
     shopping_screen = pygame.display.set_mode((shop_state.window_width, shop_state.window_height))
     shop_result = Shop.run(shopping_screen, shop_state)
@@ -50,7 +51,7 @@ if __name__ == '__main__':
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                if StartGame.pressed(pos) or RestartGame.pressed(pos):
+                if StartGame.pressed(pos) or (not_lost == False and RestartGame.pressed(pos)):
                     rounds_survived = 0
                     difficulty = 3
                     gold = 5000
@@ -71,7 +72,8 @@ if __name__ == '__main__':
                     font = pygame.font.SysFont("monospace", 32)
 
                     RestartGame.change_name("Rounds Survived: " + str(rounds_survived))
-                    RestartGame.create_button(screen, (0, 0, 0), 0, 0, (32 * 16) * 1.25, (32 * 9) + 50, None, (255, 255, 255))
+                    RestartGame.create_button(screen, (0, 0, 0), 0, 0, (32 * 16) * 1.25, (32 * 9) + 50, None,
+                                              (255, 255, 255))
         if not_lost:
             StartGame.create_button(screen, (50, 80, 200), ((32 * 16) - 100) / 2, ((32 * 9) - 50) / 2, 200, 100, None,
                                     (135, 144, 15))

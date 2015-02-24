@@ -30,7 +30,7 @@ class GameState:
         return self.selected
 
     def can_selected_unit_move(self):
-        return not self.selected.has_moved
+        return not self.selected.has_moved and self.selected.get_team() == self.current_player
 
     def can_selected_unit_attack(self):
         return self.selected is not None \
@@ -168,8 +168,8 @@ class GameState:
 
         player_one_spawns = []
         player_two_spawns = []
-        for x in range(0, 15):
-            for y in range(0, 8):
+        for x in range(0, 16):
+            for y in range(0, 9):
                 tile = self.battlefield.tiles[y][x]
                 if tile.spawn is not None:
                     if tile.spawn == '*':

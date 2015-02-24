@@ -1,9 +1,9 @@
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
-.  .  .  .  .  .  M  M  M  M  .  .  .  .  .  .
-.  .  .  .  .  .  G  G  G  G  .  .  .  .  .  .
-M  M* G  G  G  G  G  G  G  G  G  G  G  G  G2  G1
-.  .  .  .  .  .  G  G  G  G  .  .  .  .  .  .
-.  .  .  .  .  .  M  M  M  M  .  .  .  .  .  .
+.  M  M  M1 M2 M7 G  G  G  G  G  G  G  G  M  .
+.  M  M  ~  ~  ~  ~  ~  ~  ~  ~  ~  ~  G  G  .
+.  M  M4 ~  S* S* S* S* S* S  S  S  S  G  M8 .
+.  M  M  ~  ~  ~  ~  ~  ~  ~  ~  ~  ~  G  G  .
+.  M  M  M5 M3 M6 G  G  G  G  G  G  G  G  M  .
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .

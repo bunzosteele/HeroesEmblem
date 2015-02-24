@@ -6,7 +6,7 @@ class Wall(Tile):
     DefenseBoost = 0
     AccuracyPenalty = 0
     MovementCost = 1000
-    Altitude = 1
+    Altitude = 5
 
     def __init__(self, spawn):
         Tile.__init__(self, Wall.Image, Wall.DefenseBoost, Wall.AccuracyPenalty, Wall.MovementCost, Wall.Altitude,

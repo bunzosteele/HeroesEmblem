@@ -1,4 +1,5 @@
 from MovementHelper import *
+from copy import deepcopy
 
 
 class AIHelper():
@@ -14,36 +15,48 @@ class AIHelper():
         invalid_units = game_state.tapped_units
         units_with_options = AIHelper.get_options(game_state, ai_units, invalid_units)
         highest_priority_unit = units_with_options[0]
+
         for unit_with_options in units_with_options:
             if unit_with_options[1][1] > highest_priority_unit[1][1]:
                 highest_priority_unit = unit_with_options
 
-        conflicted_unit = AIHelper.get_at_tile(ai_units, highest_priority_unit[1][0][0])
-        if conflicted_unit is None or conflicted_unit == highest_priority_unit[0]:
-            game_state.selected = highest_priority_unit[0]
-            AIHelper.move_unit(highest_priority_unit[0], highest_priority_unit[1][0][0])
-            AIHelper.attack_with_unit(highest_priority_unit[0], game_state)
-            game_state.tapped_units.append(highest_priority_unit[0])
-        else:
-            conflicted_unit_with_options = None
-            for unit_with_options in units_with_options:
-                if unit_with_options[0] == conflicted_unit:
-                    conflicted_unit_with_options = unit_with_options
+        while True:
+            conflicted_unit = AIHelper.get_at_tile(ai_units, highest_priority_unit[1][0][0])
+            if conflicted_unit is None or conflicted_unit == highest_priority_unit[0]:
+                game_state.selected = highest_priority_unit[0]
+                AIHelper.move_unit(highest_priority_unit[0], highest_priority_unit[1][0][0])
+                AIHelper.attack_with_unit(highest_priority_unit[0], game_state)
+                game_state.tapped_units.append(highest_priority_unit[0])
+                break
+            else:
+                conflicted_unit_with_options = None
+                for unit_with_options in units_with_options:
+                    if unit_with_options[0] == conflicted_unit:
+                        conflicted_unit_with_options = unit_with_options
 
-            next_conflicted_unit = AIHelper.get_at_tile(ai_units, conflicted_unit_with_options[1][0][0])
-            while next_conflicted_unit is not None:
-                conflicted_unit_with_options[1].remove(conflicted_unit_with_options[1][0])
                 next_conflicted_unit = AIHelper.get_at_tile(ai_units, conflicted_unit_with_options[1][0][0])
+                conflict_resolved = True
+                while next_conflicted_unit is not None:
+                    conflicted_unit_with_options[1].remove(conflicted_unit_with_options[1][0])
+                    if len(conflicted_unit_with_options[1]) == 0:
+                        highest_priority_unit[1].remove(highest_priority_unit[1][0])
+                        conflict_resolved = False
+                        break
+                    else:
+                        next_conflicted_unit = AIHelper.get_at_tile(ai_units, conflicted_unit_with_options[1][0][0])
 
-            game_state.selected = conflicted_unit_with_options[0]
-            AIHelper.move_unit(conflicted_unit_with_options[0], conflicted_unit_with_options[1][0][0])
-            AIHelper.attack_with_unit(conflicted_unit_with_options[0], game_state)
-            game_state.tapped_units.append(conflicted_unit_with_options[0])
-            game_state.selected = highest_priority_unit[0]
-            AIHelper.move_unit(highest_priority_unit[0], highest_priority_unit[1][0][0])
-            AIHelper.attack_with_unit(highest_priority_unit[0], game_state)
-            game_state.tapped_units.append(highest_priority_unit[0])
+                if not conflict_resolved:
+                    continue
 
+                game_state.selected = conflicted_unit_with_options[0]
+                AIHelper.move_unit(conflicted_unit_with_options[0], conflicted_unit_with_options[1][0][0])
+                AIHelper.attack_with_unit(conflicted_unit_with_options[0], game_state)
+                game_state.tapped_units.append(conflicted_unit_with_options[0])
+                game_state.selected = highest_priority_unit[0]
+                AIHelper.move_unit(highest_priority_unit[0], highest_priority_unit[1][0][0])
+                AIHelper.attack_with_unit(highest_priority_unit[0], game_state)
+                game_state.tapped_units.append(highest_priority_unit[0])
+                break
         return True
 
     @staticmethod
@@ -89,14 +102,12 @@ class AIHelper():
     def calculate_value(game_state, option, unit):
         value = 0
         targets = AIHelper.get_attackable_units(unit, option, game_state)
+        enemies = AIHelper.get_player_units(game_state)
         if len(targets) > 0:
             value += AIHelper.get_targets_value(targets, unit)
-        enemies = AIHelper.get_player_units(game_state)
-        distance = AIHelper.get_shortest_distance(option, enemies)
-        if distance > unit.MaximumRange + unit.Movement:
-            value -= 2 ** distance
-        value -= AIHelper.get_shortest_distance(option, enemies)
-        value += AIHelper.get_terrain_value(game_state.battlefield, option)
+            value += AIHelper.get_terrain_value(game_state.battlefield, option)
+        else:
+            value -= AIHelper.get_shortest_distance(option, unit.Movement, enemies, game_state)
         return value
 
     @staticmethod
@@ -137,6 +148,7 @@ class AIHelper():
         for target in targets:
             if i == 0:
                 value += 50
+                value += unit.Attack
             if i > 0:
                 if (unit.CurrentHealth / float(unit.MaxHealth)) <= .4:
                     value -= 10
@@ -191,13 +203,91 @@ class AIHelper():
         return abs(location[0] - target.get_location()[0]) + abs(location[1] - target.get_location()[1])
 
     @staticmethod
-    def get_shortest_distance(location, enemies):
-        shortest_distance = 25
+    def get_shortest_distance(location, max_movement, enemies, game_state):
+        shortest_distance = 9000
         for enemy in enemies:
-            distance = AIHelper.calculate_distance(location, enemy)
+            distance = AIHelper.find_route_cost(location, enemy.get_location(), max_movement, game_state)
+
             if distance < shortest_distance:
                 shortest_distance = distance
         return distance
+
+
+    @staticmethod
+    def find_route_cost(start, finish, max_movement, game_state):
+        costs = AIHelper.find_costs(start, max_movement, game_state, [(start, 0)], [], 0)
+        for tile_with_cost in costs:
+            if tile_with_cost[0] == finish:
+                return tile_with_cost[1]
+        return None
+    
+    @staticmethod
+    def find_costs(start, max_movement, game_state, visited, examined, current_cost):
+        north = (start[0], start[1] - 1)
+        south = (start[0], start[1] + 1)
+        east = (start[0] + 1, start[1])
+        west = (start[0] - 1, start[1])
+        
+        if BattlefieldHelper.is_in_bounds(north[0], north[1], game_state.battlefield) and game_state.battlefield.get_tile(north[0], north[1]).MovementCost <= max_movement:
+            is_examined = False
+            for v in examined:
+                if v[0] == north:
+                    is_examined = True
+            for v in visited:
+                if v[0] == north:
+                    is_examined = True
+            if not is_examined:
+                north_cost = (north, game_state.battlefield.get_tile(north[0], north[1]).MovementCost + current_cost,)
+                examined.append(north_cost)
+        if BattlefieldHelper.is_in_bounds(south[0], south[1], game_state.battlefield) and game_state.battlefield.get_tile(south[0], south[1]).MovementCost <= max_movement:
+            is_examined = False
+            for v in examined:
+                if v[0] == south:
+                    is_examined = True
+            for v in visited:
+                if v[0] == south:
+                    is_examined = True
+            if not is_examined:
+                south_cost = (south, game_state.battlefield.get_tile(south[0], south[1]).MovementCost + current_cost)
+                examined.append(south_cost)
+        if BattlefieldHelper.is_in_bounds(east[0], east[1], game_state.battlefield) and game_state.battlefield.get_tile(east[0], east[1]).MovementCost <= max_movement:
+            is_examined = False
+            for v in examined:
+                if v[0] == east:
+                    is_examined = True
+            for v in visited:
+                if v[0] == east:
+                    is_examined = True
+            if not is_examined:
+                east_cost = (east, game_state.battlefield.get_tile(east[0], east[1]).MovementCost + current_cost)
+                examined.append(east_cost)
+        if BattlefieldHelper.is_in_bounds(west[0], west[1], game_state.battlefield) and game_state.battlefield.get_tile(west[0], west[1]).MovementCost <= max_movement:
+            is_examined = False
+            for v in examined:
+                if v[0] == west:
+                    is_examined = True
+            for v in visited:
+                if v[0] == west:
+                    is_examined = True
+            if not is_examined:
+                west_cost = (west, game_state.battlefield.get_tile(west[0], west[1]).MovementCost + current_cost)
+                examined.append(west_cost)
+
+        if len(examined) == 0:
+            return visited
+
+        examined = sorted(examined, key=lambda c: c[1])
+        next_tile = examined[0]
+        examined.remove(examined[0])
+        visited.append(next_tile)
+        return AIHelper.find_costs(next_tile[0], max_movement, game_state, visited, examined, next_tile[1])
+        
+                
+        
+            
+        
+            
+        
 
     @staticmethod
     def get_target_tile_and_unit(target_space, game_state):
@@ -207,3 +297,22 @@ class AIHelper():
                 unit = u
         tile = game_state.battlefield.tiles[target_space[1]][target_space[0]]
         return tile, unit
+
+    @staticmethod
+    def get_route(x, y, units, current_unit, battlefield, movement, options):
+        if BattlefieldHelper.is_in_bounds(x, y, battlefield) and MovementHelper.is_space_empty(current_unit, units, x, y):
+            options.append((x, y))
+
+            if BattlefieldHelper.is_in_bounds(x + 1, y, battlefield) and movement >= battlefield.tiles[y][x + 1].movementCost:
+                MovementHelper.get_movement_options_core(x + 1, y, units, current_unit, battlefield,
+                                                         movement, options)
+            if BattlefieldHelper.is_in_bounds(x - 1, y, battlefield) and movement >= battlefield.tiles[y][x - 1].movementCost:
+                MovementHelper.get_movement_options_core(x - 1, y, units, current_unit, battlefield,
+                                                         movement, options)
+            if BattlefieldHelper.is_in_bounds(x, y + 1, battlefield) and movement >= battlefield.tiles[y + 1][x].movementCost:
+                MovementHelper.get_movement_options_core(x, y + 1, units, current_unit, battlefield,
+                                                         movement, options)
+            if BattlefieldHelper.is_in_bounds(x, y - 1, battlefield) and movement >= battlefield.tiles[y - 1][x].movementCost:
+                MovementHelper.get_movement_options_core(x, y - 1, units, current_unit, battlefield,
+                                                         movement, options)
+        return options

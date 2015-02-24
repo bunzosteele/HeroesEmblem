@@ -56,18 +56,11 @@ class FileReader():
 
     @staticmethod
     def generate_battlefield(difficulty):
-        with open(FileReader.resource_path("Battlefield/MapList.txt"), "r") as name_file:
-            name = name_file.readline().replace("\n", "")
-            names = []
-            while name != '':
-                names.append(name)
-                name = name_file.readline().replace("\n", "")
-
-            if difficulty < len(names) - 1:
-                selection = randint(0, difficulty - 1)
+            if difficulty <= 4:
+                selection = randint(-10, difficulty)
             else:
-                selection = randint(0, len(names) - 1)
-            return names[selection]
+                selection = randint(-10, 4)
+            return str(selection)
 
     @staticmethod
     def resource_path(relative):

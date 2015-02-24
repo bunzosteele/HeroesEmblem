@@ -55,8 +55,8 @@ class Battlefield():
 
     def get_enemy_spawn_count(self):
         count = 0
-        for x in range(0, Battlefield.Width - 1):
-            for y in range(0, Battlefield.Height - 1):
+        for x in range(0, Battlefield.Width):
+            for y in range(0, Battlefield.Height):
                 if self.get_tile(x, y).spawn == '*':
                     count += 1
         return count
