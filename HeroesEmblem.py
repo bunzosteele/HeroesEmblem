@@ -7,11 +7,9 @@ import UI.Buttons
 import Battle
 import pygame
 
-
 def launch_game():
     button_height = 50
-    # battlefield = Battlefield(Battlefield.build("Battlefield/" + chosen_field + ".txt"))
-    battlefield = Battlefield(Battlefield.build("Battlefield/test.txt"))
+    battlefield = Battlefield(Battlefield.build("Battlefield/" + chosen_field + ".txt"))
     shop_state = ShopState(units, button_height, difficulty, gold, battlefield.get_enemy_spawn_count())
     shopping_screen = pygame.display.set_mode((shop_state.window_width, shop_state.window_height))
     shop_result = Shop.run(shopping_screen, shop_state)
@@ -27,13 +25,11 @@ def launch_game():
 
     return True, shop_result[1]
 
-
 def is_game_over(survivors):
     for survivor in survivors:
         if survivor.get_team() == 0:
             return False
     return True
-
 
 if __name__ == '__main__':
     pygame.init()
@@ -53,7 +49,7 @@ if __name__ == '__main__':
                 pos = pygame.mouse.get_pos()
                 if StartGame.pressed(pos) or (not_lost == False and RestartGame.pressed(pos)):
                     rounds_survived = 0
-                    difficulty = 3
+                    difficulty = 1
                     gold = 5000
                     units = []
                     not_lost = True

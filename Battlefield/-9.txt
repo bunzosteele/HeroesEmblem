@@ -1,9 +1,9 @@
-~  ~  ~  ~  ~  ~  G  G  G  G  G  ~  ~  ~  ~  S*
-~  ~  ~  ~  ~  G  G  G  G2 G  G  M  ~  ~  S  S*
-~  ~  ~  ~  G  G  G  G3 G  ~  ~  ~  ~  S  S  S*
+~  ~  ~  ~  ~  ~  G  G  G  G  G  ~  ~  ~  ~  S
+~  ~  ~  ~  ~  G  G  G  G2 G  G  M  ~  ~  S  S
+~  ~  ~  ~  G  G  G  G3 G  ~  ~  ~  ~  S  S  S
 ~  ~  ~  G  G  G  G7 G  G  -  -  -  S  S  S  S*
 ~  ~  ~  G  G  G8 G6 G  G  B  B  B  S  S  S* S*
 ~  ~  ~  G  G  G  G5 G  G  +  +  +  S  S  S  S*
-~  ~  ~  ~  G  G  G  G4 G  ~  ~  ~  ~  S  S  S*
-~  ~  ~  ~  ~  G  G  G  G1 G  G  M  ~  ~  S  S*
-~  ~  ~  ~  ~  ~  G  G  G  G  G  ~  ~  ~  ~  S*
+~  ~  ~  ~  G  G  G  G4 G  ~  ~  ~  ~  S  S  S
+~  ~  ~  ~  ~  G  G  G  G1 G  G  M  ~  ~  S  S
+~  ~  ~  ~  ~  ~  G  G  G  G  G  ~  ~  ~  ~  S

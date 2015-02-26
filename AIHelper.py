@@ -212,7 +212,6 @@ class AIHelper():
                 shortest_distance = distance
         return distance
 
-
     @staticmethod
     def find_route_cost(start, finish, max_movement, game_state):
         costs = AIHelper.find_costs(start, max_movement, game_state, [(start, 0)], [], 0)
@@ -281,13 +280,6 @@ class AIHelper():
         examined.remove(examined[0])
         visited.append(next_tile)
         return AIHelper.find_costs(next_tile[0], max_movement, game_state, visited, examined, next_tile[1])
-        
-                
-        
-            
-        
-            
-        
 
     @staticmethod
     def get_target_tile_and_unit(target_space, game_state):

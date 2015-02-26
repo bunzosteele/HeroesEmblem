@@ -1,3 +1,4 @@
+from Forest import Forest
 from Wall import Wall
 from Grass import Grass
 from Mountain import Mountain
@@ -27,6 +28,11 @@ class TileBuilder():
                 return Mountain(key[1])
             else:
                 return Mountain(None)
+        if key[0] == "F":
+            if len(key) > 1:
+                return Forest(key[1])
+            else:
+                return Forest(None)
         if key[0] == "W":
             if len(key) > 1:
                 return Wall(key[1])

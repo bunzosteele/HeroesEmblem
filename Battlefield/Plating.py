@@ -3,7 +3,7 @@ from Tile import *
 
 class Plating(Tile):
     Image = "images/Plating.png"
-    DefenseBoost = 0
+    DefenseBoost = 1
     AccuracyPenalty = 0
     MovementCost = 2
     Altitude = 1
