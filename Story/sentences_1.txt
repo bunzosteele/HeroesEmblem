@@ -1,0 +1,3 @@
+A %n with nothing to lose.
+A student studying to become a %n.
+The world's greatest %n.

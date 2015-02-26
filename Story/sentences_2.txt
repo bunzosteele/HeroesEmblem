@@ -1,0 +1,4 @@
+Risking %p life for a %a %n despite great peril.
+Traveling on %p %a quest to find the ultimate %n.
+A %a %n haunts %p dreams.
+Adventuring on %p %a quest to become the ultimate %n.

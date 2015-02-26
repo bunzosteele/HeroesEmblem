@@ -1,0 +1,3 @@
+However, this adventurer will have to defeat the %a %n.
+Only with the %a power of %n will success be found.
+Despite %a obstacles, this hero finds hope in the %n.

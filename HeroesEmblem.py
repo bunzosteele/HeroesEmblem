@@ -3,11 +3,13 @@ from FileReader import *
 from GameState import GameState
 from Shop import Shop
 from Shop.ShopState import ShopState
+from StoryGenerator import StoryGenerator
 import UI.Buttons
 import Battle
 import pygame
 
 def launch_game():
+    StoryGenerator.create_story()
     button_height = 50
     battlefield = Battlefield(Battlefield.build("Battlefield/" + chosen_field + ".txt"))
     shop_state = ShopState(units, button_height, difficulty, gold, battlefield.get_enemy_spawn_count())

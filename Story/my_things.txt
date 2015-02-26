@@ -1,0 +1,8 @@
+woman
+man
+tiger
+dragon
+fish
+underwear
+child
+monster
