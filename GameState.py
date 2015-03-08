@@ -2,8 +2,8 @@ import math
 from MovementHelper import *
 from CombatHelper import *
 
-class GameState:
 
+class GameState:
     def __init__(self, battlefield, button_height, units):
         self.running = True
         self.current_player = 0
@@ -13,12 +13,14 @@ class GameState:
         self.selected = None
         self.moving = False
         self.attacking = False
+        self.using_ability = False
         self.turn_count = 1
         self.battlefield = battlefield
         self.button_height = button_height
         self.button_width = int(math.floor(((battlefield.width() * Tile.Size) * 1.25) / 5))
         self.units = units
         self.spawn_units()
+        self.ending_ai_turn = False
 
     def get_window_height(self):
         return self.battlefield.height() * Tile.Size + self.button_height
@@ -34,19 +36,39 @@ class GameState:
 
     def can_selected_unit_attack(self):
         return self.selected is not None \
-            and not self.selected.has_attacked \
-            and CombatHelper.can_attack(self.selected, self.battlefield, self.units, self.current_player)
+               and not self.selected.has_acted \
+               and CombatHelper.can_attack(self.selected, self.battlefield, self.units, self.current_player)
+
+    def can_selected_unit_use_ability(self):
+        return self.selected is not None \
+               and not self.selected.has_acted \
+               and (self.selected.Ability is not None
+                    and self.selected.Ability.can_use_ability(self.selected, self))
+
+    def can_selected_unit_act(self):
+        return self.can_selected_unit_attack() or self.can_selected_unit_use_ability()
+
+    def toggle_moving(self):
+        self.attacking = False
+        self.using_ability = False
+        self.moving = not self.moving
 
     def toggle_attacking(self):
         self.moving = False
+        self.using_ability = False
         self.attacking = not self.attacking
+
+    def toggle_ability(self):
+        self.moving = False
+        self.attacking = False
+        self.using_ability = not self.using_ability
 
     def is_clicking_selected_unit(self, clicked_space):
         return self.selected is not None and self.selected.get_location() == clicked_space
 
     def is_clicking_own_unit(self, clicked_space):
         return self.selected is not None and self.get_clicked_tile_and_unit(clicked_space)[1] is not None \
-            and self.get_clicked_tile_and_unit(clicked_space)[1].get_team() == self.current_player
+               and self.get_clicked_tile_and_unit(clicked_space)[1].get_team() == self.current_player
 
     def is_unit_moving(self):
         return self.selected is not None and self.moving
@@ -54,11 +76,17 @@ class GameState:
     def is_unit_attacking(self):
         return self.selected is not None and self.attacking
 
+    def is_unit_using_ability(self):
+        return self.selected is not None and self.using_ability
+
     def is_owned_unit_selected(self):
         return self.selected is not None and self.selected.get_team() == self.current_player
 
     def is_click_in_bounds(self, clicked_space):
         return clicked_space[0] < self.battlefield.width() and clicked_space[1] < self.battlefield.height()
+
+    def is_ai_tick(self):
+        return self.animation_state == 1 and self.between_turns and self.current_player != 0
 
     def cycle_animation(self):
         if self.animation_state == 3:
@@ -70,7 +98,7 @@ class GameState:
         self.between_turns = False
         self.tapped_units = []
         for u in self.units:
-            u.has_attacked = False
+            u.has_acted = False
             u.has_moved = False
 
     def end_turn(self):
@@ -81,7 +109,7 @@ class GameState:
         self.between_turns = True
         self.selected = None
         self.tapped_units = self.get_player_units()
-
+        self.ending_ai_turn = False
 
     def cycle_current_player(self):
         if self.current_player == 0:
@@ -110,19 +138,18 @@ class GameState:
         self.moving = False
         if current_location != new_location:
             self.selected.has_moved = True
-            if self.selected.has_attacked or not CombatHelper.can_attack(self.selected, self.battlefield, self.units, self.current_player):
+            if not self.can_selected_unit_act():
                 self.tapped_units.append(self.selected)
 
     def attempt_to_attack(self, clicked_space):
         target_tile, target_unit = self.get_clicked_tile_and_unit(clicked_space)
         if target_unit is None or target_unit.get_team() == self.current_player:
-                self.moving = False
-                self.attacking = not self.attacking
+            self.toggle_attacking()
         elif CombatHelper.can_attack_targets(self.selected, self.battlefield, [target_unit]):
             damage = CombatHelper.attack(target_tile, target_unit, self)
             target_unit.selected_target()
-            target_unit.incoming_damage(damage)
-            self.selected.has_attacked = True
+            target_unit.incoming_damage(damage, False)
+            self.selected.has_acted = True
             if target_unit.CurrentHealth <= 0:
                 self.units.remove(target_unit)
                 self.selected.experience += target_unit.MaxHealth
@@ -131,15 +158,26 @@ class GameState:
                 self.tapped_units.append(self.selected)
         self.attacking = False
 
+    def attempt_to_use_ability(self, clicked_space):
+        target_tile, target_unit = self.get_clicked_tile_and_unit(clicked_space)
+        ability = self.selected.Ability
+        if not ability.is_valid_target(target_tile, target_unit, self.selected, self):
+            self.toggle_ability()
+        else:
+            ability.use_ability(target_tile, target_unit, self.selected, self)
+            if self.selected.has_moved:
+                self.tapped_units.append(self.selected)
+        self.using_ability = False
+
     def ai_attack(self, target_tile, target_unit):
         if target_unit is None or target_unit.get_team() == self.current_player:
-                self.moving = False
-                self.attacking = not self.attacking
+            self.moving = False
+            self.attacking = not self.attacking
         elif CombatHelper.can_attack_targets(self.selected, self.battlefield, [target_unit]):
             damage = CombatHelper.attack(target_tile, target_unit, self)
             target_unit.selected_target()
-            target_unit.incoming_damage(damage)
-            self.selected.has_attacked = True
+            target_unit.incoming_damage(damage, False)
+            self.selected.has_acted = True
             if target_unit.CurrentHealth <= 0:
                 self.units.remove(target_unit)
                 self.selected.experience += target_unit.MaxHealth
@@ -155,7 +193,6 @@ class GameState:
                 unit = u
         tile = self.battlefield.tiles[clicked_space[1]][clicked_space[0]]
         return tile, unit
-
 
     def spawn_units(self):
         player_one_units = []
@@ -203,6 +240,13 @@ class GameState:
             if unit.get_team() == 0:
                 player_units.append(unit)
         return player_units
+
+    def get_survivors(self):
+        for unit in self.units:
+            unit.has_acted = False
+            unit.has_moved = False
+            unit.has_used_ability = False
+        return self.units
 
 
 

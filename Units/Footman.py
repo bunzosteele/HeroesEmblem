@@ -1,5 +1,3 @@
-import sys, pygame, os
-from pygame.locals import *
 from Units.Unit import *
 
 
@@ -16,7 +14,7 @@ class Footman(Unit):
     BaseCost = 750
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                 movement_bonus, cost_modifier):
+                 movement_bonus, ability, cost_modifier):
         self.Type = Footman
         self.MinimumRange = Footman.BaseMinimumRange
         self.MaximumRange = Footman.BaseMaximumRange
@@ -28,4 +26,5 @@ class Footman(Unit):
         self.Accuracy = Footman.BaseAccuracy + accuracy_bonus
         self.Movement = Footman.BaseMovement + movement_bonus
         self.Cost = Footman.BaseCost + cost_modifier
+        self.Ability = None
         Unit.__init__(self, team)

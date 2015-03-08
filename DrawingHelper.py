@@ -3,6 +3,7 @@ import pygame.gfxdraw
 from CombatHelper import *
 from UI.HealthBar import HealthBar
 
+
 class DrawingHelper():
     inactive_button_color = (160, 160, 160)
     white_color = (255, 255, 255)
@@ -17,7 +18,7 @@ class DrawingHelper():
         pass
 
     @staticmethod
-    def draw_all_the_things(game_state, screen, end_turn, new_turn, move, attack, abilities, inventory, move_helper):
+    def draw_all_the_things(game_state, screen, end_turn, new_turn, move, attack, ability, inventory, move_helper):
         game_state.battlefield.draw(screen)
         DrawingHelper.draw_end_turn_button(end_turn, screen, game_state)
         if game_state.is_owned_unit_selected():
@@ -28,26 +29,30 @@ class DrawingHelper():
                 DrawingHelper.draw_move_button(move, DrawingHelper.inactive_button_color, screen, game_state)
             if game_state.can_selected_unit_attack():
                 DrawingHelper.draw_attack_button(attack, DrawingHelper.active_button_color, screen, game_state)
-                DrawingHelper.draw_ability_button(abilities, DrawingHelper.active_button_color, screen, game_state)
                 DrawingHelper.draw_inventory_button(inventory, DrawingHelper.active_button_color, screen, game_state)
             else:
                 DrawingHelper.draw_attack_button(attack, DrawingHelper.inactive_button_color, screen, game_state)
-                DrawingHelper.draw_ability_button(abilities, DrawingHelper.inactive_button_color, screen, game_state)
+            if game_state.can_selected_unit_use_ability():
+                DrawingHelper.draw_ability_button(ability, DrawingHelper.active_button_color, screen, game_state)
+            else:
+                DrawingHelper.draw_ability_button(ability, DrawingHelper.inactive_button_color, screen, game_state)
             if game_state.moving:
                 location = game_state.get_selected_unit().get_location()
                 DrawingHelper.draw_move_button(move, DrawingHelper.selected_button_color, screen, game_state)
                 move_helper.draw_movement_shadow(location[0], location[1], game_state, screen)
-            else:
-                if game_state.attacking:
-                    DrawingHelper.draw_attack_button(attack, DrawingHelper.selected_button_color, screen, game_state)
-                    CombatHelper.draw_attack_shadow(game_state.get_selected_unit(), game_state.battlefield, screen,
-                                                    DrawingHelper)
+            elif game_state.attacking:
+                DrawingHelper.draw_attack_button(attack, DrawingHelper.selected_button_color, screen, game_state)
+                CombatHelper.draw_attack_shadow(game_state.get_selected_unit(), game_state.battlefield, screen,
+                                                DrawingHelper)
+            elif game_state.using_ability:
+                DrawingHelper.draw_ability_button(ability, DrawingHelper.selected_button_color, screen, game_state)
+                game_state.selected.Ability.draw_ability_shadow(game_state.selected, game_state.battlefield, screen)
             if not game_state.can_selected_unit_attack and not game_state.can_selected_unit_move:
                 DrawingHelper.draw_inventory_button(inventory, DrawingHelper.inactive_button_color, screen, game_state)
         else:
             DrawingHelper.draw_move_button(move, DrawingHelper.inactive_button_color, screen, game_state)
             DrawingHelper.draw_attack_button(attack, DrawingHelper.inactive_button_color, screen, game_state)
-            DrawingHelper.draw_ability_button(abilities, DrawingHelper.inactive_button_color, screen, game_state)
+            DrawingHelper.draw_ability_button(ability, DrawingHelper.inactive_button_color, screen, game_state)
             DrawingHelper.draw_inventory_button(inventory, DrawingHelper.inactive_button_color, screen, game_state)
         if game_state.selected is not None:
             DrawingHelper.draw_selected_unit_highlight(game_state, screen)
@@ -88,7 +93,7 @@ class DrawingHelper():
         pygame.draw.rect(screen, (113, 90, 49),
                          pygame.Rect(game_state.get_window_width() - game_state.button_width, 0,
                                      game_state.button_width, game_state.battlefield.height() * Tile.Size - 2), 5)
-        if game_state.selected is not None:
+        if game_state.selected is not None and game_state.current_player == 0:
             unit = game_state.get_selected_unit()
             unit.draw_preview(screen, (game_state.battlefield.width() * Tile.Size + 10, 10), game_state.animation_state,
                               game_state.attacking)
@@ -126,6 +131,11 @@ class DrawingHelper():
 
     @staticmethod
     def draw_ability_button(button, background_color, screen, game_state):
+        if game_state.selected is not None and game_state.selected.Ability is not None:
+            button.change_name(game_state.selected.Ability.get_ability_name())
+        else:
+            button.change_name("Ability")
+
         DrawingHelper.draw_button(screen, button, background_color, (game_state.button_width + 1) * 2,
                                   game_state.get_window_height() - game_state.button_height, game_state.button_width,
                                   game_state.button_height, DrawingHelper.white_color)

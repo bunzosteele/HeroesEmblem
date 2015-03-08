@@ -1,5 +1,6 @@
 from MovementHelper import *
-from copy import deepcopy
+from Units.Priest import Priest
+from Units.Abilities.Heal import *
 
 
 class AIHelper():
@@ -23,10 +24,7 @@ class AIHelper():
         while True:
             conflicted_unit = AIHelper.get_at_tile(ai_units, highest_priority_unit[1][0][0])
             if conflicted_unit is None or conflicted_unit == highest_priority_unit[0]:
-                game_state.selected = highest_priority_unit[0]
-                AIHelper.move_unit(highest_priority_unit[0], highest_priority_unit[1][0][0])
-                AIHelper.attack_with_unit(highest_priority_unit[0], game_state)
-                game_state.tapped_units.append(highest_priority_unit[0])
+                AIHelper.make_move(highest_priority_unit[0], game_state, highest_priority_unit[1][0][0])
                 break
             else:
                 conflicted_unit_with_options = None
@@ -48,16 +46,27 @@ class AIHelper():
                 if not conflict_resolved:
                     continue
 
-                game_state.selected = conflicted_unit_with_options[0]
-                AIHelper.move_unit(conflicted_unit_with_options[0], conflicted_unit_with_options[1][0][0])
-                AIHelper.attack_with_unit(conflicted_unit_with_options[0], game_state)
-                game_state.tapped_units.append(conflicted_unit_with_options[0])
-                game_state.selected = highest_priority_unit[0]
-                AIHelper.move_unit(highest_priority_unit[0], highest_priority_unit[1][0][0])
-                AIHelper.attack_with_unit(highest_priority_unit[0], game_state)
-                game_state.tapped_units.append(highest_priority_unit[0])
+                AIHelper.make_move(conflicted_unit_with_options[0], game_state, conflicted_unit_with_options[1][0][0])
+                AIHelper.make_move(highest_priority_unit[0], game_state, highest_priority_unit[1][0][0])
                 break
         return True
+
+    @staticmethod
+    def make_move(unit, game_state, target_tile):
+        game_state.selected = unit
+        AIHelper.move_unit(unit, target_tile)
+        if unit.Type == Priest and unit.Ability.can_use_ability(unit, game_state):
+            targets = unit.Ability.get_targets(unit, game_state)
+            target = targets[0]
+            for t in targets:
+                if t.CurrentHealth < target.CurrentHealth:
+                    target = t
+            unit.Ability.use_ability(None, target, unit, game_state)
+        else:
+            AIHelper.attack_with_unit(unit, game_state)
+        game_state.tapped_units.append(unit)
+
+
 
     @staticmethod
     def get_ai_units(game_state):
@@ -65,6 +74,22 @@ class AIHelper():
         for unit in game_state.units:
             if unit.get_team() == 1 and unit not in game_state.tapped_units:
                 units.append(unit)
+        return units
+
+    @staticmethod
+    def get_friendly_units(game_state, base_unit):
+        units = []
+        for unit in game_state.units:
+            if unit.get_team() == 1 and not unit == base_unit:
+                units.append(unit)
+        return units
+
+    @staticmethod
+    def get_damaged_allies(game_state, base_unit):
+        units = AIHelper.get_friendly_units(game_state, base_unit)
+        for unit in units:
+            if unit.CurrentHealth == unit.MaxHealth:
+                units.remove(unit)
         return units
 
     @staticmethod
@@ -100,14 +125,32 @@ class AIHelper():
 
     @staticmethod
     def calculate_value(game_state, option, unit):
-        value = 0
-        targets = AIHelper.get_attackable_units(unit, option, game_state)
         enemies = AIHelper.get_player_units(game_state)
-        if len(targets) > 0:
-            value += AIHelper.get_targets_value(targets, unit)
-            value += AIHelper.get_terrain_value(game_state.battlefield, option)
+        attack_targets = AIHelper.get_attackable_units(unit, option, game_state)
+        if not unit.Type == Priest:
+            value = 0
+            if len(attack_targets) > 0:
+                value += AIHelper.get_targets_value(attack_targets, unit)
+                value += AIHelper.get_terrain_value(game_state.battlefield, option)
+            else:
+                value -= AIHelper.find_cost_to_nearest_unit(option, enemies, unit.Movement, game_state, [(option, 0)], [], 0)
         else:
-            value -= AIHelper.get_shortest_distance(option, unit.Movement, enemies, game_state)
+            value = 0
+            allies = AIHelper.get_friendly_units(game_state, unit)
+            if len(allies) > 0:
+                value += AIHelper.find_cost_to_nearest_unit(option, allies, unit.Movement, game_state, [(option, 0)], [], 0)
+                value -= AIHelper.find_cost_to_nearest_unit(option, enemies, unit.Movement, game_state, [(option, 0)], [], 0)
+            if len(attack_targets) > 0:
+                value += (AIHelper.get_targets_value(attack_targets, unit) / 2)
+            heal_targets = Heal.get_potential_targets(option, unit.get_team(), game_state)
+            if len(heal_targets) > 0:
+                value += 70
+            else:
+                damaged_allies = AIHelper.get_damaged_allies(game_state, unit)
+                if len(damaged_allies) > 0:
+                    value -= AIHelper.find_cost_to_nearest_unit(option, damaged_allies, unit.Movement, game_state, [(option, 0)], [], 0)
+                else:
+                    value += AIHelper.get_terrain_value(game_state.battlefield, option)
         return value
 
     @staticmethod
@@ -203,25 +246,16 @@ class AIHelper():
         return abs(location[0] - target.get_location()[0]) + abs(location[1] - target.get_location()[1])
 
     @staticmethod
-    def get_shortest_distance(location, max_movement, enemies, game_state):
-        shortest_distance = 9000
-        for enemy in enemies:
-            distance = AIHelper.find_route_cost(location, enemy.get_location(), max_movement, game_state)
-
-            if distance < shortest_distance:
-                shortest_distance = distance
-        return distance
-
-    @staticmethod
-    def find_route_cost(start, finish, max_movement, game_state):
-        costs = AIHelper.find_costs(start, max_movement, game_state, [(start, 0)], [], 0)
-        for tile_with_cost in costs:
-            if tile_with_cost[0] == finish:
-                return tile_with_cost[1]
-        return None
+    def get_shortest_distance(location, max_movement, game_state):
+        targets = AIHelper.get_player_units(game_state)
+        return AIHelper.find_cost_to_nearest_unit(location, targets, max_movement, game_state, [(location, 0)], [], 0)
     
     @staticmethod
-    def find_costs(start, max_movement, game_state, visited, examined, current_cost):
+    def find_cost_to_nearest_unit(start, targets, max_movement, game_state, visited, examined, current_cost):
+        for target in targets:
+            if target.get_location() == start:
+                return current_cost
+
         north = (start[0], start[1] - 1)
         south = (start[0], start[1] + 1)
         east = (start[0] + 1, start[1])
@@ -279,7 +313,7 @@ class AIHelper():
         next_tile = examined[0]
         examined.remove(examined[0])
         visited.append(next_tile)
-        return AIHelper.find_costs(next_tile[0], max_movement, game_state, visited, examined, next_tile[1])
+        return AIHelper.find_cost_to_nearest_unit(next_tile[0], targets, max_movement, game_state, visited, examined, next_tile[1])
 
     @staticmethod
     def get_target_tile_and_unit(target_space, game_state):

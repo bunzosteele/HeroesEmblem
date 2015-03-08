@@ -14,7 +14,7 @@ class Mage(Unit):
     BaseCost = 800
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                 movement_bonus, cost_modifier):
+                 movement_bonus, ability, cost_modifier):
         self.Type = Mage
         self.img_src = "images/Mage-Idle-1-" + str(team) + ".png"
         self.MaxHealth = Mage.BaseMaxHealth + health_bonus
@@ -24,4 +24,5 @@ class Mage(Unit):
         self.Accuracy = Mage.BaseAccuracy + accuracy_bonus
         self.Movement = Mage.BaseMovement + movement_bonus
         self.Cost = Mage.BaseCost + cost_modifier
+        self.Ability = None
         Unit.__init__(self, team)

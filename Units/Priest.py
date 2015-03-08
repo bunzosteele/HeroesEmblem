@@ -1,3 +1,4 @@
+from Units.Abilities.Heal import Heal
 from Units.Unit import *
 
 
@@ -14,7 +15,7 @@ class Priest(Unit):
     BaseCost = 400
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                 movement_bonus, cost_modifier):
+                 movement_bonus, ability, cost_modifier):
         self.Type = Priest
         self.MinimumRange = Priest.BaseMinimumRange
         self.MaximumRange = Priest.BaseMaximumRange
@@ -26,4 +27,8 @@ class Priest(Unit):
         self.Accuracy = Priest.BaseAccuracy + accuracy_bonus
         self.Movement = Priest.BaseMovement + movement_bonus
         self.Cost = Priest.BaseCost + cost_modifier
+        if ability >= 0:
+            self.Ability = Heal()
+        else:
+            self.Ability = None
         Unit.__init__(self, team)

@@ -28,10 +28,12 @@ class UnitGenerator():
             cost_modifier += accuracy_bonus * 10
             movement_bonus = UnitGenerator.get_movement_bonus(randint(0, 100))
             cost_modifier += movement_bonus * 250
+            ability = UnitGenerator.get_ability(randint(0, 100))
+            cost_modifier += ability * 250
 
             generated_units.append(
                 UnitGenerator.generate_unit(0, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                                            movement_bonus, cost_modifier))
+                                            movement_bonus, ability, cost_modifier))
         return generated_units
 
     @staticmethod
@@ -39,11 +41,11 @@ class UnitGenerator():
         enemies = []
         for i in range(0, difficulty):
             if len(enemies) == 0:
-                enemies.append(UnitGenerator.generate_unit(1, 0, 0, 0, 0, 0, 0, 0))
+                enemies.append(UnitGenerator.generate_unit(1, 0, 0, 0, 0, 0, 0, 0, 0))
             else:
                 coin = randint(1, 2)
                 if coin == 1 and len(enemies) < max_enemies:
-                    enemies.append(UnitGenerator.generate_unit(1, 0, 0, 0, 0, 0, 0, 0))
+                    enemies.append(UnitGenerator.generate_unit(1, 0, 0, 0, 0, 0, 0, 0, 0))
                 else:
                     random_unit = randint(0, len(enemies) - 1)
                     enemies[random_unit].experience += 50 + 50*enemies[random_unit].level
@@ -52,26 +54,26 @@ class UnitGenerator():
 
     @staticmethod
     def generate_unit(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                      movement_bonus, cost_modifier):
+                      movement_bonus, ability, cost_modifier):
         class_seed = randint(1, 6)
         if class_seed == 1:
             return Archer(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                          movement_bonus, cost_modifier)
+                          movement_bonus, ability, cost_modifier)
         elif class_seed == 2:
             return Footman(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                           movement_bonus, cost_modifier)
+                           movement_bonus, ability, cost_modifier)
         elif class_seed == 3:
             return Knight(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                          movement_bonus, cost_modifier)
+                          movement_bonus, ability, cost_modifier)
         elif class_seed == 4:
             return Mage(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                        movement_bonus, cost_modifier)
+                        movement_bonus, ability, cost_modifier)
         elif class_seed == 5:
             return Priest(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                          movement_bonus, cost_modifier)
+                          movement_bonus, ability, cost_modifier)
         else:
             return Spearman(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                            movement_bonus, cost_modifier)
+                            movement_bonus, ability, cost_modifier)
 
     @staticmethod
     def get_health_bonus(roll):
@@ -168,3 +170,12 @@ class UnitGenerator():
         if roll < 10:
             return -1
         return 0
+
+    @staticmethod
+    def get_ability(roll):
+        if roll <= 40:
+            return 0
+        if roll <= 90:
+            return 1
+        return 2
+

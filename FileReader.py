@@ -56,11 +56,12 @@ class FileReader():
 
     @staticmethod
     def generate_battlefield(difficulty):
-            if difficulty <= 4:
-                selection = randint(-10, difficulty - 1)
-            else:
-                selection = randint(-10, 6)
-            return str(selection)
+        max_field = 6
+        if difficulty > max_field:
+            selection = randint(-10, max_field)
+        else:
+            selection = randint(-10, difficulty - 1)
+        return str(selection)
 
     @staticmethod
     def resource_path(relative):

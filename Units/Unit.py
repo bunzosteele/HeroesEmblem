@@ -10,7 +10,8 @@ class Unit(pygame.sprite.Sprite):
         self.x = None
         self.y = None
         self.has_moved = False
-        self.has_attacked = False
+        self.has_acted = False
+        self.has_used_ability = False
         self.team = team
         self.CurrentHealth = self.MaxHealth
         self.image = pygame.image.load(Unit.resource_path(self.img_src))
@@ -30,6 +31,7 @@ class Unit(pygame.sprite.Sprite):
         self.level = 1
         self.count = 0
         self.damage = 0
+        self.healing = False
 
     def draw(self, surface, animation_state, tapped):
         image_attributes = self.img_src.split("-")
@@ -59,7 +61,7 @@ class Unit(pygame.sprite.Sprite):
                 self.attacking = False
                 self.attack_start_frame = None
                 self.count = 0
-        elif self.damage > 0:
+        elif self.damage > 0 and not self.healing:
             self.count += 1
             image_attributes[2] = str(animation_state)
             self.image = pygame.image.load("-".join(image_attributes))
@@ -71,7 +73,19 @@ class Unit(pygame.sprite.Sprite):
             if self.count >= 40:
                 self.count = 0
                 self.damage = 0
-        else:
+        elif self.damage > 0 and self.healing:
+            self.count += 1
+            image_attributes[2] = str(animation_state)
+            self.image = pygame.image.load("-".join(image_attributes))
+            self.image.fill((255, 0, 0, 100), None, pygame.BLEND_RGBA_MULT)
+            font = pygame.font.SysFont("comicsansms", 16)
+            text = font.render(str(self.damage), True, (20, 200, 20))
+            surface.blit(self.image, (self.x, self.y))
+            surface.blit(text, (self.x + 9, self.y - 18))
+            if self.count >= 40:
+                self.count = 0
+                self.damage = 0
+        elif self.damage < 0:
             self.count += 1
             image_attributes[2] = str(animation_state)
             self.image = pygame.image.load("-".join(image_attributes))
@@ -102,8 +116,9 @@ class Unit(pygame.sprite.Sprite):
 
         surface.blit(self.image, location)
 
-    def incoming_damage(self, damage):
+    def incoming_damage(self, damage, healing):
         self.damage = damage
+        self.healing = healing
 
     def selected_target(self):
         self.is_target = True
@@ -133,6 +148,12 @@ class Unit(pygame.sprite.Sprite):
     def deal_damage(self, damage):
         self.CurrentHealth -= damage
 
+    def heal_damage(self, damage):
+        self.CurrentHealth += damage
+        if self.CurrentHealth > self.MaxHealth:
+            self.CurrentHealth = self.MaxHealth
+
+
     def calculate_level(self):
         while self.experience >= self.next_level_exp:
             self.level += 1
@@ -152,6 +173,7 @@ class Unit(pygame.sprite.Sprite):
             else:
                 bonus_points = 1
 
+            self.MaxHealth += 1
             for point in range(1, bonus_points):
                 stat_roll = randint(0, 100)
                 is_critical_point = randint(0, 100) >= 95
@@ -182,7 +204,7 @@ class Unit(pygame.sprite.Sprite):
                         self.Accuracy += 3
                     else:
                         self.Accuracy += 2
-                self.CurrentHealth = self.MaxHealth
+            self.CurrentHealth = self.MaxHealth
 
 
     @staticmethod

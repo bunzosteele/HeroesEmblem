@@ -1,9 +1,9 @@
 .  .  .  E  W  W  W  W  W  W  W  W  E  .  .  .
 .  .  E  W  W  W  S  S  S  S  W  W  W  E  .  .
-.  .  E  W  W  S7 S8 S  S  S  S* W  W  E  .  .
-.  .  E  W  S1 S* S6 S  S  S  S  S* W  E  .  .
-.  .  E  W  S  S  S  S  S  S  S  S* W  E  .  .
-.  .  E  W  S2 S* S5 S  S  S  S  S* W  E  .  .
-.  .  E  W  W  S3 S4 S  S  S  S* W  W  E  .  .
+.  .  E  W  W  S7 S8 O  O  S  S* W  W  E  .  .
+.  .  E  W  S1 S* O6 O  O  O  S  S* W  E  .  .
+.  .  E  W  S  S  O  L  L  O  S  S* W  E  .  .
+.  .  E  W  S2 S* O5 O  O  O  S  S* W  E  .  .
+.  .  E  W  W  S3 S4 O  O  S  S* W  W  E  .  .
 .  .  E  W  W  W  S  S  S  S  W  W  W  E  .  .
 .  .  .  E  W  W  W  W  W  W  W  W  E  .  .  .

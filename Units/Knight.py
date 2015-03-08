@@ -1,5 +1,3 @@
-import sys, pygame, os
-from pygame.locals import *
 from Units.Unit import *
 
 
@@ -16,7 +14,7 @@ class Knight(Unit):
     BaseCost = 1100
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                 movement_bonus, cost_modifier):
+                 movement_bonus, ability, cost_modifier):
         self.Type = Knight
         self.MinimumRange = Knight.BaseMinimumRange
         self.MaximumRange = Knight.BaseMaximumRange
@@ -28,4 +26,5 @@ class Knight(Unit):
         self.Accuracy = Knight.BaseAccuracy + accuracy_bonus
         self.Movement = Knight.BaseMovement + movement_bonus
         self.Cost = Knight.BaseCost + cost_modifier
+        self.Ability = None
         Unit.__init__(self, team)

@@ -14,7 +14,7 @@ class Archer(Unit):
     BaseCost = 800
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                 movement_bonus, cost_modifier):
+                 movement_bonus, ability, cost_modifier):
         self.Type = Archer
         self.MinimumRange = Archer.BaseMinimumRange
         self.MaximumRange = Archer.BaseMaximumRange
@@ -26,4 +26,5 @@ class Archer(Unit):
         self.Accuracy = Archer.BaseAccuracy + accuracy_bonus
         self.Movement = Archer.BaseMovement + movement_bonus
         self.Cost = Archer.BaseCost + cost_modifier
+        self.Ability = None
         Unit.__init__(self, team)

@@ -1,5 +1,3 @@
-import sys, pygame, os
-from pygame.locals import *
 from Units.Unit import *
 
 
@@ -16,7 +14,7 @@ class Spearman(Unit):
     BaseCost = 700
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
-                 movement_bonus, cost_modifier):
+                 movement_bonus, ability, cost_modifier):
         self.Type = Spearman
         self.MinimumRange = Spearman.BaseMinimumRange
         self.MaximumRange = Spearman.BaseMaximumRange
@@ -28,4 +26,5 @@ class Spearman(Unit):
         self.Accuracy = Spearman.BaseAccuracy + accuracy_bonus
         self.Movement = Spearman.BaseMovement + movement_bonus
         self.Cost = Spearman.BaseCost + cost_modifier
+        self.Ability = None
         Unit.__init__(self, team)

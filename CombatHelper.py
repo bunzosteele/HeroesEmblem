@@ -76,6 +76,8 @@ class CombatHelper():
             damage = CombatHelper.deal_damage(target_tile, target_unit, game_state.selected)
         else:
             damage = -1
+        if damage <= 0:
+            damage = -1
         return damage
 
     @staticmethod
@@ -104,3 +106,32 @@ class CombatHelper():
         else:
             return 0
 
+    @staticmethod
+    def heal(target_unit, healer):
+        if CombatHelper.check_heal_hit(healer):
+            heal = CombatHelper.heal_damage(target_unit, healer)
+        else:
+            heal = -1
+        return heal
+
+    @staticmethod
+    def check_heal_hit(healer):
+        chance_to_hit = healer.Accuracy
+        roll = randint(1, 100)
+        return roll <= chance_to_hit
+
+    @staticmethod
+    def heal_damage(target_unit, healer):
+        heal = healer.Attack
+        roll = randint(1, 100)
+        if roll <= 10:
+            heal -= 1
+        if 90 <= roll < 100:
+            heal += 1
+        if roll == 100:
+            heal *= 2
+        if heal > 0:
+            target_unit.heal_damage(heal)
+            return heal
+        else:
+            return 0

@@ -1,0 +1,24 @@
+Priest:
+0. Heal: Active, Non-Daily, Heal Adjacent Ally
+1. Rebirth: Active, Daily, Heal Adjacent Ally to full, remove some xp
+2. Scholar: Active, Non-Daily, Give unit Xp
+Knight:
+0. None
+1. Trample: Passive, Non-Daily, can move through enemies does some damage
+2. Sturdy: Passive, Daily, Survive with 1 hp
+Footman:
+0. None
+1. Block: Passive, Non-Daily, 5% chance to block incoming damage
+2. Retaliate: Passive, Non-Daily, hit back for a little
+Wizard:
+0. None
+1. Fireball: Active, Non-Daily, attack with AOE
+2. Petrify: Active, Daily, Tap enemy unit for X turns interrupted by damage
+Archer:
+0. None
+1. Ricochet:  Passive, Non-Daily, attack bounce to enemy behind
+2. Hail Mary: Active, Daily, Attack any enemy high chance to miss
+Spearman:
+0. None
+1. Stab: Passive, Non-Daily, hit all enemies in a line
+2. Vault: Active, Non-Daily, Skip a space
