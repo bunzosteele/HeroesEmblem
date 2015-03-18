@@ -17,19 +17,19 @@ class UnitGenerator():
         while len(generated_units) < 8:
             cost_modifier = 0
             health_bonus = UnitGenerator.get_health_bonus(randint(0, 100))
-            cost_modifier += health_bonus * 50
+            cost_modifier += health_bonus * 25
             attack_bonus = UnitGenerator.get_attack_bonus(randint(0, 100))
             cost_modifier += attack_bonus * 50
             defense_bonus = UnitGenerator.get_defense_bonus(randint(0, 100))
             cost_modifier += defense_bonus * 50
             evasion_bonus = UnitGenerator.get_evasion_bonus(randint(0, 100))
-            cost_modifier += evasion_bonus * 25
+            cost_modifier += evasion_bonus * 5
             accuracy_bonus = UnitGenerator.get_accuracy_bonus(randint(0, 100))
-            cost_modifier += accuracy_bonus * 10
+            cost_modifier += accuracy_bonus * 5
             movement_bonus = UnitGenerator.get_movement_bonus(randint(0, 100))
-            cost_modifier += movement_bonus * 250
+            cost_modifier += movement_bonus * 200
             ability = UnitGenerator.get_ability(randint(0, 100))
-            cost_modifier += ability * 250
+            cost_modifier += ability * 200
 
             generated_units.append(
                 UnitGenerator.generate_unit(0, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,

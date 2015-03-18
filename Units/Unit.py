@@ -9,7 +9,7 @@ class Unit(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.x = None
         self.y = None
-        self.has_moved = False
+        self.distance_moved = 0
         self.has_acted = False
         self.has_used_ability = False
         self.team = team
@@ -30,12 +30,12 @@ class Unit(pygame.sprite.Sprite):
         self.next_level_exp = 100
         self.level = 1
         self.count = 0
-        self.damage = 0
+        self.damage = ""
         self.healing = False
 
     def draw(self, surface, animation_state, tapped):
         image_attributes = self.img_src.split("-")
-        if not self.attacking and self.damage == 0:
+        if not self.attacking and self.damage == "":
             if tapped:
                 image_attributes[2] = "1"
             else:
@@ -61,42 +61,29 @@ class Unit(pygame.sprite.Sprite):
                 self.attacking = False
                 self.attack_start_frame = None
                 self.count = 0
-        elif self.damage > 0 and not self.healing:
+        elif self.damage != "":
+            if self.damage == "Missed" or self.damage == "Blocked":
+                x_offset = -16
+                y_offset = -20
+                font_color = (255,255,255)
+            else:
+                x_offset = 9
+                y_offset = -18
+                if self.healing:
+                    font_color = (20, 200, 20)
+                else:
+                    font_color = (255, 51,51)
             self.count += 1
             image_attributes[2] = str(animation_state)
             self.image = pygame.image.load("-".join(image_attributes))
             self.image.fill((255, 0, 0, 100), None, pygame.BLEND_RGBA_MULT)
             font = pygame.font.SysFont("comicsansms", 16)
-            text = font.render(str(self.damage), True, (255, 51, 51))
+            text = font.render(self.damage, True, font_color)
             surface.blit(self.image, (self.x, self.y))
-            surface.blit(text, (self.x + 9, self.y - 18))
+            surface.blit(text, (self.x + x_offset, self.y + y_offset))
             if self.count >= 40:
                 self.count = 0
-                self.damage = 0
-        elif self.damage > 0 and self.healing:
-            self.count += 1
-            image_attributes[2] = str(animation_state)
-            self.image = pygame.image.load("-".join(image_attributes))
-            self.image.fill((255, 0, 0, 100), None, pygame.BLEND_RGBA_MULT)
-            font = pygame.font.SysFont("comicsansms", 16)
-            text = font.render(str(self.damage), True, (20, 200, 20))
-            surface.blit(self.image, (self.x, self.y))
-            surface.blit(text, (self.x + 9, self.y - 18))
-            if self.count >= 40:
-                self.count = 0
-                self.damage = 0
-        elif self.damage < 0:
-            self.count += 1
-            image_attributes[2] = str(animation_state)
-            self.image = pygame.image.load("-".join(image_attributes))
-            font = pygame.font.SysFont("comicsansms", 18)
-            text = font.render("MISSED!", True, (51, 255, 255))
-            surface.blit(self.image, (self.x, self.y))
-            surface.blit(text, (self.x - 16, self.y - 20))
-
-            if self.count >= 40:
-                self.count = 0
-                self.damage = 0
+                self.damage = ""
 
     def draw_preview(self, surface, location, animation_state, attacking):
         image_attributes = self.img_src.split("-")
@@ -152,7 +139,6 @@ class Unit(pygame.sprite.Sprite):
         self.CurrentHealth += damage
         if self.CurrentHealth > self.MaxHealth:
             self.CurrentHealth = self.MaxHealth
-
 
     def calculate_level(self):
         while self.experience >= self.next_level_exp:

@@ -1,6 +1,6 @@
 from DrawingHelper import DrawingHelper
 import UI.Buttons
-from Units.Mage import *
+import pygame
 
 
 def run(screen, shop_state):
