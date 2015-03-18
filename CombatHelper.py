@@ -1,5 +1,8 @@
 from BattlefieldHelper import *
 from random import randint
+from Units.Abilities.Joust import *
+from Units.Abilities.Block import *
+from Units.Abilities.Sturdy import *
 
 
 class CombatHelper():
@@ -75,9 +78,7 @@ class CombatHelper():
         if CombatHelper.check_hit(target_tile, target_unit, game_state.selected):
             damage = CombatHelper.deal_damage(target_tile, target_unit, game_state.selected)
         else:
-            damage = -1
-        if damage <= 0:
-            damage = -1
+            damage = "Missed"
         return damage
 
     @staticmethod
@@ -91,6 +92,12 @@ class CombatHelper():
     @staticmethod
     def deal_damage(target_tile, target_unit, attacker):
         damage_dealt = attacker.Attack
+        if attacker.Ability == Joust:
+            damage_dealt += attacker.distance_moved
+        if target_unit.Ability == Block:
+            block_roll = randint(1, 100)
+            if block_roll > 90:
+                return "Blocked"
         damage_dealt = damage_dealt - target_unit.Defense
         damage_dealt = damage_dealt - target_tile.DefenseBoost
         roll = randint(1, 100)
@@ -102,9 +109,9 @@ class CombatHelper():
             damage_dealt *= 2
         if damage_dealt > 0:
             target_unit.deal_damage(damage_dealt)
-            return damage_dealt
+            return str(damage_dealt)
         else:
-            return 0
+            return "0"
 
     @staticmethod
     def heal(target_unit, healer):
@@ -135,3 +142,14 @@ class CombatHelper():
             return heal
         else:
             return 0
+
+    @staticmethod
+    def kill_unit(unit, game_state):
+         if unit.CurrentHealth <= 0:
+            if unit.Ability == Sturdy and not unit.has_used_ability:
+                unit.CurrentHealth = 1
+                unit.has_used_ability = True
+            else:
+                game_state.units.remove(unit)
+                game_state.selected.experience += unit.MaxHealth
+                game_state.selected.calculate_level()

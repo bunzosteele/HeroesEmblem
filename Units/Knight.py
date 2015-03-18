@@ -1,5 +1,6 @@
 from Units.Unit import *
-
+from Units.Abilities.Joust import *
+from Units.Abilities.Sturdy import *
 
 class Knight(Unit):
     img_src = "images/Knight-Idle-1-2.png"
@@ -8,10 +9,10 @@ class Knight(Unit):
     BaseMaxHealth = 20
     BaseAttack = 10
     BaseDefense = 5
-    BaseEvasion = 3
-    BaseAccuracy = 85
-    BaseMovement = 5
-    BaseCost = 1100
+    BaseEvasion = 5
+    BaseAccuracy = 95
+    BaseMovement = 6
+    BaseCost = 1000
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                  movement_bonus, ability, cost_modifier):
@@ -26,5 +27,10 @@ class Knight(Unit):
         self.Accuracy = Knight.BaseAccuracy + accuracy_bonus
         self.Movement = Knight.BaseMovement + movement_bonus
         self.Cost = Knight.BaseCost + cost_modifier
-        self.Ability = None
+        if ability == 1:
+            self.Ability = Joust
+        elif ability == 2:
+            self.Ability = Sturdy
+        else:
+            self.Ability = None
         Unit.__init__(self, team)

@@ -2,15 +2,15 @@ from DrawingHelper import *
 
 
 class Heal():
-    highlight_color = (20, 200, 20)
+    highlight_color = (20, 200, 20, 150)
 
     def __init__(self):
         pass
 
     @staticmethod
-    def draw_ability_shadow(unit, battlefield, screen):
-        options = Heal.get_target_spaces(unit.get_location())
-        DrawingHelper.draw_shadow(options, battlefield, Heal.highlight_color, screen)
+    def draw_ability_shadow(game_state, screen):
+        options = Heal.get_target_spaces(game_state.selected.get_location(), game_state)
+        DrawingHelper.draw_shadow(options, game_state.battlefield, Heal.highlight_color, screen)
 
     @staticmethod
     def can_use_ability(unit, game_state):
@@ -27,9 +27,10 @@ class Heal():
         unit.attacking = True
         game_state.selected.attack_start_frame = game_state.animation_state + 1
         heal = CombatHelper.heal(target_unit, unit)
-        target_unit.incoming_damage(heal, True)
+        target_unit.incoming_damage(str(heal), True)
         unit.has_used_ability = True
         unit.has_acted = True
+        return True
 
     @staticmethod
     def get_ability_name():
@@ -49,7 +50,7 @@ class Heal():
 
     @staticmethod
     def get_targets(unit, game_state):
-        options = Heal.get_target_spaces(unit.get_location())
+        options = Heal.get_target_spaces(unit.get_location(), game_state)
         targets = []
         for target in game_state.units:
             if target.get_location() in options\
@@ -60,7 +61,7 @@ class Heal():
 
     @staticmethod
     def get_potential_targets(location, team, game_state):
-        options = Heal.get_target_spaces(location)
+        options = Heal.get_target_spaces(location, game_state)
         targets = []
         for target in game_state.units:
             if target.get_location() in options\
@@ -70,6 +71,14 @@ class Heal():
         return targets
 
     @staticmethod
-    def get_target_spaces(start):
-        return [(start[0] + 1, start[1]), (start[0] - 1, start[1]), (start[0], start[1] + 1),
-                   (start[0], start[1] - 1)]
+    def get_target_spaces(start, game_state):
+        targets = []
+        if BattlefieldHelper.is_in_bounds(start[0] + 1, start[1], game_state.battlefield):
+            targets.append((start[0] + 1, start[1]))
+        if BattlefieldHelper.is_in_bounds(start[0] - 1, start[1], game_state.battlefield):
+            targets.append((start[0] - 1, start[1]))
+        if BattlefieldHelper.is_in_bounds(start[0], start[1] - 1, game_state.battlefield):
+            targets.append((start[0], start[1] - 1))
+        if BattlefieldHelper.is_in_bounds(start[0], start[1] + 1, game_state.battlefield):
+            targets.append((start[0], start[1] + 1))
+        return targets

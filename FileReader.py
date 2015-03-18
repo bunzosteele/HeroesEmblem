@@ -58,9 +58,9 @@ class FileReader():
     def generate_battlefield(difficulty):
         max_field = 6
         if difficulty > max_field:
-            selection = randint(-10, max_field)
+            selection = randint(-6, max_field)
         else:
-            selection = randint(-10, difficulty - 1)
+            selection = randint(-6, difficulty - 1)
         return str(selection)
 
     @staticmethod

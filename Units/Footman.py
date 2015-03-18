@@ -1,4 +1,5 @@
 from Units.Unit import *
+from Units.Abilities.ShieldBash import *
 
 
 class Footman(Unit):
@@ -6,12 +7,12 @@ class Footman(Unit):
     BaseMinimumRange = 0
     BaseMaximumRange = 1
     BaseMaxHealth = 20
-    BaseAttack = 9
-    BaseDefense = 3
+    BaseAttack = 11
+    BaseDefense = 4
     BaseEvasion = 5
     BaseAccuracy = 95
     BaseMovement = 4
-    BaseCost = 750
+    BaseCost = 850
 
     def __init__(self, team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                  movement_bonus, ability, cost_modifier):
@@ -26,5 +27,10 @@ class Footman(Unit):
         self.Accuracy = Footman.BaseAccuracy + accuracy_bonus
         self.Movement = Footman.BaseMovement + movement_bonus
         self.Cost = Footman.BaseCost + cost_modifier
-        self.Ability = None
+        if ability == 1:
+            self.Ability = ShieldBash
+        elif ability == 2:
+            self.Ability = Block
+        else:
+            self.Ability = None
         Unit.__init__(self, team)

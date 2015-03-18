@@ -85,32 +85,34 @@ class DrawingHelper():
             screen.blit(level_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 2))
 
             if shop_state.selected in shop_state.stock:
-                cost_display = pygame.font.SysFont("monospace", 32).render(str(shop_state.selected.Cost), 1,
-                                                                           DrawingHelper.white_color)
-                screen.blit(cost_display, (status_offset + 42, 10))
-                hometown_display = DrawingHelper.font.render("Hails from:", 1, DrawingHelper.white_color)
-                screen.blit(hometown_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 9))
-                hometown_display = DrawingHelper.font.render(str(unit.hometown), 1, DrawingHelper.gold_color)
-                screen.blit(hometown_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 10))
-                likes_display = DrawingHelper.font.render("Likes:", 1, DrawingHelper.white_color)
-                screen.blit(likes_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 11))
-                likes_display = DrawingHelper.font.render(str(unit.like), 1, DrawingHelper.gold_color)
-                screen.blit(likes_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 12))
-                dislikes_display = DrawingHelper.font.render("Dislikes:", 1, DrawingHelper.white_color)
-                screen.blit(dislikes_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 13))
-                dislikes_display = DrawingHelper.font.render(str(unit.dislike), 1, DrawingHelper.gold_color)
-                screen.blit(dislikes_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 14))
-                hobby_display = DrawingHelper.font.render("Hobby:", 1, DrawingHelper.white_color)
-                screen.blit(hobby_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 15))
-                hobby_display = DrawingHelper.font.render(str(unit.hobby), 1, DrawingHelper.gold_color)
-                screen.blit(hobby_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 16))
+
+                 cost_display = pygame.font.SysFont("monospace", 32).render(str(shop_state.selected.Cost), 1,
+                                                                            DrawingHelper.white_color)
+                 screen.blit(cost_display, (status_offset + 42, 10))
+                # hometown_display = DrawingHelper.font.render("Hails from:", 1, DrawingHelper.white_color)
+                # screen.blit(hometown_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 9))
+                # hometown_display = DrawingHelper.font.render(str(unit.hometown), 1, DrawingHelper.gold_color)
+                # screen.blit(hometown_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 10))
+                # likes_display = DrawingHelper.font.render("Likes:", 1, DrawingHelper.white_color)
+                # screen.blit(likes_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 11))
+                # likes_display = DrawingHelper.font.render(str(unit.like), 1, DrawingHelper.gold_color)
+                # screen.blit(likes_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 12))
+                # dislikes_display = DrawingHelper.font.render("Dislikes:", 1, DrawingHelper.white_color)
+                # screen.blit(dislikes_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 13))
+                # dislikes_display = DrawingHelper.font.render(str(unit.dislike), 1, DrawingHelper.gold_color)
+                # screen.blit(dislikes_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 14))
+                # hobby_display = DrawingHelper.font.render("Hobby:", 1, DrawingHelper.white_color)
+                # screen.blit(hobby_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 15))
+                # hobby_display = DrawingHelper.font.render(str(unit.hobby), 1, DrawingHelper.gold_color)
+                # screen.blit(hobby_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 16))
+
             else:
                 experience_display = DrawingHelper.font.render("EXP: " + str(unit.experience), 1,
                                                                DrawingHelper.white_color)
-                screen.blit(experience_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 9))
+                screen.blit(experience_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 11))
                 next_level_display = DrawingHelper.font.render("NXT LVL: " + str(unit.next_level_exp), 1,
                                                                DrawingHelper.white_color)
-                screen.blit(next_level_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 10))
+                screen.blit(next_level_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 12))
 
             font_color = DrawingHelper.white_color
             if unit.MaxHealth > unit.Type.BaseMaxHealth and shop_state.selected in shop_state.stock:
@@ -168,6 +170,20 @@ class DrawingHelper():
                 font_color = DrawingHelper.red_color
             movement_display = DrawingHelper.font.render("MOVE: " + str(unit.Movement), 1, font_color)
             screen.blit(movement_display, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 8))
+
+            font_color = DrawingHelper.white_color
+            ability_header = DrawingHelper.font.render("ABILITY: ", 1, font_color)
+            screen.blit(ability_header, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 9))
+
+            if unit.Ability is not None:
+                if shop_state.selected in shop_state.stock:
+                    font_color = DrawingHelper.gold_color
+                ability_name = DrawingHelper.font.render(unit.Ability.get_ability_name(), 1, font_color)
+            else:
+                if shop_state.selected in shop_state.stock:
+                    font_color = DrawingHelper.red_color
+                ability_name = DrawingHelper.font.render("None", 1, font_color)
+            screen.blit(ability_name, (status_offset + 10, Tile.Size + DrawingHelper.line_offset * 10))
 
     @staticmethod
     def draw_shop_data(shop_state, screen):
