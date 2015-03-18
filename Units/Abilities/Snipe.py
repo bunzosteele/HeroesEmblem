@@ -31,7 +31,7 @@ class Snipe():
         if target_unit.CurrentHealth <= 0:
             CombatHelper.kill_unit(target_unit, game_state)
         else:
-            target_unit.incoming_damage(str(damage), False)
+            target_unit.incoming_effect(damage, "Damage")
         unit.has_used_ability = True
         unit.has_acted = True
         return True

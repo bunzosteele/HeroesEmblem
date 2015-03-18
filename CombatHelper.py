@@ -151,5 +151,4 @@ class CombatHelper():
                 unit.has_used_ability = True
             else:
                 game_state.units.remove(unit)
-                game_state.selected.experience += unit.MaxHealth
-                game_state.selected.calculate_level()
+                game_state.selected.add_experience(unit.MaxHealth)

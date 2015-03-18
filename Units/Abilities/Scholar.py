@@ -3,6 +3,7 @@ from DrawingHelper import *
 
 class Scholar():
     highlight_color = (255, 215, 0, 150)
+    taught_units = []
 
     def __init__(self):
         pass
@@ -26,10 +27,11 @@ class Scholar():
     def use_ability(target_tile, target_unit, unit, game_state):
         unit.attacking = True
         game_state.selected.attack_start_frame = game_state.animation_state + 1
-        target_unit.experience += 25
-        target_unit.calculate_level()
+        experience = unit.Attack * 5
+        target_unit.add_experience(experience)
         unit.has_used_ability = True
         unit.has_acted = True
+        Scholar.taught_units.append(target_unit)
         return True
 
     @staticmethod
@@ -54,7 +56,8 @@ class Scholar():
         targets = []
         for target in game_state.units:
             if target.get_location() in options\
-                    and target.get_team() == unit.get_team():
+                    and target.get_team() == unit.get_team()\
+                    and target not in Scholar.taught_units:
                 targets.append(target)
         return targets
 
@@ -65,7 +68,8 @@ class Scholar():
         for target in game_state.units:
             if target.get_location() in options\
                     and target.get_team() == team\
-                    and target.CurrentHealth < target.MaxHealth:
+                    and target.CurrentHealth < target.MaxHealth\
+                    and target not in Scholar.taught_units:
                 targets.append(target)
         return targets
 

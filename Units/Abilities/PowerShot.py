@@ -61,7 +61,7 @@ class PowerShot():
                 if u.CurrentHealth <= 0:
                     CombatHelper.kill_unit(u, game_state)
                 else:
-                    u.incoming_damage(str(damage), False)
+                    u.incoming_effect(damage, "Damage")
         unit.has_used_ability = True
         unit.has_acted = True
         return True

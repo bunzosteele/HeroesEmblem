@@ -22,14 +22,17 @@ class UnitGenerator():
             cost_modifier += attack_bonus * 50
             defense_bonus = UnitGenerator.get_defense_bonus(randint(0, 100))
             cost_modifier += defense_bonus * 50
-            evasion_bonus = UnitGenerator.get_evasion_bonus(randint(0, 100))
-            cost_modifier += evasion_bonus * 5
-            accuracy_bonus = UnitGenerator.get_accuracy_bonus(randint(0, 100))
+            evasion_bonus = UnitGenerator.get_evasion_bonus(randint(-5, 5))
+            cost_modifier += evasion_bonus * 10
+            accuracy_bonus = UnitGenerator.get_accuracy_bonus(randint(-10, 10))
             cost_modifier += accuracy_bonus * 5
             movement_bonus = UnitGenerator.get_movement_bonus(randint(0, 100))
             cost_modifier += movement_bonus * 200
             ability = UnitGenerator.get_ability(randint(0, 100))
-            cost_modifier += ability * 200
+            if ability == 0:
+                cost_modifier -= 200
+            else:
+                cost_modifier += ability * 200
 
             generated_units.append(
                 UnitGenerator.generate_unit(0, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
@@ -48,7 +51,7 @@ class UnitGenerator():
                     enemies.append(UnitGenerator.generate_unit(1, 0, 0, 0, 0, 0, 0, 0, 0))
                 else:
                     random_unit = randint(0, len(enemies) - 1)
-                    enemies[random_unit].experience += 50 + 50*enemies[random_unit].level
+                    enemies[random_unit].experience += 50*(enemies[random_unit].level + 1)
                     enemies[random_unit].calculate_level()
         return enemies
 
@@ -69,6 +72,8 @@ class UnitGenerator():
             return Mage(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                         movement_bonus, ability, cost_modifier)
         elif class_seed == 5:
+            if ability == 0:
+                cost_modifier += 200
             return Priest(team, health_bonus, attack_bonus, defense_bonus, evasion_bonus, accuracy_bonus,
                           movement_bonus, ability, cost_modifier)
         else:
@@ -101,6 +106,8 @@ class UnitGenerator():
 
     @staticmethod
     def get_attack_bonus(roll):
+        if roll > 98:
+            return 3
         if roll > 90:
             return 2
         if roll > 70:
@@ -113,6 +120,8 @@ class UnitGenerator():
 
     @staticmethod
     def get_defense_bonus(roll):
+        if roll > 98:
+            return 3
         if roll > 90:
             return 2
         if roll > 70:
@@ -125,43 +134,11 @@ class UnitGenerator():
 
     @staticmethod
     def get_evasion_bonus(roll):
-        if roll > 90:
-            return 3
-        if roll > 80:
-            return 2
-        if roll > 70:
-            return 1
-        if roll < 30:
-            return -1
-        if roll < 20:
-            return -3
-        if roll < 10:
-            return -3
-        return 0
+        return roll
 
     @staticmethod
     def get_accuracy_bonus(roll):
-        if roll > 99:
-            return 5
-        if roll > 95:
-            return 4
-        if roll > 90:
-            return 3
-        if roll > 80:
-            return 2
-        if roll > 70:
-            return 1
-        if roll < 30:
-            return -1
-        if roll < 20:
-            return -2
-        if roll < 10:
-            return -3
-        if roll < 5:
-            return -4
-        if roll < 1:
-            return -5
-        return 0
+        return roll
 
     @staticmethod
     def get_movement_bonus(roll):
@@ -173,9 +150,9 @@ class UnitGenerator():
 
     @staticmethod
     def get_ability(roll):
-        if roll <= 40:
+        if roll <= 50:
             return 0
-        if roll <= 90:
+        if roll <= 80:
             return 1
         return 2
 

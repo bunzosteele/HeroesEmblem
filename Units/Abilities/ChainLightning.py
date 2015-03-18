@@ -34,7 +34,7 @@ class ChainLightning():
             if target_unit.CurrentHealth <= 0:
                 CombatHelper.kill_unit(target_unit, game_state)
             else:
-                target_unit.incoming_damage(str(damage), False)
+                target_unit.incoming_effect(damage, "Damage")
             damage /= 2
             target_unit = ChainLightning.get_next_target(game_state.units, damaged_units, target_unit)
         unit.has_used_ability = True

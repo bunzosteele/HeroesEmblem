@@ -28,8 +28,8 @@ class Rebirth():
         game_state.selected.attack_start_frame = game_state.animation_state + 1
         heal = target_unit.MaxHealth
         target_unit.heal_damage(heal)
-        target_unit.incoming_damage(str(heal), True)
-        target_unit.experience = 0
+        target_unit.incoming_effect(heal, "Heal")
+        target_unit.experience /= 2
         unit.has_used_ability = True
         unit.has_acted = True
         return True
@@ -75,6 +75,8 @@ class Rebirth():
     @staticmethod
     def get_target_spaces(start, game_state):
         targets = []
+        if BattlefieldHelper.is_in_bounds(start[0], start[1], game_state.battlefield):
+            targets.append((start[0], start[1]))
         if BattlefieldHelper.is_in_bounds(start[0] + 1, start[1], game_state.battlefield):
             targets.append((start[0] + 1, start[1]))
         if BattlefieldHelper.is_in_bounds(start[0] - 1, start[1], game_state.battlefield):

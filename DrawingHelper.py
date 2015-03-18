@@ -22,7 +22,7 @@ class DrawingHelper():
     def draw_all_the_things(game_state, screen, end_turn, new_turn, move, attack, ability, inventory, move_helper):
         game_state.battlefield.draw(screen)
         DrawingHelper.draw_end_turn_button(end_turn, screen, game_state)
-        if game_state.is_owned_unit_selected():
+        if game_state.is_owned_unit_selected() and game_state.current_player == 0:
             if game_state.can_selected_unit_move():
                 DrawingHelper.draw_move_button(move, DrawingHelper.active_button_color, screen, game_state)
                 DrawingHelper.draw_inventory_button(inventory, DrawingHelper.active_button_color, screen, game_state)
@@ -107,7 +107,11 @@ class DrawingHelper():
                                            DrawingHelper.white_color)
             screen.blit(hitpoint_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 3))
 
-
+            ability_header = font.render("Ability:", 1, DrawingHelper.white_color)
+            if unit.Ability is not None:
+                ability_name = font.render(unit.Ability.get_ability_name(), 1, DrawingHelper.white_color)
+            else:
+                 ability_name = font.render("None", 1, DrawingHelper.white_color)
             if unit.get_team() == game_state.current_player:
                 attack_display = font.render("ATK: " + str(unit.Attack), 1, DrawingHelper.white_color)
                 screen.blit(attack_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 4))
@@ -117,13 +121,11 @@ class DrawingHelper():
                 screen.blit(experience_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 6))
                 next_level_display = font.render("NXT LVL: " + str(unit.next_level_exp), 1, DrawingHelper.white_color)
                 screen.blit(next_level_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 7))
-            ability_header = font.render("Ability:", 1, DrawingHelper.white_color)
-            screen.blit(ability_header, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 8))
-            if unit.Ability is not None:
-                ability_name = font.render(unit.Ability.get_ability_name(), 1, DrawingHelper.white_color)
+                screen.blit(ability_header, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 8))
+                screen.blit(ability_name, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 9))
             else:
-                 ability_name = font.render("None", 1, DrawingHelper.white_color)
-            screen.blit(ability_name, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 9))
+                screen.blit(ability_header, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 4))
+                screen.blit(ability_name, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 5))
 
     @staticmethod
     def draw_move_button(button, background_color, screen, game_state):

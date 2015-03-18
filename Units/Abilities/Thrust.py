@@ -48,7 +48,7 @@ class Thrust():
             unit.x = target_unit.x
             unit.y = target_unit.y
         else:
-            target_unit.incoming_damage(str(damage), False)
+            target_unit.incoming_effect(damage, "Damage")
             if blocking_unit is None and not is_blocked_by_terrain:
                 unit.x = target_unit.x
                 unit.y = target_unit.y
@@ -60,7 +60,7 @@ class Thrust():
             if blocking_unit.CurrentHealth <= 0:
                 CombatHelper.kill_unit(blocking_unit, game_state)
             else:
-                blocking_unit.incoming_damage(str(damage), False)
+                blocking_unit.incoming_effect(damage, "Damage")
         unit.has_used_ability = True
         unit.has_acted = True
         return True

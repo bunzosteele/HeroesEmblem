@@ -1,6 +1,7 @@
 import math
 from MovementHelper import *
 from Units.Abilities.Teleport import *
+from Units.Abilities.Scholar import *
 
 
 class GameState:
@@ -147,6 +148,7 @@ class GameState:
                 new_location[1] - current_location[1])
             if not self.can_selected_unit_act():
                 self.tapped_units.append(self.selected)
+            self.untap_affected_units()
 
     def attempt_to_attack(self, clicked_space):
         target_tile, target_unit = self.get_clicked_tile_and_unit(clicked_space)
@@ -155,7 +157,12 @@ class GameState:
         elif CombatHelper.can_attack_targets(self.selected, self.battlefield, [target_unit]):
             damage = CombatHelper.attack(target_tile, target_unit, self)
             target_unit.selected_target()
-            target_unit.incoming_damage(damage, False)
+            if damage == "Missed":
+                target_unit.incoming_effect(0, damage)
+            elif damage == "Blocked":
+                target_unit.incoming_effect(0, damage)
+            else:
+                target_unit.incoming_effect(damage, "Damage")
             self.selected.has_acted = True
             if target_unit.CurrentHealth <= 0:
                 CombatHelper.kill_unit(target_unit, self)
@@ -178,6 +185,14 @@ class GameState:
             if self.selected.distance_moved > 0:
                 self.tapped_units.append(self.selected)
         self.using_ability = False
+        self.untap_affected_units()
+
+    def untap_affected_units(self):
+        for unit in self.tapped_units:
+            if not unit.has_acted and unit.get_team() == self.current_player and \
+                    (CombatHelper.can_attack(unit, self.battlefield, self.units, self.current_player)
+                     or (unit.Ability is not None and unit.Ability.can_use_ability(unit, self))):
+                self.tapped_units.remove(unit)
 
     def ai_attack(self, target_tile, target_unit):
         if target_unit is None or target_unit.get_team() == self.current_player:
@@ -186,7 +201,12 @@ class GameState:
         elif CombatHelper.can_attack_targets(self.selected, self.battlefield, [target_unit]):
             damage = CombatHelper.attack(target_tile, target_unit, self)
             target_unit.selected_target()
-            target_unit.incoming_damage(damage, False)
+            if damage == "Missed":
+                target_unit.incoming_effect(0, damage)
+            elif damage == "Blocked":
+                target_unit.incoming_effect(0, damage)
+            else:
+                target_unit.incoming_effect(damage, "Damage")
             self.selected.has_acted = True
             if target_unit.CurrentHealth <= 0:
                 CombatHelper.kill_unit(target_unit, self)
@@ -254,6 +274,8 @@ class GameState:
             unit.has_acted = False
             unit.distance_moved = 0
             unit.has_used_ability = False
+            if unit.Ability == Scholar:
+                Scholar.taught_units = []
         return self.units
 
 

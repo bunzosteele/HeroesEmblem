@@ -27,7 +27,7 @@ class Heal():
         unit.attacking = True
         game_state.selected.attack_start_frame = game_state.animation_state + 1
         heal = CombatHelper.heal(target_unit, unit)
-        target_unit.incoming_damage(str(heal), True)
+        target_unit.incoming_effect(heal, "Heal")
         unit.has_used_ability = True
         unit.has_acted = True
         return True

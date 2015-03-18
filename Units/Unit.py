@@ -29,13 +29,13 @@ class Unit(pygame.sprite.Sprite):
         self.experience = 0
         self.next_level_exp = 100
         self.level = 1
-        self.count = 0
-        self.damage = ""
-        self.healing = False
+        self.animation_count = 0
+        self.effect_quantity = None
+        self.incoming_effect_display = None
 
     def draw(self, surface, animation_state, tapped):
         image_attributes = self.img_src.split("-")
-        if not self.attacking and self.damage == "":
+        if not self.attacking and self.incoming_effect_display is None:
             if tapped:
                 image_attributes[2] = "1"
             else:
@@ -46,7 +46,7 @@ class Unit(pygame.sprite.Sprite):
                 self.image.fill((255, 255, 255, 128), None, pygame.BLEND_RGBA_MULT)
             surface.blit(self.image, (self.x, self.y))
         elif self.attacking:
-            self.count += 1
+            self.animation_count += 1
             image_attributes[1] = "Attack"
             if animation_state % 2 == 0:
                 attack_frame = 2
@@ -57,33 +57,49 @@ class Unit(pygame.sprite.Sprite):
             self.image = pygame.image.load("-".join(image_attributes))
             surface.blit(self.image, (self.x, self.y))
 
-            if self.have_two_frames_passed(animation_state, self.attack_start_frame) or self.count >= 90:
+            if self.have_two_frames_passed(animation_state, self.attack_start_frame) or self.animation_count >= 90:
                 self.attacking = False
                 self.attack_start_frame = None
-                self.count = 0
-        elif self.damage != "":
-            if self.damage == "Missed" or self.damage == "Blocked":
+                self.animation_count = 0
+        elif self.incoming_effect_display is not None:
+            if self.incoming_effect_display == "Missed" or self.incoming_effect_display == "Blocked":
                 x_offset = -16
                 y_offset = -20
                 font_color = (255,255,255)
             else:
                 x_offset = 9
                 y_offset = -18
-                if self.healing:
+                if self.incoming_effect_display == "Heal":
                     font_color = (20, 200, 20)
-                else:
-                    font_color = (255, 51,51)
-            self.count += 1
+                elif self.incoming_effect_display == "Damage":
+                    font_color = (255, 51, 51)
+                elif self.incoming_effect_display == "Experience":
+                    font_color = (255, 215, 0)
+
+            self.animation_count += 1
             image_attributes[2] = str(animation_state)
             self.image = pygame.image.load("-".join(image_attributes))
-            self.image.fill((255, 0, 0, 100), None, pygame.BLEND_RGBA_MULT)
-            font = pygame.font.SysFont("comicsansms", 16)
-            text = font.render(self.damage, True, font_color)
+            if self.incoming_effect_display == "Heal":
+                self.image.fill((0, 255, 0, 100), None, pygame.BLEND_RGBA_MULT)
+            elif self.incoming_effect_display == "Damage":
+                self.image.fill((255, 0, 0, 100), None, pygame.BLEND_RGBA_MULT)
+            elif self.incoming_effect_display == "Experience":
+                self.image.fill((255, 215, 0, 100), None, pygame.BLEND_RGBA_MULT)
+
+            font = pygame.font.SysFont("helvetica", 16)
+            if self.incoming_effect_display == "Missed":
+                text = font.render("Misssed!", True, font_color)
+            elif self.incoming_effect_display == "Blocked":
+                text = font.render("Blocked!", True, font_color)
+            else:
+                text = font.render(str(self.effect_quantity), True, font_color)
+
             surface.blit(self.image, (self.x, self.y))
             surface.blit(text, (self.x + x_offset, self.y + y_offset))
-            if self.count >= 40:
-                self.count = 0
-                self.damage = ""
+            if self.animation_count >= 40:
+                self.animation_count = 0
+                self.effect_quantity = None
+                self.incoming_effect_display = None
 
     def draw_preview(self, surface, location, animation_state, attacking):
         image_attributes = self.img_src.split("-")
@@ -103,9 +119,12 @@ class Unit(pygame.sprite.Sprite):
 
         surface.blit(self.image, location)
 
-    def incoming_damage(self, damage, healing):
-        self.damage = damage
-        self.healing = healing
+    def incoming_effect(self, quantity, effect_type):
+        if effect_type == self.incoming_effect_display and quantity is not None:
+            self.effect_quantity += quantity
+        else:
+            self.effect_quantity = quantity
+            self.incoming_effect_display = effect_type
 
     def selected_target(self):
         self.is_target = True
@@ -160,7 +179,7 @@ class Unit(pygame.sprite.Sprite):
                 bonus_points = 1
 
             self.MaxHealth += 1
-            for point in range(1, bonus_points):
+            for point in range(0, bonus_points):
                 stat_roll = randint(0, 100)
                 is_critical_point = randint(0, 100) >= 95
                 if stat_roll >= 95:
@@ -192,6 +211,10 @@ class Unit(pygame.sprite.Sprite):
                         self.Accuracy += 2
             self.CurrentHealth = self.MaxHealth
 
+    def add_experience(self, added_experience):
+        self.experience += added_experience
+        self.incoming_effect(added_experience, "Experience")
+        self.calculate_level()
 
     @staticmethod
     def resource_path(relative):
@@ -202,7 +225,6 @@ class Unit(pygame.sprite.Sprite):
             ),
             relative
         )
-
 
     @staticmethod
     def have_two_frames_passed(first, current):

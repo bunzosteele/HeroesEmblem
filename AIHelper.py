@@ -13,7 +13,8 @@ class AIHelper():
         if len(ai_units) == 0:
             return False
 
-        invalid_units = game_state.tapped_units
+        invalid_units = AIHelper.get_player_units(game_state)
+        invalid_units.extend(game_state.tapped_units)
         units_with_options = AIHelper.get_options(game_state, ai_units, invalid_units)
         highest_priority_unit = units_with_options[0]
 

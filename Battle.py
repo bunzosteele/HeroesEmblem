@@ -48,10 +48,10 @@ def run(screen, game_state):
                 else:
                     clicked_space = (pos[0] / Tile.Size, pos[1] / Tile.Size)
                     if game_state.is_click_in_bounds(clicked_space):
-                        if game_state.is_clicking_selected_unit(clicked_space):
-                            game_state.deselect_unit()
-                        elif game_state.is_unit_using_ability():
+                        if game_state.is_unit_using_ability():
                             game_state.attempt_to_use_ability(clicked_space)
+                        elif game_state.is_clicking_selected_unit(clicked_space):
+                            game_state.deselect_unit()
                         elif game_state.is_clicking_own_unit(clicked_space):
                             game_state.attempt_to_select_unit(clicked_space)
                         elif game_state.is_unit_moving():
