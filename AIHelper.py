@@ -47,7 +47,6 @@ class AIHelper():
                     continue
 
                 AIHelper.make_move(conflicted_unit_with_options[0], game_state, conflicted_unit_with_options[1][0][0])
-                AIHelper.make_move(highest_priority_unit[0], game_state, highest_priority_unit[1][0][0])
                 break
         return True
 
@@ -65,8 +64,6 @@ class AIHelper():
         else:
             AIHelper.attack_with_unit(unit, game_state)
         game_state.tapped_units.append(unit)
-
-
 
     @staticmethod
     def get_ai_units(game_state):

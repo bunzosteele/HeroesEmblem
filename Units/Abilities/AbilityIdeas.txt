@@ -4,21 +4,21 @@ Priest:
 2. Scholar: Active, Non-Daily, Give unit Xp
 Knight:
 0. None
-1. Trample: Passive, Non-Daily, can move through enemies does some damage
+1. Joust: Passive, Non-Doaily, mvement increases damage
 2. Sturdy: Passive, Daily, Survive with 1 hp
 Footman:
 0. None
-1. Block: Passive, Non-Daily, 5% chance to block incoming damage
-2. Retaliate: Passive, Non-Daily, hit back for a little
-Wizard:
-0. None
-1. Fireball: Active, Non-Daily, attack with AOE
-2. Petrify: Active, Daily, Tap enemy unit for X turns interrupted by damage
+1. Shield Bash: Active, Daily, Stun for 1 turn, do damage
+2. Block: Passive, Non-Daily, 5% chance to block incoming damage
 Archer:
 0. None
-1. Ricochet:  Passive, Non-Daily, attack bounce to enemy behind
-2. Hail Mary: Active, Daily, Attack any enemy high chance to miss
+1. Snipe: Active, Daily, Attack any enemy
+2. Power Shot: Active, Daily, Attack all enemies in any cardinal direction
 Spearman:
 0. None
-1. Stab: Passive, Non-Daily, hit all enemies in a line
-2. Vault: Active, Non-Daily, Skip a space
+1. Vault: Active, Non-Daily, Skip a space
+2. Smash: Active, Non-Daily, attack adjecent unit, attempt to kockback and take spot, do more damage if fails
+Wizard:
+0. None
+1. Chain Lighting: Active, Daily, Hit unit for x hit nearest unit for x/2 etc...
+2. Teleport: Active, Daily, Move unit to spot

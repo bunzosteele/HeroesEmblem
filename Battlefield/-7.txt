@@ -1,9 +1,0 @@
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
-.  .  .  .  G  G  G  G  G  G  G  .  .  .  .  .
-M  M  M  .  G  W  W  G  W  W  G  .  .  .  .  .
-G* G* M  M  G  W  G7 M2 G5 W  G  .  .  .  .  .
-G* G* G  G  G  G  M1 G* M3 W  G  .  .  .  .  .
-G* G* M  M  G  W  G8 M4 G6 W  G  .  .  .  .  .
-M  M  M  .  G  W  W  G  W  W  G  .  .  .  .  .
-.  .  .  .  G  G  G  G  G  G  G  .  .  .  .  .
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
