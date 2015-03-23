@@ -32,10 +32,16 @@ class Unit(pygame.sprite.Sprite):
         self.animation_count = 0
         self.effect_quantity = None
         self.incoming_effect_display = None
+        self.is_dead = False
 
     def draw(self, surface, animation_state, tapped):
         image_attributes = self.img_src.split("-")
-        if not self.attacking and self.incoming_effect_display is None:
+        if self.is_dead:
+            self.animation_count += 1
+            self.image = pygame.image.load("-".join(image_attributes))
+            self.image.fill((255, 0, 0, 255 - (self.animation_count * 5)), None, pygame.BLEND_RGBA_MULT)
+            surface.blit(self.image, (self.x, self.y))
+        elif not self.attacking and self.incoming_effect_display is None:
             if tapped:
                 image_attributes[2] = "1"
             else:
@@ -56,7 +62,6 @@ class Unit(pygame.sprite.Sprite):
             image_attributes[2] = str(attack_frame)
             self.image = pygame.image.load("-".join(image_attributes))
             surface.blit(self.image, (self.x, self.y))
-
             if self.have_two_frames_passed(animation_state, self.attack_start_frame) or self.animation_count >= 90:
                 self.attacking = False
                 self.attack_start_frame = None
@@ -88,7 +93,7 @@ class Unit(pygame.sprite.Sprite):
 
             font = pygame.font.SysFont("helvetica", 16)
             if self.incoming_effect_display == "Missed":
-                text = font.render("Misssed!", True, font_color)
+                text = font.render("Missed!", True, font_color)
             elif self.incoming_effect_display == "Blocked":
                 text = font.render("Blocked!", True, font_color)
             else:
@@ -153,6 +158,8 @@ class Unit(pygame.sprite.Sprite):
 
     def deal_damage(self, damage):
         self.CurrentHealth -= damage
+        if self.CurrentHealth < 0:
+            self.CurrentHealth = 0
 
     def heal_damage(self, damage):
         self.CurrentHealth += damage

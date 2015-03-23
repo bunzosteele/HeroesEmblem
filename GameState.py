@@ -131,7 +131,7 @@ class GameState:
 
     def attempt_to_select_unit(self, clicked_space):
         selection = self.get_clicked_tile_and_unit(clicked_space)[1]
-        if selection is not None:
+        if selection is not None and selection.is_dead is False:
             self.selected = selection
         else:
             self.selected = None
@@ -152,7 +152,7 @@ class GameState:
 
     def attempt_to_attack(self, clicked_space):
         target_tile, target_unit = self.get_clicked_tile_and_unit(clicked_space)
-        if target_unit is None or target_unit.get_team() == self.current_player:
+        if target_unit is None or target_unit.get_team() == self.current_player or target_unit.is_dead:
             self.toggle_attacking()
         elif CombatHelper.can_attack_targets(self.selected, self.battlefield, [target_unit]):
             damage = CombatHelper.attack(target_tile, target_unit, self)
@@ -173,7 +173,7 @@ class GameState:
     def attempt_to_use_ability(self, clicked_space):
         target_tile, target_unit = self.get_clicked_tile_and_unit(clicked_space)
         ability = self.selected.Ability
-        if not ability.is_valid_target(clicked_space, target_unit, self.selected, self):
+        if not ability.is_valid_target(clicked_space, target_unit, self.selected, self) and not target_unit.is_dead:
             if Teleport.teleporting_unit is not None:
                 Teleport.teleporting_unit = None
             else:
@@ -277,6 +277,17 @@ class GameState:
             if unit.Ability == Scholar:
                 Scholar.taught_units = []
         return self.units
+
+    def clean_dead_units(self):
+        for unit in self.units:
+            if unit.is_dead and unit.animation_count > 50:
+                self.units.remove(unit)
+
+    def are_animations_playing(self):
+        for unit in self.units:
+            if unit.animation_count > 0 or unit.effect_quantity is not None:
+                return True
+        return False
 
 
 

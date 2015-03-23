@@ -60,13 +60,13 @@ if __name__ == '__main__':
                         chosen_field = FileReader.generate_battlefield(difficulty)
                         difficulty -= int(chosen_field)
                         game_result = launch_game()
+                        not_lost = game_result[0]
                         if not_lost:
                             rounds_survived += 1
                         difficulty += int(chosen_field)
                         gold -= game_result[1]
                         gold += difficulty * 50
                         difficulty += rounds_survived
-                        not_lost = game_result[0]
 
                     font = pygame.font.SysFont("monospace", 32)
 

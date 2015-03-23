@@ -45,7 +45,7 @@ class CombatHelper():
     def can_attack(attacker, battlefield, units, current_player):
         enemies = []
         for unit in units:
-            if unit.get_team() != current_player:
+            if unit.get_team() != current_player and unit.is_dead is False:
                 enemies.append(unit)
         return CombatHelper.can_attack_targets(attacker, battlefield, enemies)
 
@@ -145,10 +145,10 @@ class CombatHelper():
 
     @staticmethod
     def kill_unit(unit, game_state):
-         if unit.CurrentHealth <= 0:
+        if unit.CurrentHealth <= 0:
             if unit.Ability == Sturdy and not unit.has_used_ability:
                 unit.CurrentHealth = 1
                 unit.has_used_ability = True
             else:
-                game_state.units.remove(unit)
+                unit.is_dead = True
                 game_state.selected.add_experience(unit.MaxHealth)

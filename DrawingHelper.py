@@ -117,12 +117,14 @@ class DrawingHelper():
                 screen.blit(attack_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 4))
                 defense_display = font.render("DEF: " + str(unit.Defense), 1, DrawingHelper.white_color)
                 screen.blit(defense_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 5))
+                move_display = font.render("MOVE: " + str(unit.Movement), 1, DrawingHelper.white_color)
+                screen.blit(move_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 6))
                 experience_display = font.render("EXP: " + str(unit.experience), 1, DrawingHelper.white_color)
-                screen.blit(experience_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 6))
+                screen.blit(experience_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 7))
                 next_level_display = font.render("NXT LVL: " + str(unit.next_level_exp), 1, DrawingHelper.white_color)
-                screen.blit(next_level_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 7))
-                screen.blit(ability_header, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 8))
-                screen.blit(ability_name, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 9))
+                screen.blit(next_level_display, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 8))
+                screen.blit(ability_header, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 9))
+                screen.blit(ability_name, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 10))
             else:
                 screen.blit(ability_header, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 4))
                 screen.blit(ability_name, (game_state.battlefield.width() * Tile.Size + 10, Tile.Size + DrawingHelper.line_offset * 5))
@@ -183,4 +185,5 @@ class DrawingHelper():
     @staticmethod
     def draw_unit_healthbars(game_state, screen):
         for u in game_state.units:
-            HealthBar.draw_healthbar(screen, u)
+            if not u.is_dead:
+                HealthBar.draw_healthbar(screen, u)

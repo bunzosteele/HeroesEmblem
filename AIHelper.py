@@ -155,7 +155,7 @@ class AIHelper():
     def get_attackable_units(attacker, option, game_state):
         enemies = []
         for unit in game_state.units:
-            if unit.get_team() != game_state.current_player:
+            if unit.get_team() != game_state.current_player and not unit.is_dead:
                 enemies.append(unit)
         return AIHelper.can_attack_targets(attacker, option, game_state.battlefield, enemies)
 

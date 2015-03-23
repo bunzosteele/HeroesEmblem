@@ -19,7 +19,8 @@ def run(screen, game_state):
             if event.type == pygame.QUIT:
                 game_state.running = False
             elif game_state.is_player_defeated():
-                return game_state.get_survivors()
+                if not game_state.are_animations_playing():
+                    return game_state.get_survivors()
             elif event.type == pygame.USEREVENT:
                 game_state.cycle_animation()
                 if game_state.is_ai_tick():
@@ -63,6 +64,7 @@ def run(screen, game_state):
 
         DrawingHelper.draw_all_the_things(game_state, screen, end_turn, new_turn, move, attack, ability, inventory,
                                           MovementHelper)
+        game_state.clean_dead_units()
         clock.tick(60)
 
     return None
