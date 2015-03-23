@@ -1,4 +1,6 @@
+import math
 from Battlefield.Battlefield import *
+from Battlefield.Tile import Tile
 from FileReader import *
 from GameState import GameState
 from Shop import Shop
@@ -37,7 +39,7 @@ if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption("Heroes Emblem")
 
-    screen = pygame.display.set_mode(((32 * 16) + 100, (32 * 9) + 50))
+    screen = pygame.display.set_mode((int(math.floor((32 * 16) * 1.25)), (32 * 9) + 50))
     StartGame = UI.Buttons.Button("Start Game")
     RestartGame = UI.Buttons.Button("YOU SHOULDNT SEE THIS")
     running = True
@@ -65,6 +67,7 @@ if __name__ == '__main__':
                             rounds_survived += 1
                         difficulty += int(chosen_field)
                         gold -= game_result[1]
+                        gold = int(math.floor(gold * 1.1))
                         gold += difficulty * 50
                         difficulty += rounds_survived
 
